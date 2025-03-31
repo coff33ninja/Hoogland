@@ -31,12 +31,19 @@
         <input type="number" name="min_wait_between_alerts_seconds" value="{{ config.min_wait_between_alerts_seconds }}" required><br>
         <label>Max Wait Between Alerts (seconds):</label><br>
         <input type="number" name="max_wait_between_alerts_seconds" value="{{ config.max_wait_between_alerts_seconds }}" required><br>
+        <label>Enable Random Sound:</label><br>
+        <input type="checkbox" name="random_sound_enabled" {% if config.random_sound_enabled %}checked{% endif %}><br>
+        <label>Random Sound Min Seconds:</label><br>
+        <input type="number" name="random_sound_min_seconds" value="{{ config.random_sound_min_seconds }}" required><br>
+        <label>Random Sound Max Seconds:</label><br>
+        <input type="number" name="random_sound_max_seconds" value="{{ config.random_sound_max_seconds }}" required><br>
         <label>Expected Hash:</label><br>
         <input type="text" name="expected_hash" value="{{ config.expected_hash }}" required><br>
         <button type="submit">Save</button>
     </form>
     <a href="{{ url_for('logs') }}">View Logs</a> |
-    <a href="{{ url_for('get_notifications') }}">View Notifications</a> |
+    <a href="{{ url_for('notifications') }}">View Notifications</a> |
+    <a href="{{ url_for('download_backup') }}">Download Latest Backup</a> |
     <a href="{{ url_for('logout') }}">Logout</a>
 </body>
 </html>
