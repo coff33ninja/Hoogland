@@ -129,3 +129,18 @@
 2025-03-31 12:44:34,772 - INFO - Initiating cleanup
 2025-03-31 12:44:35,143 - INFO - Email sent: Program Stopped
 2025-03-31 12:44:35,143 - INFO - Cleanup completed
+2025-03-31 12:56:34,933 - INFO - Starting Flask app
+2025-03-31 12:56:35,001 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-03-31 12:56:35,001 - INFO - [33mPress CTRL+C to quit[0m
+2025-03-31 12:56:43,510 - INFO - 127.0.0.1 - - [31/Mar/2025 12:56:43] "GET /admin HTTP/1.1" 200 -
+2025-03-31 12:56:45,342 - INFO - 127.0.0.1 - - [31/Mar/2025 12:56:45] "GET /admin HTTP/1.1" 200 -
+2025-03-31 12:56:47,611 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-03-31 12:56:48,036 - INFO - Email sent: Manual Popup Triggered
+2025-03-31 12:56:48,037 - INFO - 127.0.0.1 - - [31/Mar/2025 12:56:48] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-03-31 12:56:48,153 - INFO - 127.0.0.1 - - [31/Mar/2025 12:56:48] "GET /admin HTTP/1.1" 200 -
+2025-03-31 12:56:56,356 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-03-31 12:56:56,717 - INFO - Email sent: Manual Popup Triggered
+2025-03-31 12:56:56,717 - INFO - 127.0.0.1 - - [31/Mar/2025 12:56:56] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-03-31 12:56:56,742 - INFO - 127.0.0.1 - - [31/Mar/2025 12:56:56] "GET /admin HTTP/1.1" 200 -
+2025-03-31 13:00:00,935 - INFO - Triggering scheduled popup

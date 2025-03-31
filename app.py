@@ -50,8 +50,8 @@ notifications = []
 popup_queue = Queue()
 stop_event = threading.Event()
 
-# PyQt6 Application
-qt_app = QApplication(sys.argv)
+# PyQt6 Application (initialized later in main thread)
+qt_app = None
 
 # Popup Dialog Class
 class AlertDialog(QDialog):
@@ -80,7 +80,6 @@ class AlertDialog(QDialog):
 
         self.setLayout(layout)
 
-        # Sound and email timers
         if self.play_sound:
             QTimer.singleShot(int(self.config["sound_after_minutes"] * 60 * 1000), self.trigger_sound)
         QTimer.singleShot(int(self.config["email_if_not_pressed_after_minutes"] * 60 * 1000), self.send_email_not_pressed)
@@ -127,13 +126,13 @@ def load_config():
         "recipient_email": "recipient@example.com",
         "smtp_server": "smtp.gmail.com",
         "smtp_port": 587,
-        "start_time": "18:00",
-        "end_time": "06:00",
+        "start_time": "00:00",  # Adjusted for immediate testing
+        "end_time": "23:59",    # Adjusted for immediate testing
         "sound_after_minutes": 3,
         "report_if_longer_than_minutes": 5,
         "email_if_not_pressed_after_minutes": 10,
-        "min_wait_between_alerts_seconds": 10,  # Shortened for testing
-        "max_wait_between_alerts_seconds": 20,  # Shortened for testing
+        "min_wait_between_alerts_seconds": 10,
+        "max_wait_between_alerts_seconds": 20,
         "random_sound_enabled": False,
         "random_sound_min_seconds": 1800,
         "random_sound_max_seconds": 3600,
@@ -215,18 +214,20 @@ def calculate_executable_hash():
 
 # Main Logic Thread
 class MainLogicThread(QThread):
-    trigger_popup = pyqtSignal(str, bool)  # Signal to trigger popup with message and sound flag
+    trigger_popup = pyqtSignal(str, bool)
 
     def __init__(self):
         super().__init__()
         self.config = load_config()
 
     def run(self):
+        logging.info("MainLogicThread started")
         current_hash = calculate_executable_hash()
         if current_hash and current_hash != self.config["expected_hash"]:
             send_email(self.config, "Integrity Check Failed", f"Hash mismatch: expected {self.config['expected_hash']}, got {current_hash}")
 
         while not stop_event.is_set():
+            logging.info("MainLogicThread loop running")
             self.config = load_config()
             now = datetime.datetime.now()
             start_time = datetime.datetime.strptime(self.config["start_time"], "%H:%M").time()
@@ -261,7 +262,6 @@ class MainLogicThread(QThread):
                     time.sleep(wait_time)
                     logging.info("Triggering scheduled popup")
                     self.trigger_popup.emit("Security Alert", True)
-
             time.sleep(60)
 
 # Random Sound Thread
@@ -271,6 +271,7 @@ class SoundThread(QThread):
         self.config = config
 
     def run(self):
+        logging.info("SoundThread started")
         while not stop_event.is_set():
             now = datetime.datetime.now()
             start_time = datetime.datetime.strptime(self.config["start_time"], "%H:%M").time()
@@ -427,7 +428,8 @@ def cleanup(signum=None, frame=None):
     stop_event.set()
     config = load_config()
     send_email(config, "Program Stopped", "Program stopped due to user request or exception.")
-    qt_app.quit()
+    if qt_app:
+        qt_app.quit()
     logging.info("Cleanup completed")
     sys.exit(0)
 
@@ -435,30 +437,41 @@ def cleanup(signum=None, frame=None):
 signal.signal(signal.SIGINT, cleanup)
 signal.signal(signal.SIGTERM, cleanup)
 
-# Setup PyQt6 and Threads
-def show_popup(message, play_sound):
-    config = load_config()
-    dialog = AlertDialog(config, message, play_sound)
-    logging.info(f"Showing popup: {message}")
-    dialog.exec()
+# Flask runner in a separate thread
+def run_flask():
+    logging.info("Starting Flask app in thread")
+    app.run(debug=True, use_reloader=False)
 
-main_thread = MainLogicThread()
-main_thread.trigger_popup.connect(show_popup)
-main_thread.start()
-
-sound_thread = SoundThread(load_config())
-sound_thread.start()
-
-# Run Flask app
+# Setup and run
 if __name__ == "__main__":
-    logging.info("Starting Flask app")
+    # Initialize Qt app in main thread
+    qt_app = QApplication(sys.argv)
+
+    # Show popup function
+    def show_popup(message, play_sound):
+        config = load_config()
+        dialog = AlertDialog(config, message, play_sound)
+        logging.info(f"Showing popup: {message}")
+        dialog.exec()
+
+    # Start threads
+    main_thread = MainLogicThread()
+    main_thread.trigger_popup.connect(show_popup)
+    main_thread.start()
+
+    sound_thread = SoundThread(load_config())
+    sound_thread.start()
+
+    # Run Flask in a separate thread
+    flask_thread = threading.Thread(target=run_flask, daemon=True)
+    flask_thread.start()
+
+    # Run Qt event loop in main thread
+    logging.info("Starting Qt event loop")
     try:
-        app.run(debug=True, use_reloader=False)
+        qt_app.exec()
     except KeyboardInterrupt:
         cleanup()
     except Exception as e:
-        logging.error(f"Flask app crashed: {str(e)}")
+        logging.error(f"Qt app crashed: {str(e)}")
         cleanup()
-
-# Start Qt event loop in main thread
-qt_app.exec()
