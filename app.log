@@ -125,3 +125,7 @@
 2025-03-31 12:40:39,776 - INFO - Email sent: Manual Popup Triggered
 2025-03-31 12:40:39,776 - INFO - 127.0.0.1 - - [31/Mar/2025 12:40:39] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
 2025-03-31 12:40:39,818 - INFO - 127.0.0.1 - - [31/Mar/2025 12:40:39] "GET /admin HTTP/1.1" 200 -
+2025-03-31 12:44:29,697 - INFO - Initiating cleanup
+2025-03-31 12:44:34,772 - INFO - Initiating cleanup
+2025-03-31 12:44:35,143 - INFO - Email sent: Program Stopped
+2025-03-31 12:44:35,143 - INFO - Cleanup completed

@@ -4,19 +4,19 @@ import json
 import os
 import random
 import datetime
-import tkinter as tk
-from tkinter import Toplevel, Button
-import smtplib
-from email.mime.text import MIMEText
-from playsound import playsound
 import sys
 import hashlib
 import logging
 import signal
+from queue import Queue
+from playsound import playsound
+from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout, QApplication
+from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 from flask import Flask, render_template, request, redirect, url_for, send_file
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
-from queue import Queue
 from werkzeug.utils import secure_filename
+import smtplib
+from email.mime.text import MIMEText
 
 # Set up logging
 logging.basicConfig(
@@ -33,14 +33,11 @@ app.secret_key = "your_secret_key"  # Change this to a secure random key in prod
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-
 class User(UserMixin):
     pass
 
-
 user = User()
 user.id = "admin"
-
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -48,17 +45,80 @@ def load_user(user_id):
         return user
     return None
 
-
-# Global list for web notifications and queue for manual popups
+# Global variables
 notifications = []
 popup_queue = Queue()
+stop_event = threading.Event()
 
-# Tkinter root setup
-root = tk.Tk()
-root.withdraw()
+# PyQt6 Application
+qt_app = QApplication(sys.argv)
 
+# Popup Dialog Class
+class AlertDialog(QDialog):
+    def __init__(self, config, message="Security Alert", play_sound=True):
+        super().__init__()
+        self.config = config
+        self.message = message
+        self.play_sound = play_sound
+        self.start_time = time.time()
+        self.pressed = False
+        self.init_ui()
 
-# Load configuration with backup restore
+    def init_ui(self):
+        self.setWindowTitle("Security Alert")
+        self.setGeometry(300, 300, 300, 100)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowType.WindowStaysOnTopHint)
+
+        layout = QVBoxLayout()
+        label = QLabel(self.message, self)
+        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(label)
+
+        button = QPushButton("I accept", self)
+        button.clicked.connect(self.on_button_press)
+        layout.addWidget(button)
+
+        self.setLayout(layout)
+
+        # Sound and email timers
+        if self.play_sound:
+            QTimer.singleShot(int(self.config["sound_after_minutes"] * 60 * 1000), self.trigger_sound)
+        QTimer.singleShot(int(self.config["email_if_not_pressed_after_minutes"] * 60 * 1000), self.send_email_not_pressed)
+
+    def trigger_sound(self):
+        if not self.pressed and self.play_sound:
+            try:
+                playsound("alert_sound.mp3")
+                logging.info("Sound played successfully")
+            except Exception as e:
+                logging.error(f"Sound playback failed: {str(e)}")
+                send_email(self.config, "Sound Error", f"Failed to play sound: {str(e)}")
+
+    def send_email_not_pressed(self):
+        if not self.pressed:
+            elapsed = (time.time() - self.start_time) / 60
+            message = f"The alert was not acknowledged after {elapsed:.2f} minutes."
+            send_email(self.config, "Alert Not Acknowledged", message)
+
+    def on_button_press(self):
+        self.pressed = True
+        elapsed = time.time() - self.start_time
+        if elapsed > self.config["report_if_longer_than_minutes"] * 60:
+            message = f"The alert was acknowledged after {elapsed / 60:.2f} minutes."
+            send_email(self.config, "Alert Acknowledged Late", message)
+        else:
+            message = f"Alert acknowledged in {elapsed / 60:.2f} minutes."
+            send_email(self.config, "Alert Acknowledged", message)
+        self.accept()
+
+    def closeEvent(self, event):
+        if not self.pressed:
+            elapsed = (time.time() - self.start_time) / 60
+            message = f"The alert window was closed without acknowledging after {elapsed:.2f} minutes."
+            send_email(self.config, "Alert Window Closed Without Acknowledging", message)
+        event.accept()
+
+# Load configuration
 def load_config():
     config_path = "config.json"
     default_config = {
@@ -72,8 +132,8 @@ def load_config():
         "sound_after_minutes": 3,
         "report_if_longer_than_minutes": 5,
         "email_if_not_pressed_after_minutes": 10,
-        "min_wait_between_alerts_seconds": 600,
-        "max_wait_between_alerts_seconds": 7200,
+        "min_wait_between_alerts_seconds": 10,  # Shortened for testing
+        "max_wait_between_alerts_seconds": 20,  # Shortened for testing
         "random_sound_enabled": False,
         "random_sound_min_seconds": 1800,
         "random_sound_max_seconds": 3600,
@@ -94,21 +154,13 @@ def load_config():
                 return default_config
             if config.get("is_default", False):
                 logging.warning("Config is default.")
-                send_email(
-                    config, "Default Config Detected", "Running with default config."
-                )
+                send_email(config, "Default Config Detected", "Running with default config.")
             return config
         except json.JSONDecodeError:
             logging.error("Invalid JSON in config file.")
-            send_email(
-                default_config, "Config Error", "Invalid JSON detected in config.json."
-            )
+            send_email(default_config, "Config Error", "Invalid JSON detected in config.json.")
 
-    backups = [
-        f
-        for f in os.listdir()
-        if f.startswith("config_backup_") and f.endswith(".json")
-    ]
+    backups = [f for f in os.listdir() if f.startswith("config_backup_") and f.endswith(".json")]
     if backups:
         latest_backup = max(backups, key=os.path.getctime)
         try:
@@ -117,9 +169,7 @@ def load_config():
             logging.info(f"Restored config from backup: {latest_backup}")
             with open(config_path, "w") as f:
                 json.dump(config, f, indent=4)
-            send_email(
-                config, "Config Restored", f"Restored config from {latest_backup}."
-            )
+            send_email(config, "Config Restored", f"Restored config from {latest_backup}.")
             return config
         except json.JSONDecodeError:
             logging.error(f"Invalid JSON in backup: {latest_backup}")
@@ -128,15 +178,10 @@ def load_config():
         json.dump(default_config, f, indent=4)
     logging.info("Default config generated.")
     try:
-        send_email(
-            default_config,
-            "Config Missing",
-            "Default config generated. Update required.",
-        )
+        send_email(default_config, "Config Missing", "Default config generated. Update required.")
     except:
         logging.error("Email failed on default config generation.")
     return default_config
-
 
 # Send email function
 def send_email(config, subject, message):
@@ -148,15 +193,12 @@ def send_email(config, subject, message):
         with smtplib.SMTP(config["smtp_server"], config["smtp_port"]) as server:
             server.starttls()
             server.login(config["sender_email"], config["password"])
-            server.sendmail(
-                config["sender_email"], config["recipient_email"], msg.as_string()
-            )
+            server.sendmail(config["sender_email"], config["recipient_email"], msg.as_string())
         logging.info(f"Email sent: {subject}")
         notifications.append(f"{time.strftime('%H:%M:%S')} - {subject}: {message}")
     except Exception as e:
         logging.error(f"Failed to send email: {str(e)}")
         notifications.append(f"{time.strftime('%H:%M:%S')} - Email Failed: {str(e)}")
-
 
 # Code validation
 def calculate_executable_hash():
@@ -167,198 +209,105 @@ def calculate_executable_hash():
                 return hashlib.sha256(f.read()).hexdigest()
         except Exception as e:
             logging.error(f"Hash calculation failed: {str(e)}")
-            send_email(
-                load_config(), "Hash Error", f"Failed to calculate hash: {str(e)}"
-            )
+            send_email(load_config(), "Hash Error", f"Failed to calculate hash: {str(e)}")
             return None
     return None
 
+# Main Logic Thread
+class MainLogicThread(QThread):
+    trigger_popup = pyqtSignal(str, bool)  # Signal to trigger popup with message and sound flag
 
-# Desktop alert function
-def create_alert_window(config, message="Security Alert", play_sound=True):
-    logging.info(f"Creating alert window with message: {message}")
-    alert_window = Toplevel(root)
-    alert_window.title("Security Alert")
-    alert_window.geometry("300x100")
-    alert_window.attributes("-topmost", True)  # Ensure popup stays on top
-    start_time = time.time()
-    pressed = tk.BooleanVar(value=False)
+    def __init__(self):
+        super().__init__()
+        self.config = load_config()
 
-    tk.Label(alert_window, text=message).pack(pady=10)
+    def run(self):
+        current_hash = calculate_executable_hash()
+        if current_hash and current_hash != self.config["expected_hash"]:
+            send_email(self.config, "Integrity Check Failed", f"Hash mismatch: expected {self.config['expected_hash']}, got {current_hash}")
 
-    def trigger_sound():
-        if alert_window.winfo_exists() and not pressed.get() and play_sound:
-            try:
-                playsound("alert_sound.mp3")
-            except Exception as e:
-                logging.error(f"Sound playback failed: {str(e)}")
-                send_email(config, "Sound Error", f"Failed to play sound: {str(e)}")
+        while not stop_event.is_set():
+            self.config = load_config()
+            now = datetime.datetime.now()
+            start_time = datetime.datetime.strptime(self.config["start_time"], "%H:%M").time()
+            end_time = datetime.datetime.strptime(self.config["end_time"], "%H:%M").time()
 
-    def send_email_not_pressed():
-        if alert_window.winfo_exists() and not pressed.get():
-            elapsed = (time.time() - start_time) / 60
-            message = f"The alert was not acknowledged after {elapsed:.2f} minutes."
-            send_email(config, "Alert Not Acknowledged", message)
+            if start_time > end_time:
+                if now.time() < end_time:
+                    start_dt = now.replace(hour=start_time.hour, minute=start_time.minute, second=0) - datetime.timedelta(days=1)
+                else:
+                    start_dt = now.replace(hour=start_time.hour, minute=start_time.minute, second=0)
+                end_dt = start_dt + datetime.timedelta(days=1)
+                end_dt = end_dt.replace(hour=end_time.hour, minute=end_time.minute)
+            else:
+                start_dt = now.replace(hour=start_time.hour, minute=start_time.minute, second=0)
+                end_dt = start_dt.replace(hour=end_time.hour, minute=end_time.minute)
 
-    def on_button_press():
-        pressed.set(True)
-        elapsed = time.time() - start_time
-        if elapsed > config["report_if_longer_than_minutes"] * 60:
-            message = f"The alert was acknowledged after {elapsed / 60:.2f} minutes."
-            send_email(config, "Alert Acknowledged Late", message)
-        else:
-            message = f"Alert acknowledged in {elapsed / 60:.2f} minutes."
-            send_email(config, "Alert Acknowledged", message)
-        alert_window.destroy()
+            if now < start_dt:
+                time.sleep((start_dt - now).total_seconds())
 
-    def on_close():
-        if not pressed.get():
-            elapsed = (time.time() - start_time) / 60
-            message = f"The alert window was closed without acknowledging after {elapsed:.2f} minutes."
-            send_email(config, "Alert Window Closed Without Acknowledging", message)
-        alert_window.destroy()
+            while datetime.datetime.now() < end_dt and not stop_event.is_set():
+                if not popup_queue.empty():
+                    popup_data = popup_queue.get()
+                    logging.info(f"Processing manual popup: {popup_data['message']}")
+                    self.trigger_popup.emit(popup_data["message"], popup_data["play_sound"])
+                else:
+                    wait_time = random.randint(self.config["min_wait_between_alerts_seconds"], self.config["max_wait_between_alerts_seconds"])
+                    next_alert = datetime.datetime.now() + datetime.timedelta(seconds=wait_time)
+                    if next_alert > end_dt:
+                        wait_time = (end_dt - datetime.datetime.now()).total_seconds()
+                        if wait_time <= 0:
+                            break
+                    time.sleep(wait_time)
+                    logging.info("Triggering scheduled popup")
+                    self.trigger_popup.emit("Security Alert", True)
 
-    if play_sound:
-        root.after(int(config["sound_after_minutes"] * 60 * 1000), trigger_sound)
-    root.after(
-        int(config["email_if_not_pressed_after_minutes"] * 60 * 1000),
-        send_email_not_pressed,
-    )
-    button = Button(alert_window, text="I accept", command=on_button_press)
-    button.pack(pady=20)
-    alert_window.protocol("WM_DELETE_WINDOW", on_close)
-    alert_window.update()  # Force update to ensure visibility
-    return alert_window
-
-
-# Random sound function
-def random_sound_thread(config):
-    while True:
-        now = datetime.datetime.now()
-        start_time = datetime.datetime.strptime(config["start_time"], "%H:%M").time()
-        end_time = datetime.datetime.strptime(config["end_time"], "%H:%M").time()
-
-        if start_time > end_time:
-            in_schedule = now.time() >= start_time or now.time() < end_time
-        else:
-            in_schedule = start_time <= now.time() < end_time
-
-        if in_schedule and config["random_sound_enabled"]:
-            wait_time = random.randint(
-                config["random_sound_min_seconds"], config["random_sound_max_seconds"]
-            )
-            time.sleep(wait_time)
-            try:
-                playsound("alert_sound.mp3")
-                send_email(
-                    config,
-                    "Random Sound Triggered",
-                    f"Sound played at {time.strftime('%H:%M:%S')}",
-                )
-            except Exception as e:
-                logging.error(f"Random sound failed: {str(e)}")
-                send_email(
-                    config,
-                    "Random Sound Error",
-                    f"Failed to play random sound: {str(e)}",
-                )
-        else:
             time.sleep(60)
 
+# Random Sound Thread
+class SoundThread(QThread):
+    def __init__(self, config):
+        super().__init__()
+        self.config = config
 
-# Tkinter mainloop thread
-def tk_mainloop():
-    logging.info("Starting Tkinter mainloop")
-    root.mainloop()
+    def run(self):
+        while not stop_event.is_set():
+            now = datetime.datetime.now()
+            start_time = datetime.datetime.strptime(self.config["start_time"], "%H:%M").time()
+            end_time = datetime.datetime.strptime(self.config["end_time"], "%H:%M").time()
 
-
-# Main logic
-def main_logic():
-    config = load_config()
-    current_hash = calculate_executable_hash()
-    if current_hash and current_hash != config["expected_hash"]:
-        send_email(
-            config,
-            "Integrity Check Failed",
-            f"Hash mismatch: expected {config['expected_hash']}, got {current_hash}",
-        )
-
-    while True:
-        config = load_config()
-        now = datetime.datetime.now()
-        start_time = datetime.datetime.strptime(config["start_time"], "%H:%M").time()
-        end_time = datetime.datetime.strptime(config["end_time"], "%H:%M").time()
-
-        if start_time > end_time:
-            if now.time() < end_time:
-                start_dt = now.replace(
-                    hour=start_time.hour, minute=start_time.minute, second=0
-                ) - datetime.timedelta(days=1)
+            if start_time > end_time:
+                in_schedule = now.time() >= start_time or now.time() < end_time
             else:
-                start_dt = now.replace(
-                    hour=start_time.hour, minute=start_time.minute, second=0
-                )
-            end_dt = start_dt + datetime.timedelta(days=1)
-            end_dt = end_dt.replace(hour=end_time.hour, minute=end_time.minute)
-        else:
-            start_dt = now.replace(
-                hour=start_time.hour, minute=start_time.minute, second=0
-            )
-            end_dt = start_dt.replace(hour=end_time.hour, minute=end_time.minute)
+                in_schedule = start_time <= now.time() < end_time
 
-        if now < start_dt:
-            time.sleep((start_dt - now).total_seconds())
-
-        while datetime.datetime.now() < end_dt:
-            if not popup_queue.empty():
-                popup_data = popup_queue.get()
-                logging.info(f"Processing manual popup: {popup_data['message']}")
-                alert_window = create_alert_window(
-                    config, popup_data["message"], popup_data["play_sound"]
-                )
-                root.wait_window(alert_window)
-                logging.info(f"Manual popup completed: {popup_data['message']}")
-            else:
-                wait_time = random.randint(
-                    config["min_wait_between_alerts_seconds"],
-                    config["max_wait_between_alerts_seconds"],
-                )
-                next_alert = datetime.datetime.now() + datetime.timedelta(
-                    seconds=wait_time
-                )
-                if next_alert > end_dt:
-                    wait_time = (end_dt - datetime.datetime.now()).total_seconds()
-                    if wait_time <= 0:
-                        break
+            if in_schedule and self.config["random_sound_enabled"]:
+                wait_time = random.randint(self.config["random_sound_min_seconds"], self.config["random_sound_max_seconds"])
                 time.sleep(wait_time)
-                logging.info("Triggering scheduled popup")
-                alert_window = create_alert_window(config)
-                root.wait_window(alert_window)
-                logging.info("Scheduled popup completed")
+                try:
+                    playsound("alert_sound.mp3")
+                    send_email(self.config, "Random Sound Triggered", f"Sound played at {time.strftime('%H:%M:%S')}")
+                except Exception as e:
+                    logging.error(f"Random sound failed: {str(e)}")
+                    send_email(self.config, "Random Sound Error", f"Failed to play random sound: {str(e)}")
+            else:
+                time.sleep(60)
 
-        time.sleep(60)
-
-
-# Flask routes
+# Flask Routes
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        if (
-            request.form["username"] == "admin"
-            and request.form["password"] == "password"
-        ):
+        if request.form["username"] == "admin" and request.form["password"] == "password":
             login_user(user)
             return redirect(url_for("admin"))
         return "Invalid credentials"
     return render_template("login.html")
-
 
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect(url_for("login"))
-
 
 @app.route("/logs")
 @login_required
@@ -370,16 +319,11 @@ def logs():
         logs = ["Log file not found."]
     return render_template("logs.html", logs=logs)
 
-
 @app.route("/admin", methods=["GET", "POST"])
 @login_required
 def admin():
     config = load_config()
-    backups = [
-        f
-        for f in os.listdir()
-        if f.startswith("config_backup_") and f.endswith(".json")
-    ]
+    backups = [f for f in os.listdir() if f.startswith("config_backup_") and f.endswith(".json")]
     if request.method == "POST":
         try:
             config = {
@@ -391,25 +335,13 @@ def admin():
                 "start_time": request.form["start_time"],
                 "end_time": request.form["end_time"],
                 "sound_after_minutes": int(request.form["sound_after_minutes"]),
-                "report_if_longer_than_minutes": int(
-                    request.form["report_if_longer_than_minutes"]
-                ),
-                "email_if_not_pressed_after_minutes": int(
-                    request.form["email_if_not_pressed_after_minutes"]
-                ),
-                "min_wait_between_alerts_seconds": int(
-                    request.form["min_wait_between_alerts_seconds"]
-                ),
-                "max_wait_between_alerts_seconds": int(
-                    request.form["max_wait_between_alerts_seconds"]
-                ),
+                "report_if_longer_than_minutes": int(request.form["report_if_longer_than_minutes"]),
+                "email_if_not_pressed_after_minutes": int(request.form["email_if_not_pressed_after_minutes"]),
+                "min_wait_between_alerts_seconds": int(request.form["min_wait_between_alerts_seconds"]),
+                "max_wait_between_alerts_seconds": int(request.form["max_wait_between_alerts_seconds"]),
                 "random_sound_enabled": request.form["random_sound_enabled"] == "on",
-                "random_sound_min_seconds": int(
-                    request.form["random_sound_min_seconds"]
-                ),
-                "random_sound_max_seconds": int(
-                    request.form["random_sound_max_seconds"]
-                ),
+                "random_sound_min_seconds": int(request.form["random_sound_min_seconds"]),
+                "random_sound_max_seconds": int(request.form["random_sound_max_seconds"]),
                 "expected_hash": request.form["expected_hash"],
                 "is_default": False,
                 "predefined_messages": config["predefined_messages"],
@@ -423,11 +355,8 @@ def admin():
             send_email(config, "Config Updated", "Configuration updated via web UI.")
         except Exception as e:
             logging.error(f"Config update failed: {str(e)}")
-            send_email(
-                config, "Config Update Error", f"Failed to update config: {str(e)}"
-            )
+            send_email(config, "Config Update Error", f"Failed to update config: {str(e)}")
     return render_template("admin.html", config=config, backups=backups)
-
 
 @app.route("/trigger_popup", methods=["POST"])
 @login_required
@@ -441,33 +370,22 @@ def trigger_popup():
     play_sound = request.form.get("play_sound") == "on"
     popup_queue.put({"message": message, "play_sound": play_sound})
     logging.info(f"Manual popup requested: {message}, sound: {play_sound}")
-    send_email(
-        config,
-        "Manual Popup Triggered",
-        f"Popup initiated with message: {message}, sound: {play_sound}",
-    )
+    send_email(config, "Manual Popup Triggered", f"Popup initiated with message: {message}, sound: {play_sound}")
     return redirect(url_for("admin"))
-
 
 @app.route("/notifications")
 @login_required
 def get_notifications():
     return render_template("notifications.html", notifications=notifications)
 
-
 @app.route("/download_backup")
 @login_required
 def download_backup():
-    backups = [
-        f
-        for f in os.listdir()
-        if f.startswith("config_backup_") and f.endswith(".json")
-    ]
+    backups = [f for f in os.listdir() if f.startswith("config_backup_") and f.endswith(".json")]
     if backups:
         latest_backup = max(backups, key=os.path.getctime)
         return send_file(latest_backup, as_attachment=True)
     return "No backups available.", 404
-
 
 @app.route("/restore_config", methods=["POST"])
 @login_required
@@ -484,18 +402,10 @@ def restore_config():
                 json.dump(new_config, f, indent=4)
             os.remove(filename)
             logging.info(f"Config restored from uploaded file: {filename}")
-            send_email(
-                config,
-                "Config Restored",
-                f"Config restored from uploaded file: {filename}",
-            )
+            send_email(config, "Config Restored", f"Config restored from uploaded file: {filename}")
         except Exception as e:
             logging.error(f"Failed to restore config from upload: {str(e)}")
-            send_email(
-                config,
-                "Config Restore Error",
-                f"Failed to restore config from {filename}: {str(e)}",
-            )
+            send_email(config, "Config Restore Error", f"Failed to restore config from {filename}: {str(e)}")
     elif "backup_file" in request.form and request.form["backup_file"]:
         backup_file = request.form["backup_file"]
         if os.path.exists(backup_file):
@@ -505,57 +415,38 @@ def restore_config():
                 with open("config.json", "w") as f:
                     json.dump(new_config, f, indent=4)
                 logging.info(f"Config restored from backup: {backup_file}")
-                send_email(
-                    config,
-                    "Config Restored",
-                    f"Config restored from backup: {backup_file}",
-                )
+                send_email(config, "Config Restored", f"Config restored from backup: {backup_file}")
             except Exception as e:
                 logging.error(f"Failed to restore config from backup: {str(e)}")
-                send_email(
-                    config,
-                    "Config Restore Error",
-                    f"Failed to restore config from {backup_file}: {str(e)}",
-                )
+                send_email(config, "Config Restore Error", f"Failed to restore config from {backup_file}: {str(e)}")
     return redirect(url_for("admin"))
-
 
 # Cleanup function
 def cleanup(signum=None, frame=None):
     logging.info("Initiating cleanup")
+    stop_event.set()
     config = load_config()
-    send_email(
-        config, "Program Stopped", "Program stopped due to user request or exception."
-    )
-
-    # Optional: Uncomment to remove files on shutdown
-    # if os.path.exists("app.log"):
-    #     os.remove("app.log")
-    # if os.path.exists("config.json"):
-    #     os.remove("config.json")
-
-    root.quit()  # Stop Tkinter mainloop
+    send_email(config, "Program Stopped", "Program stopped due to user request or exception.")
+    qt_app.quit()
     logging.info("Cleanup completed")
     sys.exit(0)
 
+# Signal handlers
+signal.signal(signal.SIGINT, cleanup)
+signal.signal(signal.SIGTERM, cleanup)
 
-# Register signal handlers for clean shutdown
-signal.signal(signal.SIGINT, cleanup)  # Ctrl+C
-signal.signal(signal.SIGTERM, cleanup)  # Termination signal
+# Setup PyQt6 and Threads
+def show_popup(message, play_sound):
+    config = load_config()
+    dialog = AlertDialog(config, message, play_sound)
+    logging.info(f"Showing popup: {message}")
+    dialog.exec()
 
-# Start threads
-tk_thread = threading.Thread(target=tk_mainloop, name="TkinterThread")
-tk_thread.daemon = True
-tk_thread.start()
-
-main_thread = threading.Thread(target=main_logic, name="MainLogicThread")
-main_thread.daemon = True
+main_thread = MainLogicThread()
+main_thread.trigger_popup.connect(show_popup)
 main_thread.start()
 
-sound_thread = threading.Thread(
-    target=random_sound_thread, args=(load_config(),), name="SoundThread"
-)
-sound_thread.daemon = True
+sound_thread = SoundThread(load_config())
 sound_thread.start()
 
 # Run Flask app
@@ -568,3 +459,6 @@ if __name__ == "__main__":
     except Exception as e:
         logging.error(f"Flask app crashed: {str(e)}")
         cleanup()
+
+# Start Qt event loop in main thread
+qt_app.exec()
