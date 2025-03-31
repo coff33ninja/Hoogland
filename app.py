@@ -12,45 +12,55 @@ from playsound import playsound
 import sys
 import hashlib
 import logging
+import signal
 from flask import Flask, render_template, request, redirect, url_for, send_file
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 from queue import Queue
 from werkzeug.utils import secure_filename
 
 # Set up logging
-logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    filename="app.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
 
 # Flask app setup
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Change this to a secure random key in production
+app.secret_key = "your_secret_key"  # Change this to a secure random key in production
 
 # Flask-Login setup
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+
 class User(UserMixin):
     pass
 
+
 user = User()
-user.id = 'admin'
+user.id = "admin"
+
 
 @login_manager.user_loader
 def load_user(user_id):
-    if user_id == 'admin':
+    if user_id == "admin":
         return user
     return None
+
 
 # Global list for web notifications and queue for manual popups
 notifications = []
 popup_queue = Queue()
 
-# Tkinter root setup (hidden)
+# Tkinter root setup
 root = tk.Tk()
 root.withdraw()
 
+
 # Load configuration with backup restore
 def load_config():
-    config_path = 'config.json'
+    config_path = "config.json"
     default_config = {
         "sender_email": "your_email@example.com",
         "password": "your_password",
@@ -69,12 +79,12 @@ def load_config():
         "random_sound_max_seconds": 3600,
         "expected_hash": "abc123...",
         "is_default": True,
-        "predefined_messages": ["Stay awake!", "Security check!", "Alert now!"]
+        "predefined_messages": ["Stay awake!", "Security check!", "Alert now!"],
     }
 
     if os.path.exists(config_path):
         try:
-            with open(config_path, 'r') as f:
+            with open(config_path, "r") as f:
                 config = json.load(f)
             required_keys = default_config.keys()
             missing_keys = [key for key in required_keys if key not in config]
@@ -84,72 +94,93 @@ def load_config():
                 return default_config
             if config.get("is_default", False):
                 logging.warning("Config is default.")
-                send_email(config, "Default Config Detected", "Running with default config.")
+                send_email(
+                    config, "Default Config Detected", "Running with default config."
+                )
             return config
         except json.JSONDecodeError:
             logging.error("Invalid JSON in config file.")
-            send_email(default_config, "Config Error", "Invalid JSON detected in config.json.")
+            send_email(
+                default_config, "Config Error", "Invalid JSON detected in config.json."
+            )
 
-    # Check for backups if config.json is missing or invalid
-    backups = [f for f in os.listdir() if f.startswith("config_backup_") and f.endswith(".json")]
+    backups = [
+        f
+        for f in os.listdir()
+        if f.startswith("config_backup_") and f.endswith(".json")
+    ]
     if backups:
         latest_backup = max(backups, key=os.path.getctime)
         try:
-            with open(latest_backup, 'r') as f:
+            with open(latest_backup, "r") as f:
                 config = json.load(f)
             logging.info(f"Restored config from backup: {latest_backup}")
-            with open(config_path, 'w') as f:
+            with open(config_path, "w") as f:
                 json.dump(config, f, indent=4)
-            send_email(config, "Config Restored", f"Restored config from {latest_backup}.")
+            send_email(
+                config, "Config Restored", f"Restored config from {latest_backup}."
+            )
             return config
         except json.JSONDecodeError:
             logging.error(f"Invalid JSON in backup: {latest_backup}")
 
-    # Only generate default config if no valid config or backup exists
-    with open(config_path, 'w') as f:
+    with open(config_path, "w") as f:
         json.dump(default_config, f, indent=4)
     logging.info("Default config generated.")
     try:
-        send_email(default_config, "Config Missing", "Default config generated. Update required.")
+        send_email(
+            default_config,
+            "Config Missing",
+            "Default config generated. Update required.",
+        )
     except:
         logging.error("Email failed on default config generation.")
     return default_config
+
 
 # Send email function
 def send_email(config, subject, message):
     try:
         msg = MIMEText(message)
-        msg['Subject'] = subject
-        msg['From'] = config['sender_email']
-        msg['To'] = config['recipient_email']
-        with smtplib.SMTP(config['smtp_server'], config['smtp_port']) as server:
+        msg["Subject"] = subject
+        msg["From"] = config["sender_email"]
+        msg["To"] = config["recipient_email"]
+        with smtplib.SMTP(config["smtp_server"], config["smtp_port"]) as server:
             server.starttls()
-            server.login(config['sender_email'], config['password'])
-            server.sendmail(config['sender_email'], config['recipient_email'], msg.as_string())
+            server.login(config["sender_email"], config["password"])
+            server.sendmail(
+                config["sender_email"], config["recipient_email"], msg.as_string()
+            )
         logging.info(f"Email sent: {subject}")
         notifications.append(f"{time.strftime('%H:%M:%S')} - {subject}: {message}")
     except Exception as e:
         logging.error(f"Failed to send email: {str(e)}")
         notifications.append(f"{time.strftime('%H:%M:%S')} - Email Failed: {str(e)}")
 
+
 # Code validation
 def calculate_executable_hash():
-    if getattr(sys, 'frozen', False):
+    if getattr(sys, "frozen", False):
         exe_path = sys.executable
         try:
-            with open(exe_path, 'rb') as f:
+            with open(exe_path, "rb") as f:
                 return hashlib.sha256(f.read()).hexdigest()
         except Exception as e:
             logging.error(f"Hash calculation failed: {str(e)}")
-            send_email(load_config(), "Hash Error", f"Failed to calculate hash: {str(e)}")
+            send_email(
+                load_config(), "Hash Error", f"Failed to calculate hash: {str(e)}"
+            )
             return None
     return None
 
+
 # Desktop alert function
 def create_alert_window(config, message="Security Alert", play_sound=True):
+    logging.info(f"Creating alert window with message: {message}")
     alert_window = Toplevel(root)
     alert_window.title("Security Alert")
     alert_window.geometry("300x100")
+    alert_window.attributes("-topmost", True)  # Ensure popup stays on top
     start_time = time.time()
     pressed = tk.BooleanVar(value=False)
 
@@ -158,7 +189,7 @@ def create_alert_window(config, message="Security Alert", play_sound=True):
     def trigger_sound():
         if alert_window.winfo_exists() and not pressed.get() and play_sound:
             try:
-                playsound('alert_sound.mp3')
+                playsound("alert_sound.mp3")
             except Exception as e:
                 logging.error(f"Sound playback failed: {str(e)}")
                 send_email(config, "Sound Error", f"Failed to play sound: {str(e)}")
@@ -172,7 +203,7 @@ def create_alert_window(config, message="Security Alert", play_sound=True):
     def on_button_press():
         pressed.set(True)
         elapsed = time.time() - start_time
-        if elapsed > config['report_if_longer_than_minutes'] * 60:
+        if elapsed > config["report_if_longer_than_minutes"] * 60:
             message = f"The alert was acknowledged after {elapsed / 60:.2f} minutes."
             send_email(config, "Alert Acknowledged Late", message)
         else:
@@ -188,59 +219,91 @@ def create_alert_window(config, message="Security Alert", play_sound=True):
         alert_window.destroy()
 
     if play_sound:
-        root.after(int(config['sound_after_minutes'] * 60 * 1000), trigger_sound)
-    root.after(int(config['email_if_not_pressed_after_minutes'] * 60 * 1000), send_email_not_pressed)
+        root.after(int(config["sound_after_minutes"] * 60 * 1000), trigger_sound)
+    root.after(
+        int(config["email_if_not_pressed_after_minutes"] * 60 * 1000),
+        send_email_not_pressed,
+    )
     button = Button(alert_window, text="I accept", command=on_button_press)
     button.pack(pady=20)
     alert_window.protocol("WM_DELETE_WINDOW", on_close)
+    alert_window.update()  # Force update to ensure visibility
     return alert_window
+
 
 # Random sound function
 def random_sound_thread(config):
     while True:
         now = datetime.datetime.now()
-        start_time = datetime.datetime.strptime(config['start_time'], "%H:%M").time()
-        end_time = datetime.datetime.strptime(config['end_time'], "%H:%M").time()
+        start_time = datetime.datetime.strptime(config["start_time"], "%H:%M").time()
+        end_time = datetime.datetime.strptime(config["end_time"], "%H:%M").time()
 
         if start_time > end_time:
             in_schedule = now.time() >= start_time or now.time() < end_time
         else:
             in_schedule = start_time <= now.time() < end_time
 
-        if in_schedule and config['random_sound_enabled']:
-            wait_time = random.randint(config['random_sound_min_seconds'], config['random_sound_max_seconds'])
+        if in_schedule and config["random_sound_enabled"]:
+            wait_time = random.randint(
+                config["random_sound_min_seconds"], config["random_sound_max_seconds"]
+            )
             time.sleep(wait_time)
             try:
-                playsound('alert_sound.mp3')
-                send_email(config, "Random Sound Triggered", f"Sound played at {time.strftime('%H:%M:%S')}")
+                playsound("alert_sound.mp3")
+                send_email(
+                    config,
+                    "Random Sound Triggered",
+                    f"Sound played at {time.strftime('%H:%M:%S')}",
+                )
             except Exception as e:
                 logging.error(f"Random sound failed: {str(e)}")
-                send_email(config, "Random Sound Error", f"Failed to play random sound: {str(e)}")
+                send_email(
+                    config,
+                    "Random Sound Error",
+                    f"Failed to play random sound: {str(e)}",
+                )
         else:
             time.sleep(60)
+
+
+# Tkinter mainloop thread
+def tk_mainloop():
+    logging.info("Starting Tkinter mainloop")
+    root.mainloop()
+
 
 # Main logic
 def main_logic():
     config = load_config()
     current_hash = calculate_executable_hash()
-    if current_hash and current_hash != config['expected_hash']:
-        send_email(config, "Integrity Check Failed", f"Hash mismatch: expected {config['expected_hash']}, got {current_hash}")
+    if current_hash and current_hash != config["expected_hash"]:
+        send_email(
+            config,
+            "Integrity Check Failed",
+            f"Hash mismatch: expected {config['expected_hash']}, got {current_hash}",
+        )
 
     while True:
         config = load_config()
         now = datetime.datetime.now()
-        start_time = datetime.datetime.strptime(config['start_time'], "%H:%M").time()
-        end_time = datetime.datetime.strptime(config['end_time'], "%H:%M").time()
+        start_time = datetime.datetime.strptime(config["start_time"], "%H:%M").time()
+        end_time = datetime.datetime.strptime(config["end_time"], "%H:%M").time()
 
         if start_time > end_time:
             if now.time() < end_time:
-                start_dt = now.replace(hour=start_time.hour, minute=start_time.minute, second=0) - datetime.timedelta(days=1)
+                start_dt = now.replace(
+                    hour=start_time.hour, minute=start_time.minute, second=0
+                ) - datetime.timedelta(days=1)
             else:
-                start_dt = now.replace(hour=start_time.hour, minute=start_time.minute, second=0)
+                start_dt = now.replace(
+                    hour=start_time.hour, minute=start_time.minute, second=0
+                )
             end_dt = start_dt + datetime.timedelta(days=1)
             end_dt = end_dt.replace(hour=end_time.hour, minute=end_time.minute)
         else:
-            start_dt = now.replace(hour=start_time.hour, minute=start_time.minute, second=0)
+            start_dt = now.replace(
+                hour=start_time.hour, minute=start_time.minute, second=0
+            )
             end_dt = start_dt.replace(hour=end_time.hour, minute=end_time.minute)
 
         if now < start_dt:
@@ -249,157 +312,259 @@ def main_logic():
         while datetime.datetime.now() < end_dt:
             if not popup_queue.empty():
                 popup_data = popup_queue.get()
-                alert_window = create_alert_window(config, popup_data['message'], popup_data['play_sound'])
+                logging.info(f"Processing manual popup: {popup_data['message']}")
+                alert_window = create_alert_window(
+                    config, popup_data["message"], popup_data["play_sound"]
+                )
                 root.wait_window(alert_window)
-                logging.info(f"Manual popup triggered: {popup_data['message']}")
+                logging.info(f"Manual popup completed: {popup_data['message']}")
             else:
-                wait_time = random.randint(config['min_wait_between_alerts_seconds'], config['max_wait_between_alerts_seconds'])
-                next_alert = datetime.datetime.now() + datetime.timedelta(seconds=wait_time)
+                wait_time = random.randint(
+                    config["min_wait_between_alerts_seconds"],
+                    config["max_wait_between_alerts_seconds"],
+                )
+                next_alert = datetime.datetime.now() + datetime.timedelta(
+                    seconds=wait_time
+                )
                 if next_alert > end_dt:
                     wait_time = (end_dt - datetime.datetime.now()).total_seconds()
                     if wait_time <= 0:
                         break
                 time.sleep(wait_time)
+                logging.info("Triggering scheduled popup")
                 alert_window = create_alert_window(config)
                 root.wait_window(alert_window)
-                logging.info(f"Alert triggered at {time.strftime('%H:%M:%S')}")
+                logging.info("Scheduled popup completed")
 
         time.sleep(60)
 
-# Flask routes
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        if request.form['username'] == 'admin' and request.form['password'] == 'password':
-            login_user(user)
-            return redirect(url_for('admin'))
-        return 'Invalid credentials'
-    return render_template('login.html')
 
-@app.route('/logout')
+# Flask routes
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        if (
+            request.form["username"] == "admin"
+            and request.form["password"] == "password"
+        ):
+            login_user(user)
+            return redirect(url_for("admin"))
+        return "Invalid credentials"
+    return render_template("login.html")
+
+
+@app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for("login"))
 
-@app.route('/logs')
+
+@app.route("/logs")
 @login_required
 def logs():
     try:
-        with open('app.log', 'r') as f:
+        with open("app.log", "r") as f:
             logs = f.readlines()
     except FileNotFoundError:
         logs = ["Log file not found."]
-    return render_template('logs.html', logs=logs)
+    return render_template("logs.html", logs=logs)
 
-@app.route('/admin', methods=['GET', 'POST'])
+
+@app.route("/admin", methods=["GET", "POST"])
 @login_required
 def admin():
     config = load_config()
-    if request.method == 'POST':
+    backups = [
+        f
+        for f in os.listdir()
+        if f.startswith("config_backup_") and f.endswith(".json")
+    ]
+    if request.method == "POST":
         try:
             config = {
-                "sender_email": request.form['sender_email'],
-                "password": request.form['password'],
-                "recipient_email": request.form['recipient_email'],
-                "smtp_server": request.form['smtp_server'],
-                "smtp_port": int(request.form['smtp_port']),
-                "start_time": request.form['start_time'],
-                "end_time": request.form['end_time'],
-                "sound_after_minutes": int(request.form['sound_after_minutes']),
-                "report_if_longer_than_minutes": int(request.form['report_if_longer_than_minutes']),
-                "email_if_not_pressed_after_minutes": int(request.form['email_if_not_pressed_after_minutes']),
-                "min_wait_between_alerts_seconds": int(request.form['min_wait_between_alerts_seconds']),
-                "max_wait_between_alerts_seconds": int(request.form['max_wait_between_alerts_seconds']),
-                "random_sound_enabled": request.form['random_sound_enabled'] == 'on',
-                "random_sound_min_seconds": int(request.form['random_sound_min_seconds']),
-                "random_sound_max_seconds": int(request.form['random_sound_max_seconds']),
-                "expected_hash": request.form['expected_hash'],
+                "sender_email": request.form["sender_email"],
+                "password": request.form["password"],
+                "recipient_email": request.form["recipient_email"],
+                "smtp_server": request.form["smtp_server"],
+                "smtp_port": int(request.form["smtp_port"]),
+                "start_time": request.form["start_time"],
+                "end_time": request.form["end_time"],
+                "sound_after_minutes": int(request.form["sound_after_minutes"]),
+                "report_if_longer_than_minutes": int(
+                    request.form["report_if_longer_than_minutes"]
+                ),
+                "email_if_not_pressed_after_minutes": int(
+                    request.form["email_if_not_pressed_after_minutes"]
+                ),
+                "min_wait_between_alerts_seconds": int(
+                    request.form["min_wait_between_alerts_seconds"]
+                ),
+                "max_wait_between_alerts_seconds": int(
+                    request.form["max_wait_between_alerts_seconds"]
+                ),
+                "random_sound_enabled": request.form["random_sound_enabled"] == "on",
+                "random_sound_min_seconds": int(
+                    request.form["random_sound_min_seconds"]
+                ),
+                "random_sound_max_seconds": int(
+                    request.form["random_sound_max_seconds"]
+                ),
+                "expected_hash": request.form["expected_hash"],
                 "is_default": False,
-                "predefined_messages": config['predefined_messages']
+                "predefined_messages": config["predefined_messages"],
             }
-            with open('config.json', 'w') as f:
+            with open("config.json", "w") as f:
                 json.dump(config, f, indent=4)
             backup_path = f"config_backup_{time.strftime('%Y%m%d_%H%M%S')}.json"
-            with open(backup_path, 'w') as f:
+            with open(backup_path, "w") as f:
                 json.dump(config, f, indent=4)
             logging.info("Configuration updated and backed up.")
             send_email(config, "Config Updated", "Configuration updated via web UI.")
         except Exception as e:
             logging.error(f"Config update failed: {str(e)}")
-            send_email(config, "Config Update Error", f"Failed to update config: {str(e)}")
-    return render_template('admin.html', config=config)
+            send_email(
+                config, "Config Update Error", f"Failed to update config: {str(e)}"
+            )
+    return render_template("admin.html", config=config, backups=backups)
 
-@app.route('/trigger_popup', methods=['POST'])
+
+@app.route("/trigger_popup", methods=["POST"])
 @login_required
 def trigger_popup():
     config = load_config()
-    message_type = request.form['message_type']
-    if message_type == 'custom':
-        message = request.form['custom_message']
+    message_type = request.form["message_type"]
+    if message_type == "custom":
+        message = request.form["custom_message"]
     else:
         message = message_type
-    play_sound = request.form.get('play_sound') == 'on'
-    popup_queue.put({'message': message, 'play_sound': play_sound})
+    play_sound = request.form.get("play_sound") == "on"
+    popup_queue.put({"message": message, "play_sound": play_sound})
     logging.info(f"Manual popup requested: {message}, sound: {play_sound}")
-    send_email(config, "Manual Popup Triggered", f"Popup initiated with message: {message}, sound: {play_sound}")
-    return redirect(url_for('admin'))
+    send_email(
+        config,
+        "Manual Popup Triggered",
+        f"Popup initiated with message: {message}, sound: {play_sound}",
+    )
+    return redirect(url_for("admin"))
 
-@app.route('/notifications')
+
+@app.route("/notifications")
 @login_required
 def get_notifications():
-    return render_template('notifications.html', notifications=notifications)
+    return render_template("notifications.html", notifications=notifications)
 
-@app.route('/download_backup')
+
+@app.route("/download_backup")
 @login_required
 def download_backup():
-    backups = [f for f in os.listdir() if f.startswith("config_backup_") and f.endswith(".json")]
+    backups = [
+        f
+        for f in os.listdir()
+        if f.startswith("config_backup_") and f.endswith(".json")
+    ]
     if backups:
         latest_backup = max(backups, key=os.path.getctime)
         return send_file(latest_backup, as_attachment=True)
     return "No backups available.", 404
 
-@app.route('/restore_config', methods=['POST'])
+
+@app.route("/restore_config", methods=["POST"])
 @login_required
 def restore_config():
     config = load_config()
-    if 'config_file' in request.files and request.files['config_file'].filename != '':
-        file = request.files['config_file']
+    if "config_file" in request.files and request.files["config_file"].filename != "":
+        file = request.files["config_file"]
         filename = secure_filename(file.filename)
         file.save(filename)
         try:
-            with open(filename, 'r') as f:
+            with open(filename, "r") as f:
                 new_config = json.load(f)
-            with open('config.json', 'w') as f:
+            with open("config.json", "w") as f:
                 json.dump(new_config, f, indent=4)
-            os.remove(filename)  # Clean up uploaded file
+            os.remove(filename)
             logging.info(f"Config restored from uploaded file: {filename}")
-            send_email(config, "Config Restored", f"Config restored from uploaded file: {filename}")
+            send_email(
+                config,
+                "Config Restored",
+                f"Config restored from uploaded file: {filename}",
+            )
         except Exception as e:
             logging.error(f"Failed to restore config from upload: {str(e)}")
-            send_email(config, "Config Restore Error", f"Failed to restore config from {filename}: {str(e)}")
-    elif 'backup_file' in request.form and request.form['backup_file']:
-        backup_file = request.form['backup_file']
+            send_email(
+                config,
+                "Config Restore Error",
+                f"Failed to restore config from {filename}: {str(e)}",
+            )
+    elif "backup_file" in request.form and request.form["backup_file"]:
+        backup_file = request.form["backup_file"]
         if os.path.exists(backup_file):
             try:
-                with open(backup_file, 'r') as f:
+                with open(backup_file, "r") as f:
                     new_config = json.load(f)
-                with open('config.json', 'w') as f:
+                with open("config.json", "w") as f:
                     json.dump(new_config, f, indent=4)
                 logging.info(f"Config restored from backup: {backup_file}")
-                send_email(config, "Config Restored", f"Config restored from backup: {backup_file}")
+                send_email(
+                    config,
+                    "Config Restored",
+                    f"Config restored from backup: {backup_file}",
+                )
             except Exception as e:
                 logging.error(f"Failed to restore config from backup: {str(e)}")
-                send_email(config, "Config Restore Error", f"Failed to restore config from {backup_file}: {str(e)}")
-    return redirect(url_for('admin'))
+                send_email(
+                    config,
+                    "Config Restore Error",
+                    f"Failed to restore config from {backup_file}: {str(e)}",
+                )
+    return redirect(url_for("admin"))
+
+
+# Cleanup function
+def cleanup(signum=None, frame=None):
+    logging.info("Initiating cleanup")
+    config = load_config()
+    send_email(
+        config, "Program Stopped", "Program stopped due to user request or exception."
+    )
+
+    # Optional: Uncomment to remove files on shutdown
+    # if os.path.exists("app.log"):
+    #     os.remove("app.log")
+    # if os.path.exists("config.json"):
+    #     os.remove("config.json")
+
+    root.quit()  # Stop Tkinter mainloop
+    logging.info("Cleanup completed")
+    sys.exit(0)
+
+
+# Register signal handlers for clean shutdown
+signal.signal(signal.SIGINT, cleanup)  # Ctrl+C
+signal.signal(signal.SIGTERM, cleanup)  # Termination signal
 
 # Start threads
-main_thread = threading.Thread(target=main_logic)
+tk_thread = threading.Thread(target=tk_mainloop, name="TkinterThread")
+tk_thread.daemon = True
+tk_thread.start()
+
+main_thread = threading.Thread(target=main_logic, name="MainLogicThread")
+main_thread.daemon = True
 main_thread.start()
-sound_thread = threading.Thread(target=random_sound_thread, args=(load_config(),))
+
+sound_thread = threading.Thread(
+    target=random_sound_thread, args=(load_config(),), name="SoundThread"
+)
+sound_thread.daemon = True
 sound_thread.start()
 
 # Run Flask app
-if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False)
-    root.mainloop()
+if __name__ == "__main__":
+    logging.info("Starting Flask app")
+    try:
+        app.run(debug=True, use_reloader=False)
+    except KeyboardInterrupt:
+        cleanup()
+    except Exception as e:
+        logging.error(f"Flask app crashed: {str(e)}")
+        cleanup()

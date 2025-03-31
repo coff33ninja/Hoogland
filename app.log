@@ -96,3 +96,32 @@
 2025-03-31 12:32:08,595 - INFO - Email sent: Manual Popup Triggered
 2025-03-31 12:32:08,596 - INFO - 127.0.0.1 - - [31/Mar/2025 12:32:08] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
 2025-03-31 12:32:08,627 - INFO - 127.0.0.1 - - [31/Mar/2025 12:32:08] "GET /admin HTTP/1.1" 200 -
+2025-03-31 12:39:04,274 - INFO - Starting Tkinter mainloop
+2025-03-31 12:39:04,278 - INFO - Starting Flask app
+2025-03-31 12:39:04,336 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-03-31 12:39:04,337 - INFO - [33mPress CTRL+C to quit[0m
+2025-03-31 12:39:21,717 - INFO - Initiating cleanup
+2025-03-31 12:39:21,900 - INFO - Initiating cleanup
+2025-03-31 12:39:22,161 - INFO - Initiating cleanup
+2025-03-31 12:39:22,542 - INFO - Email sent: Program Stopped
+2025-03-31 12:39:22,542 - INFO - Cleanup completed
+2025-03-31 12:39:22,568 - INFO - Flask app stopped
+2025-03-31 12:39:33,365 - INFO - Starting Tkinter mainloop
+2025-03-31 12:39:33,367 - INFO - Starting Flask app
+2025-03-31 12:39:33,415 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-03-31 12:39:33,415 - INFO - [33mPress CTRL+C to quit[0m
+2025-03-31 12:39:42,174 - INFO - 127.0.0.1 - - [31/Mar/2025 12:39:42] "GET /admin HTTP/1.1" 200 -
+2025-03-31 12:39:46,086 - INFO - 127.0.0.1 - - [31/Mar/2025 12:39:46] "GET /admin HTTP/1.1" 200 -
+2025-03-31 12:39:49,708 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-03-31 12:39:50,078 - INFO - Email sent: Manual Popup Triggered
+2025-03-31 12:39:50,078 - INFO - 127.0.0.1 - - [31/Mar/2025 12:39:50] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-03-31 12:39:50,198 - INFO - 127.0.0.1 - - [31/Mar/2025 12:39:50] "GET /admin HTTP/1.1" 200 -
+2025-03-31 12:40:00,230 - INFO - Configuration updated and backed up.
+2025-03-31 12:40:00,602 - INFO - Email sent: Config Updated
+2025-03-31 12:40:00,603 - INFO - 127.0.0.1 - - [31/Mar/2025 12:40:00] "POST /admin HTTP/1.1" 200 -
+2025-03-31 12:40:39,392 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-03-31 12:40:39,776 - INFO - Email sent: Manual Popup Triggered
+2025-03-31 12:40:39,776 - INFO - 127.0.0.1 - - [31/Mar/2025 12:40:39] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-03-31 12:40:39,818 - INFO - 127.0.0.1 - - [31/Mar/2025 12:40:39] "GET /admin HTTP/1.1" 200 -
