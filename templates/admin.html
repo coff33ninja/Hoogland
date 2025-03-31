@@ -61,6 +61,20 @@
         <button type="submit">Trigger Popup</button>
     </form>
 
+    <h2>Restore Config</h2>
+    <form method="post" action="{{ url_for('restore_config') }}" enctype="multipart/form-data">
+        <label>Upload Config File:</label><br>
+        <input type="file" name="config_file" accept=".json"><br>
+        <label>Or Select Backup:</label><br>
+        <select name="backup_file">
+            <option value="">-- Select a backup --</option>
+            {% for backup in backups %}
+                <option value="{{ backup }}">{{ backup }}</option>
+            {% endfor %}
+        </select><br>
+        <button type="submit">Restore Config</button>
+    </form>
+
     <a href="{{ url_for('logs') }}">View Logs</a> |
     <a href="{{ url_for('get_notifications') }}">View Notifications</a> |
     <a href="{{ url_for('download_backup') }}">Download Latest Backup</a> |

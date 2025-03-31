@@ -67,3 +67,32 @@
 2025-03-31 12:14:18,362 - ERROR - Missing keys in config: ['predefined_messages']
 2025-03-31 12:14:18,758 - INFO - Email sent: Config Error
 2025-03-31 12:14:18,758 - INFO - 127.0.0.1 - - [31/Mar/2025 12:14:18] "GET /admin HTTP/1.1" 200 -
+2025-03-31 12:31:22,599 - ERROR - Missing keys in config: ['predefined_messages']
+2025-03-31 12:31:22,599 - ERROR - Missing keys in config: ['predefined_messages']
+2025-03-31 12:31:23,077 - INFO - Email sent: Config Error
+2025-03-31 12:31:23,086 - INFO - Email sent: Config Error
+2025-03-31 12:31:23,087 - ERROR - Missing keys in config: ['predefined_messages']
+2025-03-31 12:31:23,182 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-03-31 12:31:23,183 - INFO - [33mPress CTRL+C to quit[0m
+2025-03-31 12:31:23,462 - INFO - Email sent: Config Error
+2025-03-31 12:31:26,464 - ERROR - Missing keys in config: ['predefined_messages']
+2025-03-31 12:31:26,837 - INFO - Email sent: Config Error
+2025-03-31 12:31:26,854 - INFO - 127.0.0.1 - - [31/Mar/2025 12:31:26] "GET /admin HTTP/1.1" 200 -
+2025-03-31 12:31:55,791 - ERROR - Missing keys in config: ['predefined_messages']
+2025-03-31 12:31:56,169 - INFO - Email sent: Config Error
+2025-03-31 12:31:56,180 - INFO - Config restored from uploaded file: config.json
+2025-03-31 12:31:58,388 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8fbc10e1sm119964075e9.12 - gsmtp')
+2025-03-31 12:31:58,389 - INFO - 127.0.0.1 - - [31/Mar/2025 12:31:58] "[32mPOST /restore_config HTTP/1.1[0m" 302 -
+2025-03-31 12:31:58,458 - INFO - Restored config from backup: config_backup_20250331_115745.json
+2025-03-31 12:31:58,817 - INFO - Email sent: Config Restored
+2025-03-31 12:31:58,818 - INFO - 127.0.0.1 - - [31/Mar/2025 12:31:58] "GET /admin HTTP/1.1" 200 -
+2025-03-31 12:32:01,645 - ERROR - Missing keys in config: ['predefined_messages']
+2025-03-31 12:32:02,063 - INFO - Email sent: Config Error
+2025-03-31 12:32:02,071 - INFO - Configuration updated and backed up.
+2025-03-31 12:32:02,425 - INFO - Email sent: Config Updated
+2025-03-31 12:32:02,426 - INFO - 127.0.0.1 - - [31/Mar/2025 12:32:02] "POST /admin HTTP/1.1" 200 -
+2025-03-31 12:32:08,131 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-03-31 12:32:08,595 - INFO - Email sent: Manual Popup Triggered
+2025-03-31 12:32:08,596 - INFO - 127.0.0.1 - - [31/Mar/2025 12:32:08] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-03-31 12:32:08,627 - INFO - 127.0.0.1 - - [31/Mar/2025 12:32:08] "GET /admin HTTP/1.1" 200 -
