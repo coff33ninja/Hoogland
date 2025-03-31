@@ -1,0 +1,11 @@
+{
+    "sender_email": "your_email@example.com",
+    "password": "your_email_password",
+    "recipient_email": "recipient@example.com",
+    "smtp_server": "smtp.gmail.com",
+    "smtp_port": 587,
+    "start_time": "09:00",
+    "end_time": "17:00",
+    "expected_hash": "some_hash_value",
+    "is_default": false
+}

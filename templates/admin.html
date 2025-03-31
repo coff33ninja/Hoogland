@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+</head>
+<body>
+    <h1>Admin Panel</h1>
+    <form method="post">
+        <label>Sender Email:</label><br>
+        <input type="text" name="sender_email" value="{{ config.sender_email }}" required><br>
+        <label>Password:</label><br>
+        <input type="password" name="password" value="{{ config.password }}" required><br>
+        <label>Recipient Email:</label><br>
+        <input type="text" name="recipient_email" value="{{ config.recipient_email }}" required><br>
+        <label>SMTP Server:</label><br>
+        <input type="text" name="smtp_server" value="{{ config.smtp_server }}" required><br>
+        <label>SMTP Port:</label><br>
+        <input type="number" name="smtp_port" value="{{ config.smtp_port }}" required><br>
+        <label>Start Time (HH:MM):</label><br>
+        <input type="text" name="start_time" value="{{ config.start_time }}" required><br>
+        <label>End Time (HH:MM):</label><br>
+        <input type="text" name="end_time" value="{{ config.end_time }}" required><br>
+        <label>Sound After Minutes:</label><br>
+        <input type="number" name="sound_after_minutes" value="{{ config.sound_after_minutes }}" required><br>
+        <label>Report If Longer Than Minutes:</label><br>
+        <input type="number" name="report_if_longer_than_minutes" value="{{ config.report_if_longer_than_minutes }}" required><br>
+        <label>Email If Not Pressed After Minutes:</label><br>
+        <input type="number" name="email_if_not_pressed_after_minutes" value="{{ config.email_if_not_pressed_after_minutes }}" required><br>
+        <label>Min Wait Between Alerts (seconds):</label><br>
+        <input type="number" name="min_wait_between_alerts_seconds" value="{{ config.min_wait_between_alerts_seconds }}" required><br>
+        <label>Max Wait Between Alerts (seconds):</label><br>
+        <input type="number" name="max_wait_between_alerts_seconds" value="{{ config.max_wait_between_alerts_seconds }}" required><br>
+        <label>Expected Hash:</label><br>
+        <input type="text" name="expected_hash" value="{{ config.expected_hash }}" required><br>
+        <button type="submit">Save</button>
+    </form>
+    <a href="{{ url_for('logs') }}">View Logs</a> |
+    <a href="{{ url_for('get_notifications') }}">View Notifications</a> |
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>
