@@ -6,6 +6,7 @@
 </head>
 <body>
     <h1>Admin Panel</h1>
+    <h2>Configuration</h2>
     <form method="post">
         <label>Sender Email:</label><br>
         <input type="text" name="sender_email" value="{{ config.sender_email }}" required><br>
@@ -41,9 +42,35 @@
         <input type="text" name="expected_hash" value="{{ config.expected_hash }}" required><br>
         <button type="submit">Save</button>
     </form>
+
+    <h2>Trigger Manual Popup</h2>
+    <form method="post" action="{{ url_for('trigger_popup') }}">
+        <label>Message:</label><br>
+        <select name="message_type" onchange="toggleCustomMessage(this)">
+            {% for msg in config.predefined_messages %}
+                <option value="{{ msg }}">{{ msg }}</option>
+            {% endfor %}
+            <option value="custom">Custom Message</option>
+        </select><br>
+        <div id="custom_message_div" style="display: none;">
+            <label>Custom Message:</label><br>
+            <input type="text" name="custom_message" placeholder="Enter your message"><br>
+        </div>
+        <label>Play Sound:</label>
+        <input type="checkbox" name="play_sound" checked><br>
+        <button type="submit">Trigger Popup</button>
+    </form>
+
     <a href="{{ url_for('logs') }}">View Logs</a> |
-    <a href="{{ url_for('notifications') }}">View Notifications</a> |
+    <a href="{{ url_for('get_notifications') }}">View Notifications</a> |
     <a href="{{ url_for('download_backup') }}">Download Latest Backup</a> |
     <a href="{{ url_for('logout') }}">Logout</a>
+
+    <script>
+        function toggleCustomMessage(select) {
+            var customDiv = document.getElementById('custom_message_div');
+            customDiv.style.display = select.value === 'custom' ? 'block' : 'none';
+        }
+    </script>
 </body>
 </html>

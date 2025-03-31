@@ -14,6 +14,7 @@ import hashlib
 import logging
 from flask import Flask, render_template, request, redirect, url_for, send_file
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+from queue import Queue
 
 # Set up logging
 logging.basicConfig(
@@ -46,8 +47,9 @@ def load_user(user_id):
     return None
 
 
-# Global list for web notifications
+# Global list for web notifications and queue for manual popups
 notifications = []
+popup_queue = Queue()
 
 # Tkinter root setup (hidden)
 root = tk.Tk()
@@ -63,18 +65,19 @@ def load_config():
         "recipient_email": "recipient@example.com",
         "smtp_server": "smtp.gmail.com",
         "smtp_port": 587,
-        "start_time": "18:00",  # 6 PM
-        "end_time": "06:00",  # 6 AM
+        "start_time": "18:00",
+        "end_time": "06:00",
         "sound_after_minutes": 3,
         "report_if_longer_than_minutes": 5,
         "email_if_not_pressed_after_minutes": 10,
         "min_wait_between_alerts_seconds": 600,
         "max_wait_between_alerts_seconds": 7200,
         "random_sound_enabled": False,
-        "random_sound_min_seconds": 1800,  # 30 minutes
-        "random_sound_max_seconds": 3600,  # 1 hour
+        "random_sound_min_seconds": 1800,
+        "random_sound_max_seconds": 3600,
         "expected_hash": "abc123...",
         "is_default": True,
+        "predefined_messages": ["Stay awake!", "Security check!", "Alert now!"],
     }
     if not os.path.exists(config_path):
         with open(config_path, "w") as f:
@@ -110,6 +113,7 @@ def load_config():
             "random_sound_max_seconds",
             "expected_hash",
             "is_default",
+            "predefined_messages",
         ]
         missing_keys = [key for key in required_keys if key not in config]
         if missing_keys:
@@ -164,16 +168,18 @@ def calculate_executable_hash():
     return None
 
 
-# Desktop alert function
-def create_alert_window(config):
+# Desktop alert function (modified for custom message and sound)
+def create_alert_window(config, message="Security Alert", play_sound=True):
     alert_window = Toplevel(root)
     alert_window.title("Security Alert")
     alert_window.geometry("300x100")
     start_time = time.time()
     pressed = tk.BooleanVar(value=False)
 
-    def play_sound():
-        if alert_window.winfo_exists() and not pressed.get():
+    tk.Label(alert_window, text=message).pack(pady=10)
+
+    def trigger_sound():
+        if alert_window.winfo_exists() and not pressed.get() and play_sound:
             try:
                 playsound("alert_sound.mp3")
             except Exception as e:
@@ -204,7 +210,8 @@ def create_alert_window(config):
             send_email(config, "Alert Window Closed Without Acknowledging", message)
         alert_window.destroy()
 
-    root.after(int(config["sound_after_minutes"] * 60 * 1000), play_sound)
+    if play_sound:
+        root.after(int(config["sound_after_minutes"] * 60 * 1000), trigger_sound)
     root.after(
         int(config["email_if_not_pressed_after_minutes"] * 60 * 1000),
         send_email_not_pressed,
@@ -247,10 +254,10 @@ def random_sound_thread(config):
                     f"Failed to play random sound: {str(e)}",
                 )
         else:
-            time.sleep(60)  # Check every minute if not in schedule
+            time.sleep(60)
 
 
-# Main logic
+# Main logic with queue handling
 def main_logic():
     config = load_config()
     current_hash = calculate_executable_hash()
@@ -288,19 +295,30 @@ def main_logic():
             time.sleep((start_dt - now).total_seconds())
 
         while datetime.datetime.now() < end_dt:
-            wait_time = random.randint(
-                config["min_wait_between_alerts_seconds"],
-                config["max_wait_between_alerts_seconds"],
-            )
-            next_alert = datetime.datetime.now() + datetime.timedelta(seconds=wait_time)
-            if next_alert > end_dt:
-                wait_time = (end_dt - datetime.datetime.now()).total_seconds()
-                if wait_time <= 0:
-                    break
-            time.sleep(wait_time)
-            alert_window = create_alert_window(config)
-            root.wait_window(alert_window)
-            logging.info(f"Alert triggered at {time.strftime('%H:%M:%S')}")
+            # Check for manual popup requests
+            if not popup_queue.empty():
+                popup_data = popup_queue.get()
+                alert_window = create_alert_window(
+                    config, popup_data["message"], popup_data["play_sound"]
+                )
+                root.wait_window(alert_window)
+                logging.info(f"Manual popup triggered: {popup_data['message']}")
+            else:
+                wait_time = random.randint(
+                    config["min_wait_between_alerts_seconds"],
+                    config["max_wait_between_alerts_seconds"],
+                )
+                next_alert = datetime.datetime.now() + datetime.timedelta(
+                    seconds=wait_time
+                )
+                if next_alert > end_dt:
+                    wait_time = (end_dt - datetime.datetime.now()).total_seconds()
+                    if wait_time <= 0:
+                        break
+                time.sleep(wait_time)
+                alert_window = create_alert_window(config)
+                root.wait_window(alert_window)
+                logging.info(f"Alert triggered at {time.strftime('%H:%M:%S')}")
 
         time.sleep(60)
 
@@ -373,10 +391,10 @@ def admin():
                 ),
                 "expected_hash": request.form["expected_hash"],
                 "is_default": False,
+                "predefined_messages": config["predefined_messages"],
             }
             with open("config.json", "w") as f:
                 json.dump(config, f, indent=4)
-            # Create backup
             backup_path = f"config_backup_{time.strftime('%Y%m%d_%H%M%S')}.json"
             with open(backup_path, "w") as f:
                 json.dump(config, f, indent=4)
@@ -388,6 +406,26 @@ def admin():
                 config, "Config Update Error", f"Failed to update config: {str(e)}"
             )
     return render_template("admin.html", config=config)
+
+
+@app.route("/trigger_popup", methods=["POST"])
+@login_required
+def trigger_popup():
+    config = load_config()
+    message_type = request.form["message_type"]
+    if message_type == "custom":
+        message = request.form["custom_message"]
+    else:
+        message = message_type
+    play_sound = request.form.get("play_sound") == "on"
+    popup_queue.put({"message": message, "play_sound": play_sound})
+    logging.info(f"Manual popup requested: {message}, sound: {play_sound}")
+    send_email(
+        config,
+        "Manual Popup Triggered",
+        f"Popup initiated with message: {message}, sound: {play_sound}",
+    )
+    return redirect(url_for("admin"))
 
 
 @app.route("/notifications")

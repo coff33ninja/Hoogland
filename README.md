@@ -4,7 +4,7 @@ Prerequisites
 
 Install the required packages:
 bash
-pip install flask flask-login playsound
+pip install flask flask-login playsound==1.2.2
 
 You’ll also need:
 
