@@ -1,0 +1,225 @@
+2025-04-01 13:22:18,498 - INFO - Qt application initialized
+2025-04-01 13:22:18,549 - INFO - System tray icon initialized
+2025-04-01 13:22:18,552 - INFO - Starting MainLogicThread
+2025-04-01 13:22:18,554 - INFO - Default config generated.
+2025-04-01 13:22:20,656 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8fcd774bsm155932545e9.23 - gsmtp')
+2025-04-01 13:22:20,656 - INFO - MainLogicThread initialized successfully
+2025-04-01 13:22:20,656 - INFO - Starting ManualPopupThread
+2025-04-01 13:22:20,656 - INFO - ManualPopupThread initialized successfully
+2025-04-01 13:22:20,658 - INFO - MainLogicThread started
+2025-04-01 13:22:20,658 - INFO - ManualPopupThread started
+2025-04-01 13:22:20,670 - WARNING - Config is default.
+2025-04-01 13:22:22,833 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b66aeaasm14291613f8f.53 - gsmtp')
+2025-04-01 13:22:22,833 - INFO - Starting Waitress server on 0.0.0.0:5000
+2025-04-01 13:22:22,833 - INFO - Starting Qt event loop
+2025-04-01 13:22:22,834 - INFO - SoundThread started
+2025-04-01 13:22:22,834 - INFO - Serving on http://0.0.0.0:5000
+2025-04-01 13:22:22,891 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d830f5708sm202736315e9.32 - gsmtp')
+2025-04-01 13:22:22,891 - INFO - MainLogicThread loop running
+2025-04-01 13:22:22,892 - WARNING - Config is default.
+2025-04-01 13:22:24,963 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b658c87sm14284734f8f.9 - gsmtp')
+2025-04-01 13:22:24,963 - INFO - Current time: 13:22:24.963649, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:22:34,964 - INFO - Triggering scheduled popup
+2025-04-01 13:22:34,964 - INFO - trigger_popup signal emitted for scheduled popup
+2025-04-01 13:22:34,964 - INFO - MainLogicThread loop running
+2025-04-01 13:22:34,964 - WARNING - Config is default.
+2025-04-01 13:22:34,965 - WARNING - Config is default.
+2025-04-01 13:22:37,039 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d830f5f56sm203682235e9.26 - gsmtp')
+2025-04-01 13:22:37,039 - INFO - AlertDialog initialized
+2025-04-01 13:22:37,039 - INFO - Setting up AlertDialog UI
+2025-04-01 13:22:37,041 - ERROR - Sound playback failed: No file 'alert_sound.mp3' found in working directory 'C:\Users\USER\Documents\GitHub\Hoogland\dist'.
+2025-04-01 13:22:37,041 - INFO - Showing popup: Security Alert with sound=True
+2025-04-01 13:22:37,072 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d82dede21sm199030045e9.4 - gsmtp')
+2025-04-01 13:22:37,072 - INFO - Current time: 13:22:37.072656, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:22:39,330 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b65b4fcsm14381909f8f.11 - gsmtp')
+2025-04-01 13:22:56,073 - INFO - Triggering scheduled popup
+2025-04-01 13:22:56,073 - INFO - trigger_popup signal emitted for scheduled popup
+2025-04-01 13:22:56,073 - INFO - MainLogicThread loop running
+2025-04-01 13:22:56,073 - WARNING - Config is default.
+2025-04-01 13:22:57,107 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b79e14csm14149962f8f.76 - gsmtp')
+2025-04-01 13:22:57,117 - INFO - Popup Security Alert completed
+2025-04-01 13:22:57,119 - WARNING - Config is default.
+2025-04-01 13:22:58,144 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8314b3e2sm200605995e9.33 - gsmtp')
+2025-04-01 13:22:58,144 - INFO - Current time: 13:22:58.144417, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:22:59,219 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8f404ac3sm163556045e9.0 - gsmtp')
+2025-04-01 13:22:59,219 - INFO - AlertDialog initialized
+2025-04-01 13:22:59,219 - INFO - Setting up AlertDialog UI
+2025-04-01 13:22:59,220 - ERROR - Sound playback failed: No file 'alert_sound.mp3' found in working directory 'C:\Users\USER\Documents\GitHub\Hoogland\dist'.
+2025-04-01 13:22:59,220 - INFO - Showing popup: Security Alert with sound=True
+2025-04-01 13:23:01,290 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d82efeacasm199709585e9.23 - gsmtp')
+2025-04-01 13:23:03,128 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b66a8c9sm13954296f8f.47 - gsmtp')
+2025-04-01 13:23:03,153 - INFO - Popup Security Alert completed
+2025-04-01 13:23:08,145 - INFO - Triggering scheduled popup
+2025-04-01 13:23:08,145 - INFO - trigger_popup signal emitted for scheduled popup
+2025-04-01 13:23:08,145 - INFO - MainLogicThread loop running
+2025-04-01 13:23:08,145 - WARNING - Config is default.
+2025-04-01 13:23:08,146 - WARNING - Config is default.
+2025-04-01 13:23:10,235 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d82dede5csm203805455e9.8 - gsmtp')
+2025-04-01 13:23:10,235 - INFO - Current time: 13:23:10.235966, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:23:10,308 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b79e0a3sm14271364f8f.71 - gsmtp')
+2025-04-01 13:23:10,308 - INFO - AlertDialog initialized
+2025-04-01 13:23:10,308 - INFO - Setting up AlertDialog UI
+2025-04-01 13:23:10,309 - ERROR - Sound playback failed: No file 'alert_sound.mp3' found in working directory 'C:\Users\USER\Documents\GitHub\Hoogland\dist'.
+2025-04-01 13:23:10,309 - INFO - Showing popup: Security Alert with sound=True
+2025-04-01 13:23:12,394 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b6630a3sm14167012f8f.30 - gsmtp')
+2025-04-01 13:23:14,115 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d82efe966sm205001125e9.21 - gsmtp')
+2025-04-01 13:23:14,136 - INFO - Popup Security Alert completed
+2025-04-01 13:23:27,236 - INFO - Triggering scheduled popup
+2025-04-01 13:23:27,236 - INFO - trigger_popup signal emitted for scheduled popup
+2025-04-01 13:23:27,236 - INFO - MainLogicThread loop running
+2025-04-01 13:23:27,237 - WARNING - Config is default.
+2025-04-01 13:23:27,237 - WARNING - Config is default.
+2025-04-01 13:23:29,330 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b658c87sm14287056f8f.9 - gsmtp')
+2025-04-01 13:23:29,330 - INFO - AlertDialog initialized
+2025-04-01 13:23:29,330 - INFO - Setting up AlertDialog UI
+2025-04-01 13:23:29,362 - ERROR - Sound playback failed: No file 'alert_sound.mp3' found in working directory 'C:\Users\USER\Documents\GitHub\Hoogland\dist'.
+2025-04-01 13:23:29,362 - INFO - Showing popup: Security Alert with sound=True
+2025-04-01 13:23:29,433 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8ff02e84sm155601895e9.32 - gsmtp')
+2025-04-01 13:23:29,433 - INFO - Current time: 13:23:29.433178, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:23:31,466 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8ff042bcsm155327395e9.28 - gsmtp')
+2025-04-01 13:23:32,873 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b6588d0sm13913699f8f.7 - gsmtp')
+2025-04-01 13:23:32,894 - INFO - Popup Security Alert completed
+2025-04-01 13:23:40,434 - INFO - Triggering scheduled popup
+2025-04-01 13:23:40,434 - INFO - trigger_popup signal emitted for scheduled popup
+2025-04-01 13:23:40,434 - INFO - MainLogicThread loop running
+2025-04-01 13:23:40,434 - WARNING - Config is default.
+2025-04-01 13:23:40,435 - WARNING - Config is default.
+2025-04-01 13:23:42,529 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d82e83482sm203303325e9.14 - gsmtp')
+2025-04-01 13:23:42,529 - INFO - Current time: 13:23:42.529380, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:23:42,529 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b66285bsm13930561f8f.21 - gsmtp')
+2025-04-01 13:23:42,529 - INFO - AlertDialog initialized
+2025-04-01 13:23:42,529 - INFO - Setting up AlertDialog UI
+2025-04-01 13:23:42,530 - ERROR - Sound playback failed: No file 'alert_sound.mp3' found in working directory 'C:\Users\USER\Documents\GitHub\Hoogland\dist'.
+2025-04-01 13:23:42,531 - INFO - Showing popup: Security Alert with sound=True
+2025-04-01 13:23:44,771 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b663617sm14243098f8f.34 - gsmtp')
+2025-04-01 13:24:00,933 - INFO - Initiating cleanup
+2025-04-01 13:24:00,933 - WARNING - Config is default.
+2025-04-01 13:24:02,530 - INFO - Triggering scheduled popup
+2025-04-01 13:24:02,530 - INFO - trigger_popup signal emitted for scheduled popup
+2025-04-01 13:24:03,020 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8ff02e84sm155616005e9.32 - gsmtp')
+2025-04-01 13:24:05,211 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b7a41f5sm13971088f8f.84 - gsmtp')
+2025-04-01 13:24:07,391 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8fcceaaasm156165565e9.18 - gsmtp')
+2025-04-01 13:24:07,402 - INFO - Cleanup completed
+2025-04-01 13:25:04,623 - INFO - Qt application initialized
+2025-04-01 13:25:04,650 - INFO - System tray icon initialized
+2025-04-01 13:25:04,653 - INFO - Starting MainLogicThread
+2025-04-01 13:25:04,656 - WARNING - Config is default.
+2025-04-01 13:25:06,748 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b662850sm13958431f8f.26 - gsmtp')
+2025-04-01 13:25:06,748 - INFO - MainLogicThread initialized successfully
+2025-04-01 13:25:06,749 - INFO - Starting ManualPopupThread
+2025-04-01 13:25:06,749 - INFO - ManualPopupThread initialized successfully
+2025-04-01 13:25:06,750 - WARNING - Config is default.
+2025-04-01 13:25:06,751 - INFO - MainLogicThread started
+2025-04-01 13:25:06,767 - INFO - ManualPopupThread started
+2025-04-01 13:25:08,823 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8fba4c29sm161861745e9.5 - gsmtp')
+2025-04-01 13:25:08,824 - INFO - Starting Waitress server on 0.0.0.0:5000
+2025-04-01 13:25:08,824 - INFO - Starting Qt event loop
+2025-04-01 13:25:08,824 - INFO - SoundThread started
+2025-04-01 13:25:08,825 - INFO - Serving on http://0.0.0.0:5000
+2025-04-01 13:25:09,040 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b7a422dsm14305918f8f.93 - gsmtp')
+2025-04-01 13:25:09,040 - INFO - MainLogicThread loop running
+2025-04-01 13:25:09,041 - WARNING - Config is default.
+2025-04-01 13:25:11,239 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8314f5c6sm205324805e9.40 - gsmtp')
+2025-04-01 13:25:11,239 - INFO - Current time: 13:25:11.239196, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:25:19,591 - INFO - User logged in successfully
+2025-04-01 13:25:19,626 - WARNING - Config is default.
+2025-04-01 13:25:21,731 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b7a41b4sm13930794f8f.85 - gsmtp')
+2025-04-01 13:25:23,439 - WARNING - Config is default.
+2025-04-01 13:25:25,585 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d82efdffdsm197976655e9.18 - gsmtp')
+2025-04-01 13:25:25,585 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 13:25:25,586 - INFO - Processing manual popup: Stay awake!
+2025-04-01 13:25:25,586 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 13:25:25,586 - WARNING - Config is default.
+2025-04-01 13:25:27,240 - INFO - Triggering scheduled popup
+2025-04-01 13:25:27,240 - INFO - trigger_popup signal emitted for scheduled popup
+2025-04-01 13:25:27,240 - INFO - MainLogicThread loop running
+2025-04-01 13:25:27,240 - WARNING - Config is default.
+2025-04-01 13:25:27,657 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b658838sm13912228f8f.5 - gsmtp')
+2025-04-01 13:25:27,677 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b663617sm14246889f8f.34 - gsmtp')
+2025-04-01 13:25:27,678 - INFO - AlertDialog initialized
+2025-04-01 13:25:27,678 - INFO - Setting up AlertDialog UI
+2025-04-01 13:25:27,682 - ERROR - Sound playback failed: No file 'alert_sound.mp3' found in working directory 'C:\Users\USER\Documents\GitHub\Hoogland\dist'.
+2025-04-01 13:25:27,683 - INFO - Showing popup: Stay awake! with sound=True
+2025-04-01 13:25:27,683 - WARNING - Config is default.
+2025-04-01 13:25:27,708 - WARNING - Config is default.
+2025-04-01 13:25:29,368 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b65873bsm13968932f8f.8 - gsmtp')
+2025-04-01 13:25:29,369 - INFO - Current time: 13:25:29.368312, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:25:29,767 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b662c1csm13951758f8f.28 - gsmtp')
+2025-04-01 13:25:29,770 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b66277dsm14035493f8f.24 - gsmtp')
+2025-04-01 13:25:29,791 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d900009e5sm156364335e9.34 - gsmtp')
+2025-04-01 13:25:29,792 - INFO - AlertDialog initialized
+2025-04-01 13:25:29,792 - INFO - Setting up AlertDialog UI
+2025-04-01 13:25:29,806 - INFO - Showing popup: Security Alert with sound=True
+2025-04-01 13:25:29,825 - ERROR - Sound playback failed: No file 'alert_sound.mp3' found in working directory 'C:\Users\USER\Documents\GitHub\Hoogland\dist'.
+2025-04-01 13:25:31,910 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d82e6ab48sm202724095e9.10 - gsmtp')
+2025-04-01 13:25:33,389 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b79e304sm14175297f8f.73 - gsmtp')
+2025-04-01 13:25:33,400 - INFO - Popup Security Alert completed
+2025-04-01 13:25:35,484 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d900013besm157625665e9.38 - gsmtp')
+2025-04-01 13:25:37,565 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8ff02f91sm155441845e9.29 - gsmtp')
+2025-04-01 13:25:37,565 - INFO - Popup Stay awake! completed
+2025-04-01 13:25:43,370 - INFO - Triggering scheduled popup
+2025-04-01 13:25:43,370 - INFO - trigger_popup signal emitted for scheduled popup
+2025-04-01 13:25:43,370 - INFO - MainLogicThread loop running
+2025-04-01 13:25:43,370 - WARNING - Config is default.
+2025-04-01 13:25:43,370 - WARNING - Config is default.
+2025-04-01 13:25:45,467 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b6656a0sm14214972f8f.37 - gsmtp')
+2025-04-01 13:25:45,467 - INFO - Current time: 13:25:45.467035, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:25:45,545 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b79e311sm14233279f8f.78 - gsmtp')
+2025-04-01 13:25:45,545 - INFO - AlertDialog initialized
+2025-04-01 13:25:45,545 - INFO - Setting up AlertDialog UI
+2025-04-01 13:25:45,546 - ERROR - Sound playback failed: No file 'alert_sound.mp3' found in working directory 'C:\Users\USER\Documents\GitHub\Hoogland\dist'.
+2025-04-01 13:25:45,546 - INFO - Showing popup: Security Alert with sound=True
+2025-04-01 13:25:47,623 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d82e83477sm202018715e9.16 - gsmtp')
+2025-04-01 13:26:04,467 - INFO - Triggering scheduled popup
+2025-04-01 13:26:04,467 - INFO - trigger_popup signal emitted for scheduled popup
+2025-04-01 13:26:04,467 - INFO - MainLogicThread loop running
+2025-04-01 13:26:04,467 - WARNING - Config is default.
+2025-04-01 13:26:04,468 - WARNING - Config is default.
+2025-04-01 13:26:06,569 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8ff02f9csm157748575e9.26 - gsmtp')
+2025-04-01 13:26:06,569 - INFO - AlertDialog initialized
+2025-04-01 13:26:06,569 - INFO - Setting up AlertDialog UI
+2025-04-01 13:26:06,571 - ERROR - Sound playback failed: No file 'alert_sound.mp3' found in working directory 'C:\Users\USER\Documents\GitHub\Hoogland\dist'.
+2025-04-01 13:26:06,571 - INFO - Showing popup: Security Alert with sound=True
+2025-04-01 13:26:06,651 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b65873bsm13970231f8f.8 - gsmtp')
+2025-04-01 13:26:06,651 - INFO - Current time: 13:26:06.651709, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:26:08,683 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b658838sm13913676f8f.5 - gsmtp')
+2025-04-01 13:26:21,652 - INFO - Triggering scheduled popup
+2025-04-01 13:26:21,652 - INFO - trigger_popup signal emitted for scheduled popup
+2025-04-01 13:26:21,652 - INFO - MainLogicThread loop running
+2025-04-01 13:26:21,652 - WARNING - Config is default.
+2025-04-01 13:26:21,653 - WARNING - Config is default.
+2025-04-01 13:26:23,728 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b658803sm13860764f8f.6 - gsmtp')
+2025-04-01 13:26:23,728 - INFO - AlertDialog initialized
+2025-04-01 13:26:23,728 - INFO - Setting up AlertDialog UI
+2025-04-01 13:26:23,729 - ERROR - Sound playback failed: No file 'alert_sound.mp3' found in working directory 'C:\Users\USER\Documents\GitHub\Hoogland\dist'.
+2025-04-01 13:26:23,729 - INFO - Showing popup: Security Alert with sound=True
+2025-04-01 13:26:23,751 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d830f5f22sm198338615e9.30 - gsmtp')
+2025-04-01 13:26:23,751 - INFO - Current time: 13:26:23.751552, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:26:25,816 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8fba3e44sm162335735e9.4 - gsmtp')
+2025-04-01 13:26:34,752 - INFO - Triggering scheduled popup
+2025-04-01 13:26:34,752 - INFO - trigger_popup signal emitted for scheduled popup
+2025-04-01 13:26:34,752 - INFO - MainLogicThread loop running
+2025-04-01 13:26:34,752 - WARNING - Config is default.
+2025-04-01 13:26:34,752 - WARNING - Config is default.
+2025-04-01 13:26:36,838 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b663564sm14347743f8f.32 - gsmtp')
+2025-04-01 13:26:36,838 - INFO - AlertDialog initialized
+2025-04-01 13:26:36,838 - INFO - Setting up AlertDialog UI
+2025-04-01 13:26:36,839 - ERROR - Sound playback failed: No file 'alert_sound.mp3' found in working directory 'C:\Users\USER\Documents\GitHub\Hoogland\dist'.
+2025-04-01 13:26:36,839 - INFO - Showing popup: Security Alert with sound=True
+2025-04-01 13:26:36,875 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b658838sm13914698f8f.5 - gsmtp')
+2025-04-01 13:26:36,875 - INFO - Current time: 13:26:36.875822, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:26:38,942 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8fbc1889sm155709875e9.16 - gsmtp')
+2025-04-01 13:26:38,954 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8314b9e9sm198401725e9.37 - gsmtp')
+2025-04-01 13:26:38,966 - INFO - Popup Security Alert completed
+2025-04-01 13:26:41,048 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d90000f48sm154953705e9.37 - gsmtp')
+2025-04-01 13:26:43,155 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b66a9d2sm14117228f8f.43 - gsmtp')
+2025-04-01 13:26:43,155 - INFO - Popup Security Alert completed
+2025-04-01 13:26:44,177 - INFO - Initiating cleanup
+2025-04-01 13:26:44,177 - WARNING - Config is default.
+2025-04-01 13:26:46,246 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d82e6adf6sm197339505e9.15 - gsmtp')
+2025-04-01 13:26:48,317 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8fba3ef1sm161630305e9.2 - gsmtp')
+2025-04-01 13:26:50,403 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b79e37bsm14338308f8f.61 - gsmtp')
+2025-04-01 13:26:51,876 - INFO - Triggering scheduled popup
+2025-04-01 13:26:51,876 - INFO - trigger_popup signal emitted for scheduled popup
+2025-04-01 13:26:52,462 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8314e110sm202352635e9.39 - gsmtp')
+2025-04-01 13:26:52,478 - INFO - Cleanup completed

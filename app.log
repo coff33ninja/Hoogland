@@ -475,3 +475,390 @@
 2025-04-01 10:58:01,502 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
 2025-04-01 10:58:01,882 - INFO - Email sent: Program Stopped
 2025-04-01 10:58:01,883 - INFO - Cleanup completed
+2025-04-01 12:37:30,260 - INFO - Qt application initialized
+2025-04-01 12:37:30,294 - INFO - System tray icon initialized
+2025-04-01 12:37:30,303 - INFO - Starting MainLogicThread
+2025-04-01 12:37:30,305 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 12:37:30,306 - INFO - Config file updated with corrected values
+2025-04-01 12:37:30,306 - INFO - MainLogicThread initialized successfully
+2025-04-01 12:37:30,306 - INFO - Starting ManualPopupThread
+2025-04-01 12:37:30,306 - INFO - ManualPopupThread initialized successfully
+2025-04-01 12:37:30,307 - INFO - MainLogicThread started
+2025-04-01 12:37:30,307 - INFO - ManualPopupThread started
+2025-04-01 12:37:30,307 - INFO - Starting Flask app in thread
+2025-04-01 12:37:30,308 - INFO - MainLogicThread loop running
+2025-04-01 12:37:30,308 - INFO - Starting Qt event loop
+2025-04-01 12:37:30,308 - INFO - SoundThread started
+2025-04-01 12:37:30,311 - INFO - Current time: 12:37:30.310081, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 12:37:30,342 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-01 12:37:30,342 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-01 12:37:50,817 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 12:37:50,817 - INFO - Processing manual popup: Stay awake!
+2025-04-01 12:37:50,820 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 12:37:50,821 - INFO - AlertDialog initialized
+2025-04-01 12:37:50,821 - INFO - Setting up AlertDialog UI
+2025-04-01 12:37:50,824 - INFO - Showing popup: Stay awake!
+2025-04-01 12:37:51,268 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 12:37:51,269 - INFO - 127.0.0.1 - - [01/Apr/2025 12:37:51] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 12:37:51,435 - INFO - 127.0.0.1 - - [01/Apr/2025 12:37:51] "GET /admin HTTP/1.1" 200 -
+2025-04-01 12:37:52,623 - INFO - Email sent: Alert Acknowledged
+2025-04-01 12:37:52,635 - INFO - Popup Stay awake! completed
+2025-04-01 12:38:01,207 - INFO - Manual popup requested: Security check!, sound: True
+2025-04-01 12:38:01,208 - INFO - Processing manual popup: Security check!
+2025-04-01 12:38:01,208 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 12:38:01,209 - INFO - AlertDialog initialized
+2025-04-01 12:38:01,209 - INFO - Setting up AlertDialog UI
+2025-04-01 12:38:01,209 - INFO - Showing popup: Security check!
+2025-04-01 12:38:01,576 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 12:38:01,576 - INFO - 127.0.0.1 - - [01/Apr/2025 12:38:01] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 12:38:01,602 - INFO - 127.0.0.1 - - [01/Apr/2025 12:38:01] "GET /admin HTTP/1.1" 200 -
+2025-04-01 12:38:03,227 - INFO - Email sent: Alert Acknowledged
+2025-04-01 12:38:03,244 - INFO - Popup Security check! completed
+2025-04-01 12:38:06,084 - INFO - Manual popup requested: Alert now!, sound: True
+2025-04-01 12:38:06,084 - INFO - Processing manual popup: Alert now!
+2025-04-01 12:38:06,084 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 12:38:06,085 - INFO - AlertDialog initialized
+2025-04-01 12:38:06,085 - INFO - Setting up AlertDialog UI
+2025-04-01 12:38:06,085 - INFO - Showing popup: Alert now!
+2025-04-01 12:38:06,497 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 12:38:06,497 - INFO - 127.0.0.1 - - [01/Apr/2025 12:38:06] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 12:38:06,549 - INFO - 127.0.0.1 - - [01/Apr/2025 12:38:06] "GET /admin HTTP/1.1" 200 -
+2025-04-01 12:38:07,930 - INFO - Email sent: Alert Acknowledged
+2025-04-01 12:38:07,939 - INFO - Popup Alert now! completed
+2025-04-01 12:38:29,002 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 12:38:29,003 - INFO - Processing manual popup: Stay awake!
+2025-04-01 12:38:29,003 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 12:38:29,003 - INFO - AlertDialog initialized
+2025-04-01 12:38:29,004 - INFO - Setting up AlertDialog UI
+2025-04-01 12:38:29,004 - INFO - Showing popup: Stay awake!
+2025-04-01 12:38:29,358 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 12:38:29,359 - INFO - 127.0.0.1 - - [01/Apr/2025 12:38:29] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 12:38:29,455 - INFO - 127.0.0.1 - - [01/Apr/2025 12:38:29] "GET /admin HTTP/1.1" 200 -
+2025-04-01 12:38:31,327 - INFO - Email sent: Alert Acknowledged
+2025-04-01 12:38:31,343 - INFO - Popup Stay awake! completed
+2025-04-01 12:38:44,276 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 12:38:44,276 - INFO - Processing manual popup: Stay awake!
+2025-04-01 12:38:44,276 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 12:38:44,277 - INFO - AlertDialog initialized
+2025-04-01 12:38:44,277 - INFO - Setting up AlertDialog UI
+2025-04-01 12:38:44,278 - INFO - Showing popup: Stay awake!
+2025-04-01 12:38:44,641 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 12:38:44,641 - INFO - 127.0.0.1 - - [01/Apr/2025 12:38:44] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 12:38:44,662 - INFO - 127.0.0.1 - - [01/Apr/2025 12:38:44] "GET /admin HTTP/1.1" 200 -
+2025-04-01 12:39:22,574 - INFO - Email sent: Alert Window Closed Without Acknowledging
+2025-04-01 12:39:22,585 - INFO - Popup Stay awake! completed
+2025-04-01 12:42:13,954 - INFO - Initiating cleanup
+2025-04-01 12:42:14,336 - INFO - Email sent: Program Stopped
+2025-04-01 12:42:14,336 - INFO - Cleanup completed
+2025-04-01 12:42:24,121 - INFO - Qt application initialized
+2025-04-01 12:42:24,150 - INFO - System tray icon initialized
+2025-04-01 12:42:24,151 - INFO - Starting MainLogicThread
+2025-04-01 12:42:24,155 - INFO - MainLogicThread initialized successfully
+2025-04-01 12:42:24,155 - INFO - Starting ManualPopupThread
+2025-04-01 12:42:24,155 - INFO - ManualPopupThread initialized successfully
+2025-04-01 12:42:24,156 - INFO - Starting Flask app in thread
+2025-04-01 12:42:24,156 - INFO - Starting Qt event loop
+2025-04-01 12:42:24,156 - INFO - MainLogicThread started
+2025-04-01 12:42:24,156 - INFO - SoundThread started
+2025-04-01 12:42:24,157 - INFO - MainLogicThread loop running
+2025-04-01 12:42:24,157 - INFO - ManualPopupThread started
+2025-04-01 12:42:24,157 - INFO - Current time: 12:42:24.157845, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 12:42:24,189 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-01 12:42:24,189 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-01 12:43:16,280 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 12:43:16,280 - INFO - Processing manual popup: Stay awake!
+2025-04-01 12:43:16,281 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 12:43:16,281 - ERROR - Error in ManualPopupThread: name 'popup_queueCLEAR' is not defined
+2025-04-01 12:43:16,282 - INFO - AlertDialog initialized
+2025-04-01 12:43:16,282 - INFO - Setting up AlertDialog UI
+2025-04-01 12:43:16,648 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 12:43:16,648 - INFO - 127.0.0.1 - - [01/Apr/2025 12:43:16] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 12:43:16,681 - INFO - Email sent: ManualPopupThread Error
+2025-04-01 12:43:16,690 - INFO - 127.0.0.1 - - [01/Apr/2025 12:43:16] "GET /admin HTTP/1.1" 200 -
+2025-04-01 12:45:53,755 - INFO - Initiating cleanup
+2025-04-01 12:45:54,134 - INFO - Email sent: Program Stopped
+2025-04-01 12:45:54,134 - INFO - Cleanup completed
+2025-04-01 12:46:02,815 - INFO - Qt application initialized
+2025-04-01 12:46:02,852 - INFO - System tray icon initialized
+2025-04-01 12:46:02,854 - INFO - Starting MainLogicThread
+2025-04-01 12:46:02,858 - INFO - MainLogicThread initialized successfully
+2025-04-01 12:46:02,858 - INFO - Starting ManualPopupThread
+2025-04-01 12:46:02,859 - INFO - ManualPopupThread initialized successfully
+2025-04-01 12:46:02,860 - INFO - MainLogicThread started
+2025-04-01 12:46:02,860 - INFO - Starting Flask app in thread
+2025-04-01 12:46:02,860 - INFO - ManualPopupThread started
+2025-04-01 12:46:02,860 - INFO - MainLogicThread loop running
+2025-04-01 12:46:02,860 - INFO - Starting Qt event loop
+2025-04-01 12:46:02,860 - INFO - SoundThread started
+2025-04-01 12:46:02,862 - INFO - Current time: 12:46:02.862632, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 12:46:02,900 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-01 12:46:02,900 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-01 12:46:09,770 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 12:46:09,770 - INFO - Processing manual popup: Stay awake!
+2025-04-01 12:46:09,771 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 12:46:09,771 - ERROR - Error in ManualPopupThread: name 'popup_queueCLEAR' is not defined
+2025-04-01 12:46:09,772 - INFO - AlertDialog initialized
+2025-04-01 12:46:09,772 - INFO - Setting up AlertDialog UI
+2025-04-01 12:46:10,128 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 12:46:10,128 - INFO - 127.0.0.1 - - [01/Apr/2025 12:46:10] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 12:46:10,149 - INFO - Email sent: ManualPopupThread Error
+2025-04-01 12:46:10,165 - INFO - 127.0.0.1 - - [01/Apr/2025 12:46:10] "GET /admin HTTP/1.1" 200 -
+2025-04-01 12:46:21,395 - INFO - Initiating cleanup
+2025-04-01 12:46:21,745 - INFO - Email sent: Program Stopped
+2025-04-01 12:46:21,745 - INFO - Cleanup completed
+2025-04-01 12:48:48,208 - INFO - Qt application initialized
+2025-04-01 12:48:48,237 - INFO - System tray icon initialized
+2025-04-01 12:48:48,240 - INFO - Starting MainLogicThread
+2025-04-01 12:48:48,243 - INFO - MainLogicThread initialized successfully
+2025-04-01 12:48:48,243 - INFO - Starting ManualPopupThread
+2025-04-01 12:48:48,243 - INFO - ManualPopupThread initialized successfully
+2025-04-01 12:48:48,244 - INFO - MainLogicThread started
+2025-04-01 12:48:48,245 - INFO - ManualPopupThread started
+2025-04-01 12:48:48,245 - INFO - MainLogicThread loop running
+2025-04-01 12:48:48,245 - INFO - Starting Flask app in thread
+2025-04-01 12:48:48,246 - INFO - Starting Qt event loop
+2025-04-01 12:48:48,246 - INFO - SoundThread started
+2025-04-01 12:48:48,246 - INFO - Current time: 12:48:48.246922, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 12:48:48,277 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-01 12:48:48,277 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-01 12:49:00,228 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 12:49:00,231 - INFO - Processing manual popup: Stay awake!
+2025-04-01 12:49:00,232 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 12:49:00,233 - INFO - AlertDialog initialized
+2025-04-01 12:49:00,233 - INFO - Setting up AlertDialog UI
+2025-04-01 12:49:00,238 - INFO - Showing popup: Stay awake! with sound=True
+2025-04-01 12:49:00,240 - INFO - Sound started in loop
+2025-04-01 12:49:00,823 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 12:49:00,824 - INFO - 127.0.0.1 - - [01/Apr/2025 12:49:00] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 12:49:00,925 - INFO - 127.0.0.1 - - [01/Apr/2025 12:49:00] "GET /admin HTTP/1.1" 200 -
+2025-04-01 12:49:02,249 - INFO - Sound stopped
+2025-04-01 12:49:02,617 - INFO - Email sent: Alert Acknowledged
+2025-04-01 12:49:02,631 - INFO - Popup Stay awake! completed
+2025-04-01 12:49:26,978 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 12:49:26,979 - INFO - Processing manual popup: Stay awake!
+2025-04-01 12:49:26,979 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 12:49:26,980 - INFO - AlertDialog initialized
+2025-04-01 12:49:26,980 - INFO - Setting up AlertDialog UI
+2025-04-01 12:49:26,982 - INFO - Showing popup: Stay awake! with sound=True
+2025-04-01 12:49:26,982 - INFO - Sound started in loop
+2025-04-01 12:49:27,346 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 12:49:27,346 - INFO - 127.0.0.1 - - [01/Apr/2025 12:49:27] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 12:49:27,376 - INFO - 127.0.0.1 - - [01/Apr/2025 12:49:27] "GET /admin HTTP/1.1" 200 -
+2025-04-01 12:49:30,392 - INFO - Sound stopped
+2025-04-01 12:49:30,750 - INFO - Email sent: Alert Acknowledged
+2025-04-01 12:49:30,762 - INFO - Popup Stay awake! completed
+2025-04-01 12:56:54,047 - INFO - Initiating cleanup
+2025-04-01 12:56:54,427 - INFO - Email sent: Program Stopped
+2025-04-01 12:56:54,427 - INFO - Cleanup completed
+2025-04-01 12:58:03,174 - INFO - Qt application initialized
+2025-04-01 12:58:03,216 - INFO - System tray icon initialized
+2025-04-01 12:58:03,217 - INFO - Starting MainLogicThread
+2025-04-01 12:58:03,219 - INFO - MainLogicThread initialized successfully
+2025-04-01 12:58:03,219 - INFO - Starting ManualPopupThread
+2025-04-01 12:58:03,220 - INFO - ManualPopupThread initialized successfully
+2025-04-01 12:58:03,221 - INFO - Starting Flask app with remote access on 0.0.0.0:5000
+2025-04-01 12:58:03,221 - INFO - MainLogicThread started
+2025-04-01 12:58:03,221 - INFO - Starting Qt event loop
+2025-04-01 12:58:03,221 - INFO - ManualPopupThread started
+2025-04-01 12:58:03,221 - INFO - MainLogicThread loop running
+2025-04-01 12:58:03,221 - INFO - SoundThread started
+2025-04-01 12:58:03,223 - INFO - Current time: 12:58:03.223204, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 12:58:03,268 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.0.0.101:5000
+2025-04-01 12:58:03,268 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-01 12:58:09,639 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 12:58:09,639 - INFO - Processing manual popup: Stay awake!
+2025-04-01 12:58:09,640 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 12:58:09,641 - INFO - AlertDialog initialized
+2025-04-01 12:58:09,641 - INFO - Setting up AlertDialog UI
+2025-04-01 12:58:09,656 - INFO - Showing popup: Stay awake! with sound=True
+2025-04-01 12:58:09,656 - INFO - Sound started in loop
+2025-04-01 12:58:10,021 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 12:58:10,021 - INFO - 127.0.0.1 - - [01/Apr/2025 12:58:10] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 12:58:10,109 - INFO - 127.0.0.1 - - [01/Apr/2025 12:58:10] "GET /admin HTTP/1.1" 200 -
+2025-04-01 12:58:18,992 - INFO - Sound stopped
+2025-04-01 12:58:19,347 - INFO - Email sent: Alert Acknowledged
+2025-04-01 12:58:19,355 - INFO - Popup Stay awake! completed
+2025-04-01 12:58:52,534 - INFO - Initiating cleanup
+2025-04-01 12:58:52,893 - INFO - Email sent: Program Stopped
+2025-04-01 12:58:52,893 - INFO - Cleanup completed
+2025-04-01 13:05:29,829 - INFO - Qt application initialized
+2025-04-01 13:05:29,859 - INFO - System tray icon initialized
+2025-04-01 13:05:29,861 - INFO - Starting MainLogicThread
+2025-04-01 13:05:29,864 - INFO - MainLogicThread initialized successfully
+2025-04-01 13:05:29,864 - INFO - Starting ManualPopupThread
+2025-04-01 13:05:29,865 - INFO - ManualPopupThread initialized successfully
+2025-04-01 13:05:29,866 - INFO - MainLogicThread started
+2025-04-01 13:05:29,866 - INFO - Starting Gunicorn server on 0.0.0.0:5000
+2025-04-01 13:05:29,866 - INFO - MainLogicThread loop running
+2025-04-01 13:05:29,866 - INFO - Starting Qt event loop
+2025-04-01 13:05:29,866 - INFO - ManualPopupThread started
+2025-04-01 13:05:29,867 - INFO - SoundThread started
+2025-04-01 13:05:29,867 - INFO - Current time: 13:05:29.867870, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:05:29,890 - INFO - Gunicorn started with PID 13108
+2025-04-01 13:05:46,657 - INFO - Initiating cleanup
+2025-04-01 13:05:46,659 - INFO - Gunicorn process terminated
+2025-04-01 13:05:47,217 - INFO - Email sent: Program Stopped
+2025-04-01 13:05:47,217 - INFO - Cleanup completed
+2025-04-01 13:09:01,663 - INFO - Qt application initialized
+2025-04-01 13:09:01,691 - INFO - System tray icon initialized
+2025-04-01 13:09:01,693 - INFO - Starting MainLogicThread
+2025-04-01 13:09:01,695 - INFO - MainLogicThread initialized successfully
+2025-04-01 13:09:01,695 - INFO - Starting ManualPopupThread
+2025-04-01 13:09:01,697 - INFO - ManualPopupThread initialized successfully
+2025-04-01 13:09:01,698 - INFO - Starting Gunicorn server on 0.0.0.0:5000
+2025-04-01 13:09:01,699 - INFO - Starting Qt event loop
+2025-04-01 13:09:01,699 - INFO - MainLogicThread started
+2025-04-01 13:09:01,699 - INFO - MainLogicThread loop running
+2025-04-01 13:09:01,699 - INFO - ManualPopupThread started
+2025-04-01 13:09:01,699 - INFO - SoundThread started
+2025-04-01 13:09:01,700 - INFO - Current time: 13:09:01.700199, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:09:06,679 - INFO - Initiating cleanup
+2025-04-01 13:09:07,127 - INFO - Email sent: Program Stopped
+2025-04-01 13:09:07,127 - INFO - Cleanup completed
+2025-04-01 13:12:10,551 - INFO - Qt application initialized
+2025-04-01 13:12:10,580 - INFO - System tray icon initialized
+2025-04-01 13:12:10,582 - INFO - Starting MainLogicThread
+2025-04-01 13:12:10,585 - INFO - MainLogicThread initialized successfully
+2025-04-01 13:12:10,586 - INFO - Starting ManualPopupThread
+2025-04-01 13:12:10,586 - INFO - ManualPopupThread initialized successfully
+2025-04-01 13:12:10,587 - INFO - MainLogicThread started
+2025-04-01 13:12:10,588 - INFO - Starting Waitress server on 0.0.0.0:5000
+2025-04-01 13:12:10,588 - INFO - ManualPopupThread started
+2025-04-01 13:12:10,588 - INFO - MainLogicThread loop running
+2025-04-01 13:12:10,588 - INFO - Starting Qt event loop
+2025-04-01 13:12:10,588 - INFO - SoundThread started
+2025-04-01 13:12:10,589 - INFO - Current time: 13:12:10.588674, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:12:10,595 - INFO - Serving on http://0.0.0.0:5000
+2025-04-01 13:12:17,058 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 13:12:17,058 - INFO - Processing manual popup: Stay awake!
+2025-04-01 13:12:17,058 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 13:12:17,059 - INFO - AlertDialog initialized
+2025-04-01 13:12:17,060 - INFO - Setting up AlertDialog UI
+2025-04-01 13:12:17,071 - INFO - Showing popup: Stay awake! with sound=True
+2025-04-01 13:12:17,071 - INFO - Sound started in loop
+2025-04-01 13:12:17,471 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 13:12:21,688 - INFO - Sound stopped
+2025-04-01 13:12:22,036 - INFO - Email sent: Alert Acknowledged
+2025-04-01 13:12:22,048 - INFO - Popup Stay awake! completed
+2025-04-01 13:15:45,554 - INFO - Initiating cleanup
+2025-04-01 13:15:45,930 - INFO - Email sent: Program Stopped
+2025-04-01 13:15:45,930 - INFO - Cleanup completed
+2025-04-01 13:15:51,445 - INFO - Qt application initialized
+2025-04-01 13:15:51,472 - INFO - System tray icon initialized
+2025-04-01 13:15:51,474 - INFO - Starting MainLogicThread
+2025-04-01 13:15:51,477 - INFO - MainLogicThread initialized successfully
+2025-04-01 13:15:51,477 - INFO - Starting ManualPopupThread
+2025-04-01 13:15:51,479 - INFO - ManualPopupThread initialized successfully
+2025-04-01 13:15:51,480 - INFO - Starting Waitress server on 0.0.0.0:5000
+2025-04-01 13:15:51,480 - INFO - Starting Qt event loop
+2025-04-01 13:15:51,481 - INFO - MainLogicThread started
+2025-04-01 13:15:51,481 - INFO - MainLogicThread loop running
+2025-04-01 13:15:51,481 - INFO - ManualPopupThread started
+2025-04-01 13:15:51,481 - INFO - SoundThread started
+2025-04-01 13:15:51,482 - INFO - Current time: 13:15:51.481431, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:15:51,485 - INFO - Serving on http://0.0.0.0:5000
+2025-04-01 13:16:40,773 - INFO - Initiating cleanup
+2025-04-01 13:16:41,701 - INFO - Email sent: Program Stopped
+2025-04-01 13:16:41,701 - INFO - Cleanup completed
+2025-04-01 13:16:44,116 - INFO - Qt application initialized
+2025-04-01 13:16:44,144 - INFO - System tray icon initialized
+2025-04-01 13:16:44,145 - INFO - Starting MainLogicThread
+2025-04-01 13:16:44,149 - INFO - MainLogicThread initialized successfully
+2025-04-01 13:16:44,149 - INFO - Starting ManualPopupThread
+2025-04-01 13:16:44,149 - INFO - ManualPopupThread initialized successfully
+2025-04-01 13:16:44,151 - INFO - MainLogicThread started
+2025-04-01 13:16:44,151 - INFO - Starting Waitress server on 0.0.0.0:5000
+2025-04-01 13:16:44,151 - INFO - ManualPopupThread started
+2025-04-01 13:16:44,151 - INFO - MainLogicThread loop running
+2025-04-01 13:16:44,151 - INFO - Starting Qt event loop
+2025-04-01 13:16:44,151 - INFO - SoundThread started
+2025-04-01 13:16:44,152 - INFO - Current time: 13:16:44.152338, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:16:44,156 - INFO - Serving on http://0.0.0.0:5000
+2025-04-01 13:17:50,028 - INFO - Initiating cleanup
+2025-04-01 13:17:50,442 - INFO - Email sent: Program Stopped
+2025-04-01 13:17:50,443 - INFO - Cleanup completed
+2025-04-01 13:17:53,141 - INFO - Qt application initialized
+2025-04-01 13:17:53,168 - INFO - System tray icon initialized
+2025-04-01 13:17:53,171 - INFO - Starting MainLogicThread
+2025-04-01 13:17:53,174 - INFO - MainLogicThread initialized successfully
+2025-04-01 13:17:53,174 - INFO - Starting ManualPopupThread
+2025-04-01 13:17:53,174 - INFO - ManualPopupThread initialized successfully
+2025-04-01 13:17:53,175 - INFO - Starting Waitress server on 0.0.0.0:5000
+2025-04-01 13:17:53,175 - INFO - Starting Qt event loop
+2025-04-01 13:17:53,176 - INFO - MainLogicThread started
+2025-04-01 13:17:53,176 - INFO - ManualPopupThread started
+2025-04-01 13:17:53,176 - INFO - SoundThread started
+2025-04-01 13:17:53,176 - INFO - MainLogicThread loop running
+2025-04-01 13:17:53,177 - INFO - Current time: 13:17:53.177785, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:17:53,181 - INFO - Serving on http://0.0.0.0:5000
+2025-04-01 13:18:16,021 - INFO - User logged in successfully
+2025-04-01 13:18:20,137 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 13:18:20,137 - INFO - Processing manual popup: Stay awake!
+2025-04-01 13:18:20,137 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 13:18:20,137 - INFO - AlertDialog initialized
+2025-04-01 13:18:20,137 - INFO - Setting up AlertDialog UI
+2025-04-01 13:18:20,140 - INFO - Showing popup: Stay awake! with sound=True
+2025-04-01 13:18:20,140 - INFO - Sound started in loop
+2025-04-01 13:18:20,552 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 13:18:23,727 - INFO - Email sent: Alert Window Closed Without Acknowledging
+2025-04-01 13:18:23,751 - INFO - Sound stopped
+2025-04-01 13:18:23,770 - INFO - Popup Stay awake! completed
+2025-04-01 13:20:26,553 - INFO - Initiating cleanup
+2025-04-01 13:20:26,927 - INFO - Email sent: Program Stopped
+2025-04-01 13:20:26,927 - INFO - Cleanup completed
+2025-04-01 13:26:59,440 - INFO - Qt application initialized
+2025-04-01 13:26:59,481 - INFO - System tray icon initialized
+2025-04-01 13:26:59,482 - INFO - Starting MainLogicThread
+2025-04-01 13:26:59,488 - INFO - MainLogicThread initialized successfully
+2025-04-01 13:26:59,488 - INFO - Starting ManualPopupThread
+2025-04-01 13:26:59,488 - INFO - ManualPopupThread initialized successfully
+2025-04-01 13:26:59,489 - INFO - Starting Waitress server on 0.0.0.0:5000
+2025-04-01 13:26:59,489 - INFO - Starting Qt event loop
+2025-04-01 13:26:59,489 - INFO - MainLogicThread started
+2025-04-01 13:26:59,490 - INFO - ManualPopupThread started
+2025-04-01 13:26:59,490 - INFO - SoundThread started
+2025-04-01 13:26:59,490 - INFO - MainLogicThread loop running
+2025-04-01 13:26:59,491 - INFO - Current time: 13:26:59.491925, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:26:59,495 - INFO - Serving on http://0.0.0.0:5000
+2025-04-01 13:27:16,884 - INFO - User logged in successfully
+2025-04-01 13:27:40,492 - INFO - User logged in successfully
+2025-04-01 13:27:58,003 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 13:27:58,003 - INFO - Processing manual popup: Stay awake!
+2025-04-01 13:27:58,003 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 13:27:58,004 - INFO - AlertDialog initialized
+2025-04-01 13:27:58,004 - INFO - Setting up AlertDialog UI
+2025-04-01 13:27:58,006 - INFO - Showing popup: Stay awake! with sound=True
+2025-04-01 13:27:58,009 - INFO - Sound started in loop
+2025-04-01 13:27:58,388 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 13:28:15,732 - INFO - Email sent: Alert Window Closed Without Acknowledging
+2025-04-01 13:28:15,756 - INFO - Sound stopped
+2025-04-01 13:28:15,785 - INFO - Popup Stay awake! completed
+2025-04-01 13:31:19,343 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 13:31:19,343 - INFO - Processing manual popup: Stay awake!
+2025-04-01 13:31:19,343 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 13:31:19,344 - INFO - AlertDialog initialized
+2025-04-01 13:31:19,344 - INFO - Setting up AlertDialog UI
+2025-04-01 13:31:19,345 - INFO - Showing popup: Stay awake! with sound=True
+2025-04-01 13:31:19,348 - INFO - Sound started in loop
+2025-04-01 13:31:19,757 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 13:31:50,423 - INFO - Email sent: Alert Window Closed Without Acknowledging
+2025-04-01 13:31:50,427 - INFO - Sound stopped
+2025-04-01 13:31:50,441 - INFO - Popup Stay awake! completed
+2025-04-01 13:35:51,149 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 13:35:51,149 - INFO - Processing manual popup: Stay awake!
+2025-04-01 13:35:51,151 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 13:35:51,151 - INFO - AlertDialog initialized
+2025-04-01 13:35:51,152 - INFO - Setting up AlertDialog UI
+2025-04-01 13:35:51,155 - INFO - Showing popup: Stay awake! with sound=True
+2025-04-01 13:35:51,156 - INFO - Sound started in loop
+2025-04-01 13:35:51,526 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 13:35:54,538 - INFO - Email sent: Alert Window Closed Without Acknowledging
+2025-04-01 13:35:54,564 - INFO - Sound stopped
+2025-04-01 13:35:54,607 - INFO - Popup Stay awake! completed

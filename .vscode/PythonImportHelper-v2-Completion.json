@@ -107,11 +107,27 @@
         "documentation": {}
     },
     {
-        "label": "playsound",
-        "importPath": "playsound",
-        "description": "playsound",
+        "label": "Queue",
+        "importPath": "queue",
+        "description": "queue",
         "isExtraImport": true,
-        "detail": "playsound",
+        "detail": "queue",
+        "documentation": {}
+    },
+    {
+        "label": "mixer",
+        "importPath": "pygame",
+        "description": "pygame",
+        "isExtraImport": true,
+        "detail": "pygame",
+        "documentation": {}
+    },
+    {
+        "label": "mixer",
+        "importPath": "pygame",
+        "description": "pygame",
+        "isExtraImport": true,
+        "detail": "pygame",
         "documentation": {}
     },
     {
@@ -155,6 +171,78 @@
         "documentation": {}
     },
     {
+        "label": "QSystemTrayIcon",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QMenu",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QDialog",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QLabel",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QPushButton",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QVBoxLayout",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QApplication",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QSystemTrayIcon",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QMenu",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
         "label": "QThread",
         "importPath": "PyQt6.QtCore",
         "description": "PyQt6.QtCore",
@@ -184,6 +272,134 @@
         "description": "PyQt6.QtCore",
         "isExtraImport": true,
         "detail": "PyQt6.QtCore",
+        "documentation": {}
+    },
+    {
+        "label": "QThread",
+        "importPath": "PyQt6.QtCore",
+        "description": "PyQt6.QtCore",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtCore",
+        "documentation": {}
+    },
+    {
+        "label": "pyqtSignal",
+        "importPath": "PyQt6.QtCore",
+        "description": "PyQt6.QtCore",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtCore",
+        "documentation": {}
+    },
+    {
+        "label": "QTimer",
+        "importPath": "PyQt6.QtCore",
+        "description": "PyQt6.QtCore",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtCore",
+        "documentation": {}
+    },
+    {
+        "label": "Qt",
+        "importPath": "PyQt6.QtCore",
+        "description": "PyQt6.QtCore",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtCore",
+        "documentation": {}
+    },
+    {
+        "label": "QIcon",
+        "importPath": "PyQt6.QtGui",
+        "description": "PyQt6.QtGui",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtGui",
+        "documentation": {}
+    },
+    {
+        "label": "QPixmap",
+        "importPath": "PyQt6.QtGui",
+        "description": "PyQt6.QtGui",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtGui",
+        "documentation": {}
+    },
+    {
+        "label": "QColor",
+        "importPath": "PyQt6.QtGui",
+        "description": "PyQt6.QtGui",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtGui",
+        "documentation": {}
+    },
+    {
+        "label": "QIcon",
+        "importPath": "PyQt6.QtGui",
+        "description": "PyQt6.QtGui",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtGui",
+        "documentation": {}
+    },
+    {
+        "label": "QPixmap",
+        "importPath": "PyQt6.QtGui",
+        "description": "PyQt6.QtGui",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtGui",
+        "documentation": {}
+    },
+    {
+        "label": "QColor",
+        "importPath": "PyQt6.QtGui",
+        "description": "PyQt6.QtGui",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtGui",
+        "documentation": {}
+    },
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "render_template",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "redirect",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "url_for",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "send_file",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
         "documentation": {}
     },
     {
@@ -275,6 +491,54 @@
         "documentation": {}
     },
     {
+        "label": "LoginManager",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
+        "label": "UserMixin",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
+        "label": "login_user",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
+        "label": "login_required",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
+        "label": "logout_user",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
+        "label": "secure_filename",
+        "importPath": "werkzeug.utils",
+        "description": "werkzeug.utils",
+        "isExtraImport": true,
+        "detail": "werkzeug.utils",
+        "documentation": {}
+    },
+    {
         "label": "secure_filename",
         "importPath": "werkzeug.utils",
         "description": "werkzeug.utils",
@@ -300,6 +564,22 @@
         "documentation": {}
     },
     {
+        "label": "MIMEText",
+        "importPath": "email.mime.text",
+        "description": "email.mime.text",
+        "isExtraImport": true,
+        "detail": "email.mime.text",
+        "documentation": {}
+    },
+    {
+        "label": "serve",
+        "importPath": "waitress",
+        "description": "waitress",
+        "isExtraImport": true,
+        "detail": "waitress",
+        "documentation": {}
+    },
+    {
         "label": "User",
         "kind": 6,
         "importPath": "app",
@@ -313,7 +593,7 @@
         "kind": 6,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "class AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound\n        self.start_time = time.time()\n        self.pressed = False\n        self.init_ui()",
+        "peekOfCode": "class AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound\n        self.start_time = time.time()\n        self.pressed = False\n        self.sound_thread = None",
         "detail": "app",
         "documentation": {}
     },
@@ -322,7 +602,7 @@
         "kind": 6,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "class ManualPopupThread(QThread):\n    trigger_popup = pyqtSignal(str, bool)\n    def __init__(self):\n        super().__init__()\n        logging.info(\"ManualPopupThread initialized successfully\")\n    def run(self):\n        logging.info(\"ManualPopupThread started\")\n        while not stop_event.is_set():\n            try:\n                # Wait for an item in the queue with a short timeout to check stop_event",
+        "peekOfCode": "class ManualPopupThread(QThread):\n    trigger_popup = pyqtSignal(str, bool)\n    def __init__(self):\n        super().__init__()\n        logging.info(\"ManualPopupThread initialized successfully\")\n    def run(self):\n        logging.info(\"ManualPopupThread started\")\n        while not stop_event.is_set():\n            try:\n                popup_data = popup_queue.get(timeout=1.0)",
         "detail": "app",
         "documentation": {}
     },
@@ -349,7 +629,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def load_user(user_id):\n    if user_id == \"admin\":\n        return user\n    return None\n# Global variables\nnotifications = []\npopup_queue = Queue()\nstop_event = threading.Event()\n# PyQt6 Application (initialized later in main thread)\nqt_app = None",
+        "peekOfCode": "def load_user(user_id):\n    if user_id == \"admin\":\n        return user\n    return None\n# Global variables\nnotifications = []\npopup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None\n# Initialize pygame mixer",
         "detail": "app",
         "documentation": {}
     },
@@ -385,7 +665,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def login():\n    if request.method == \"POST\":\n        if request.form[\"username\"] == \"admin\" and request.form[\"password\"] == \"password\":\n            login_user(user)\n            return redirect(url_for(\"admin\"))\n        return \"Invalid credentials\"\n    return render_template(\"login.html\")\n@app.route(\"/logout\")\n@login_required\ndef logout():",
+        "peekOfCode": "def login():\n    if request.method == \"POST\":\n        if request.form[\"username\"] == \"admin\" and request.form[\"password\"] == \"password\":\n            login_user(user)\n            logging.info(\"User logged in successfully\")\n            return redirect(url_for(\"admin\"))\n        logging.warning(\"Invalid login attempt\")\n        return \"Invalid credentials\"\n    return render_template(\"login.html\")\n@app.route(\"/logout\")",
         "detail": "app",
         "documentation": {}
     },
@@ -457,16 +737,16 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def cleanup(signum=None, frame=None):\n    logging.info(\"Initiating cleanup\")\n    stop_event.set()\n    config = load_config()\n    send_email(config, \"Program Stopped\", \"Program stopped due to user request or exception.\")\n    if qt_app:\n        qt_app.quit()\n    logging.info(\"Cleanup completed\")\n    sys.exit(0)\n# Signal handlers",
+        "peekOfCode": "def cleanup(signum=None, frame=None):\n    logging.info(\"Initiating cleanup\")\n    stop_event.set()\n    config = load_config()\n    mixer.music.stop()\n    send_email(config, \"Program Stopped\", \"Program stopped due to user request or exception.\")\n    if qt_app:\n        qt_app.quit()\n    logging.info(\"Cleanup completed\")\n    sys.exit(0)",
         "detail": "app",
         "documentation": {}
     },
     {
-        "label": "run_flask",
+        "label": "run_waitress",
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def run_flask():\n    logging.info(\"Starting Flask app in thread\")\n    app.run(debug=True, use_reloader=False)\n# Update the __main__ section to start the new thread\nif __name__ == \"__main__\":\n    # Initialize Qt app in main thread\n    qt_app = QApplication(sys.argv)\n    logging.info(\"Qt application initialized\")\n    # Create a hidden main window to keep the event loop alive\n    from PyQt6.QtWidgets import QMainWindow",
+        "peekOfCode": "def run_waitress():\n    logging.info(\"Starting Waitress server on 0.0.0.0:5000\")\n    serve(app, host=\"0.0.0.0\", port=5000, threads=2)\n# Main execution\nif __name__ == \"__main__\":\n    # Initialize Qt app\n    qt_app = QApplication(sys.argv)\n    qt_app.setQuitOnLastWindowClosed(False)\n    logging.info(\"Qt application initialized\")\n    # Create a self-generated icon (red square)",
         "detail": "app",
         "documentation": {}
     },
@@ -475,7 +755,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "app = Flask(__name__)\napp.secret_key = \"your_secret_key\"  # Change this to a secure random key in production\n# Flask-Login setup\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader",
+        "peekOfCode": "app = Flask(__name__)\napp.secret_key = os.urandom(24).hex()  # Secure random key\n# Flask-Login setup\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"  # Redirect to login if unauthorized\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"",
         "detail": "app",
         "documentation": {}
     },
@@ -484,7 +764,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "app.secret_key = \"your_secret_key\"  # Change this to a secure random key in production\n# Flask-Login setup\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):",
+        "peekOfCode": "app.secret_key = os.urandom(24).hex()  # Secure random key\n# Flask-Login setup\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"  # Redirect to login if unauthorized\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader",
         "detail": "app",
         "documentation": {}
     },
@@ -493,7 +773,16 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "login_manager = LoginManager()\nlogin_manager.init_app(app)\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):\n    if user_id == \"admin\":\n        return user",
+        "peekOfCode": "login_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"  # Redirect to login if unauthorized\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):\n    if user_id == \"admin\":",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "login_manager.login_view",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "login_manager.login_view = \"login\"  # Redirect to login if unauthorized\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):\n    if user_id == \"admin\":\n        return user\n    return None",
         "detail": "app",
         "documentation": {}
     },
@@ -520,7 +809,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "notifications = []\npopup_queue = Queue()\nstop_event = threading.Event()\n# PyQt6 Application (initialized later in main thread)\nqt_app = None\n# Popup Dialog Class\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")",
+        "peekOfCode": "notifications = []\npopup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None\n# Initialize pygame mixer\nmixer.init()\n# AlertDialog class\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()",
         "detail": "app",
         "documentation": {}
     },
@@ -529,7 +818,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "popup_queue = Queue()\nstop_event = threading.Event()\n# PyQt6 Application (initialized later in main thread)\nqt_app = None\n# Popup Dialog Class\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config",
+        "peekOfCode": "popup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None\n# Initialize pygame mixer\nmixer.init()\n# AlertDialog class\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")",
         "detail": "app",
         "documentation": {}
     },
@@ -538,7 +827,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "stop_event = threading.Event()\n# PyQt6 Application (initialized later in main thread)\nqt_app = None\n# Popup Dialog Class\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message",
+        "peekOfCode": "stop_event = threading.Event()\nqt_app = None\n# Initialize pygame mixer\nmixer.init()\n# AlertDialog class\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config",
         "detail": "app",
         "documentation": {}
     },
@@ -547,8 +836,260 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "qt_app = None\n# Popup Dialog Class\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound\n        self.start_time = time.time()",
+        "peekOfCode": "qt_app = None\n# Initialize pygame mixer\nmixer.init()\n# AlertDialog class\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message",
         "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "kind": 6,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "class User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):\n    if user_id == \"admin\":\n        return user\n    return None\n# Global variables",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "AlertDialog",
+        "kind": 6,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "class AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound\n        self.start_time = time.time()\n        self.pressed = False\n        self.sound_thread = None",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "ManualPopupThread",
+        "kind": 6,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "class ManualPopupThread(QThread):\n    trigger_popup = pyqtSignal(str, bool)\n    def __init__(self):\n        super().__init__()\n        logging.info(\"ManualPopupThread initialized successfully\")\n    def run(self):\n        logging.info(\"ManualPopupThread started\")\n        while not stop_event.is_set():\n            try:\n                popup_data = popup_queue.get(timeout=1.0)",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "MainLogicThread",
+        "kind": 6,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "class MainLogicThread(QThread):\n    trigger_popup = pyqtSignal(str, bool)\n    def __init__(self):\n        super().__init__()\n        try:\n            self.config = load_config()\n            logging.info(\"MainLogicThread initialized successfully\")\n        except Exception as e:\n            logging.error(f\"Failed to initialize MainLogicThread: {str(e)}\")\n            raise",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "SoundThread",
+        "kind": 6,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "class SoundThread(QThread):\n    def __init__(self, config):\n        super().__init__()\n        self.config = config\n    def run(self):\n        logging.info(\"SoundThread started\")\n        while not stop_event.is_set():\n            now = datetime.datetime.now()\n            start_time = datetime.datetime.strptime(self.config[\"start_time\"], \"%H:%M\").time()\n            end_time = datetime.datetime.strptime(self.config[\"end_time\"], \"%H:%M\").time()",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "load_user",
+        "kind": 2,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "def load_user(user_id):\n    if user_id == \"admin\":\n        return user\n    return None\n# Global variables\nnotifications = []\npopup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None\n# Initialize pygame mixer",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "load_config",
+        "kind": 2,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "def load_config():\n    config_path = \"config.json\"\n    default_config = {\n        \"sender_email\": \"your_email@example.com\",\n        \"password\": \"your_password\",\n        \"recipient_email\": \"recipient@example.com\",\n        \"smtp_server\": \"smtp.gmail.com\",\n        \"smtp_port\": 587,\n        \"start_time\": \"00:00\",\n        \"end_time\": \"23:59\",",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "send_email",
+        "kind": 2,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "def send_email(config, subject, message):\n    try:\n        msg = MIMEText(message)\n        msg[\"Subject\"] = subject\n        msg[\"From\"] = config[\"sender_email\"]\n        msg[\"To\"] = config[\"recipient_email\"]\n        with smtplib.SMTP(config[\"smtp_server\"], config[\"smtp_port\"]) as server:\n            server.starttls()\n            server.login(config[\"sender_email\"], config[\"password\"])\n            server.sendmail(config[\"sender_email\"], config[\"recipient_email\"], msg.as_string())",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "calculate_executable_hash",
+        "kind": 2,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "def calculate_executable_hash():\n    if getattr(sys, \"frozen\", False):\n        exe_path = sys.executable\n        try:\n            with open(exe_path, \"rb\") as f:\n                return hashlib.sha256(f.read()).hexdigest()\n        except Exception as e:\n            logging.error(f\"Hash calculation failed: {str(e)}\")\n            send_email(load_config(), \"Hash Error\", f\"Failed to calculate hash: {str(e)}\")\n            return None",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "login",
+        "kind": 2,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "def login():\n    if request.method == \"POST\":\n        if request.form[\"username\"] == \"admin\" and request.form[\"password\"] == \"password\":\n            login_user(user)\n            return redirect(url_for(\"admin\"))\n        return \"Invalid credentials\"\n    return render_template(\"login.html\")\n@app.route(\"/logout\")\n@login_required\ndef logout():",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "logout",
+        "kind": 2,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "def logout():\n    logout_user()\n    return redirect(url_for(\"login\"))\n@app.route(\"/logs\")\n@login_required\ndef logs():\n    try:\n        with open(\"app.log\", \"r\") as f:\n            logs = f.readlines()\n    except FileNotFoundError:",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "logs",
+        "kind": 2,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "def logs():\n    try:\n        with open(\"app.log\", \"r\") as f:\n            logs = f.readlines()\n    except FileNotFoundError:\n        logs = [\"Log file not found.\"]\n    return render_template(\"logs.html\", logs=logs)\n@app.route(\"/admin\", methods=[\"GET\", \"POST\"])\n@login_required\ndef admin():",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "admin",
+        "kind": 2,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "def admin():\n    config = load_config()\n    backups = [f for f in os.listdir() if f.startswith(\"config_backup_\") and f.endswith(\".json\")]\n    if request.method == \"POST\":\n        try:\n            config = {\n                \"sender_email\": request.form[\"sender_email\"],\n                \"password\": request.form[\"password\"],\n                \"recipient_email\": request.form[\"recipient_email\"],\n                \"smtp_server\": request.form[\"smtp_server\"],",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "trigger_popup",
+        "kind": 2,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "def trigger_popup():\n    config = load_config()\n    message_type = request.form[\"message_type\"]\n    if message_type == \"custom\":\n        message = request.form[\"custom_message\"]\n    else:\n        message = message_type\n    play_sound = request.form.get(\"play_sound\") == \"on\"\n    popup_queue.put({\"message\": message, \"play_sound\": play_sound})\n    logging.info(f\"Manual popup requested: {message}, sound: {play_sound}\")",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "get_notifications",
+        "kind": 2,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "def get_notifications():\n    return render_template(\"notifications.html\", notifications=notifications)\n@app.route(\"/download_backup\")\n@login_required\ndef download_backup():\n    backups = [f for f in os.listdir() if f.startswith(\"config_backup_\") and f.endswith(\".json\")]\n    if backups:\n        latest_backup = max(backups, key=os.path.getctime)\n        return send_file(latest_backup, as_attachment=True)\n    return \"No backups available.\", 404",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "download_backup",
+        "kind": 2,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "def download_backup():\n    backups = [f for f in os.listdir() if f.startswith(\"config_backup_\") and f.endswith(\".json\")]\n    if backups:\n        latest_backup = max(backups, key=os.path.getctime)\n        return send_file(latest_backup, as_attachment=True)\n    return \"No backups available.\", 404\n@app.route(\"/restore_config\", methods=[\"POST\"])\n@login_required\ndef restore_config():\n    config = load_config()",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "restore_config",
+        "kind": 2,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "def restore_config():\n    config = load_config()\n    if \"config_file\" in request.files and request.files[\"config_file\"].filename != \"\":\n        file = request.files[\"config_file\"]\n        filename = secure_filename(file.filename)\n        file.save(filename)\n        try:\n            with open(filename, \"r\") as f:\n                new_config = json.load(f)\n            with open(\"config.json\", \"w\") as f:",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "cleanup",
+        "kind": 2,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "def cleanup(signum=None, frame=None):\n    logging.info(\"Initiating cleanup\")\n    stop_event.set()\n    config = load_config()\n    mixer.music.stop()\n    send_email(config, \"Program Stopped\", \"Program stopped due to user request or exception.\")\n    if qt_app:\n        qt_app.quit()\n    logging.info(\"Cleanup completed\")\n    sys.exit(0)",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "run_flask",
+        "kind": 2,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "def run_flask():\n    logging.info(\"Starting Flask app with remote access on 0.0.0.0:5000\")\n    app.run(host=\"0.0.0.0\", port=5000, debug=True, use_reloader=False)\n# Main execution\nif __name__ == \"__main__\":\n    # Initialize Qt app\n    qt_app = QApplication(sys.argv)\n    qt_app.setQuitOnLastWindowClosed(False)\n    logging.info(\"Qt application initialized\")\n    # Create a self-generated icon (red square)",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "app = Flask(__name__)\napp.secret_key = \"your_secret_key\"  # Change this to a secure key in production\n# Flask-Login setup\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "app.secret_key",
+        "kind": 5,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "app.secret_key = \"your_secret_key\"  # Change this to a secure key in production\n# Flask-Login setup\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "login_manager",
+        "kind": 5,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "login_manager = LoginManager()\nlogin_manager.init_app(app)\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):\n    if user_id == \"admin\":\n        return user",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "user",
+        "kind": 5,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "user = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):\n    if user_id == \"admin\":\n        return user\n    return None\n# Global variables\nnotifications = []\npopup_queue = Queue()",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "user.id",
+        "kind": 5,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "user.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):\n    if user_id == \"admin\":\n        return user\n    return None\n# Global variables\nnotifications = []\npopup_queue = Queue()\nstop_event = threading.Event()",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "notifications",
+        "kind": 5,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "notifications = []\npopup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None\n# Initialize pygame mixer\nmixer.init()\n# AlertDialog class (unchanged from your last version)\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "popup_queue",
+        "kind": 5,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "popup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None\n# Initialize pygame mixer\nmixer.init()\n# AlertDialog class (unchanged from your last version)\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "stop_event",
+        "kind": 5,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "stop_event = threading.Event()\nqt_app = None\n# Initialize pygame mixer\nmixer.init()\n# AlertDialog class (unchanged from your last version)\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config",
+        "detail": "app1",
+        "documentation": {}
+    },
+    {
+        "label": "qt_app",
+        "kind": 5,
+        "importPath": "app1",
+        "description": "app1",
+        "peekOfCode": "qt_app = None\n# Initialize pygame mixer\nmixer.init()\n# AlertDialog class (unchanged from your last version)\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message",
+        "detail": "app1",
         "documentation": {}
     }
 ]

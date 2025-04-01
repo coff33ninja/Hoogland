@@ -1,4 +1,4 @@
-flask
-flask-login
+waitress
 playsound
 PyQt6
+pygame

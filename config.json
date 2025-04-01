@@ -5,7 +5,7 @@
     "smtp_server": "mail.salnet.co.za",
     "smtp_port": 587,
     "start_time": "00:00",
-    "end_time": "23\"59",
+    "end_time": "23:59",
     "sound_after_minutes": 3,
     "report_if_longer_than_minutes": 5,
     "email_if_not_pressed_after_minutes": 10,
