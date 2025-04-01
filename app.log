@@ -354,3 +354,124 @@
 2025-04-01 10:48:01,099 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on http://127.0.0.1:5000
 2025-04-01 10:48:01,099 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-01 10:48:26,035 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:48:26,037 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 10:48:26,037 - INFO - Processing manual popup: Stay awake!
+2025-04-01 10:48:26,038 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 10:48:26,038 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:48:26,040 - INFO - AlertDialog initialized
+2025-04-01 10:48:26,040 - INFO - Setting up AlertDialog UI
+2025-04-01 10:48:26,104 - INFO - Showing popup: Stay awake!
+2025-04-01 10:48:26,421 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 10:48:26,421 - INFO - 127.0.0.1 - - [01/Apr/2025 10:48:26] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 10:48:26,449 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:48:26,457 - INFO - 127.0.0.1 - - [01/Apr/2025 10:48:26] "GET /admin HTTP/1.1" 200 -
+2025-04-01 10:48:27,888 - INFO - Email sent: Alert Acknowledged
+2025-04-01 10:51:10,142 - INFO - Qt application initialized
+2025-04-01 10:51:10,142 - INFO - Starting MainLogicThread
+2025-04-01 10:51:10,147 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:51:10,147 - INFO - MainLogicThread initialized successfully
+2025-04-01 10:51:10,147 - INFO - MainLogicThread signal connected to show_popup
+2025-04-01 10:51:10,147 - INFO - Starting ManualPopupThread
+2025-04-01 10:51:10,148 - INFO - ManualPopupThread initialized successfully
+2025-04-01 10:51:10,148 - INFO - ManualPopupThread signal connected to show_popup
+2025-04-01 10:51:10,148 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:51:10,149 - INFO - MainLogicThread started
+2025-04-01 10:51:10,149 - INFO - ManualPopupThread started
+2025-04-01 10:51:10,149 - INFO - Starting Flask app in thread
+2025-04-01 10:51:10,149 - INFO - MainLogicThread loop running
+2025-04-01 10:51:10,149 - INFO - Starting Qt event loop
+2025-04-01 10:51:10,149 - INFO - SoundThread started
+2025-04-01 10:51:10,150 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:51:10,151 - INFO - Current time: 10:51:10.151577, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 10:51:10,200 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-01 10:51:10,200 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-01 10:53:25,268 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:53:25,275 - INFO - Manual popup requested: Hello manual test, sound: True
+2025-04-01 10:53:25,275 - INFO - Processing manual popup: Hello manual test
+2025-04-01 10:53:25,277 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 10:53:25,278 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:53:25,287 - INFO - AlertDialog initialized
+2025-04-01 10:53:25,287 - INFO - Setting up AlertDialog UI
+2025-04-01 10:53:25,370 - INFO - Showing popup: Hello manual test
+2025-04-01 10:53:25,735 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 10:53:25,736 - INFO - 127.0.0.1 - - [01/Apr/2025 10:53:25] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 10:53:25,774 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:53:25,805 - INFO - 127.0.0.1 - - [01/Apr/2025 10:53:25] "GET /admin HTTP/1.1" 200 -
+2025-04-01 10:53:27,282 - INFO - Email sent: Alert Acknowledged
+2025-04-01 10:53:34,568 - INFO - Qt application initialized
+2025-04-01 10:53:34,569 - INFO - Starting MainLogicThread
+2025-04-01 10:53:34,578 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:53:34,578 - INFO - MainLogicThread initialized successfully
+2025-04-01 10:53:34,578 - INFO - MainLogicThread signal connected to show_popup
+2025-04-01 10:53:34,578 - INFO - Starting ManualPopupThread
+2025-04-01 10:53:34,578 - INFO - ManualPopupThread initialized successfully
+2025-04-01 10:53:34,579 - INFO - ManualPopupThread signal connected to show_popup
+2025-04-01 10:53:34,579 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:53:34,581 - INFO - Starting Flask app in thread
+2025-04-01 10:53:34,581 - INFO - Starting Qt event loop
+2025-04-01 10:53:34,582 - INFO - MainLogicThread started
+2025-04-01 10:53:34,582 - INFO - MainLogicThread loop running
+2025-04-01 10:53:34,582 - INFO - ManualPopupThread started
+2025-04-01 10:53:34,582 - INFO - SoundThread started
+2025-04-01 10:53:34,583 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:53:34,584 - INFO - Current time: 10:53:34.584572, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 10:53:34,721 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-01 10:53:34,721 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-01 10:53:37,819 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:53:37,821 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 10:53:37,821 - INFO - Processing manual popup: Stay awake!
+2025-04-01 10:53:37,822 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 10:53:37,823 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:53:37,824 - INFO - AlertDialog initialized
+2025-04-01 10:53:37,824 - INFO - Setting up AlertDialog UI
+2025-04-01 10:53:37,853 - INFO - Showing popup: Stay awake!
+2025-04-01 10:53:38,216 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 10:53:38,216 - INFO - 127.0.0.1 - - [01/Apr/2025 10:53:38] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 10:53:38,243 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:53:38,255 - INFO - 127.0.0.1 - - [01/Apr/2025 10:53:38] "GET /admin HTTP/1.1" 200 -
+2025-04-01 10:53:39,531 - INFO - Email sent: Alert Acknowledged
+2025-04-01 10:53:39,541 - INFO - Popup Stay awake! completed
+2025-04-01 10:53:39,543 - INFO - Qt event loop exited normally
+2025-04-01 10:57:56,504 - INFO - Qt application initialized
+2025-04-01 10:57:56,509 - INFO - MainAppWindow initialized
+2025-04-01 10:57:56,509 - INFO - Starting MainLogicThread
+2025-04-01 10:57:56,512 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:57:56,512 - INFO - MainLogicThread initialized successfully
+2025-04-01 10:57:56,513 - INFO - MainLogicThread signal connected to show_popup
+2025-04-01 10:57:56,513 - INFO - Starting ManualPopupThread
+2025-04-01 10:57:56,513 - INFO - ManualPopupThread initialized successfully
+2025-04-01 10:57:56,513 - INFO - ManualPopupThread signal connected to show_popup
+2025-04-01 10:57:56,513 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:57:56,515 - INFO - MainLogicThread started
+2025-04-01 10:57:56,515 - INFO - ManualPopupThread started
+2025-04-01 10:57:56,515 - INFO - MainLogicThread loop running
+2025-04-01 10:57:56,515 - INFO - Starting Flask app in thread
+2025-04-01 10:57:56,515 - INFO - Starting Qt event loop
+2025-04-01 10:57:56,515 - INFO - SoundThread started
+2025-04-01 10:57:56,516 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:57:56,516 - INFO - Current time: 10:57:56.516048, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 10:57:56,550 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-01 10:57:56,550 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-01 10:57:59,859 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:57:59,869 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 10:57:59,869 - INFO - Processing manual popup: Stay awake!
+2025-04-01 10:57:59,870 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:57:59,871 - INFO - AlertDialog initialized
+2025-04-01 10:57:59,871 - INFO - Setting up AlertDialog UI
+2025-04-01 10:57:59,883 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 10:57:59,918 - INFO - Showing popup: Stay awake!
+2025-04-01 10:58:00,273 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 10:58:00,274 - INFO - 127.0.0.1 - - [01/Apr/2025 10:58:00] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 10:58:00,323 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:58:00,353 - INFO - 127.0.0.1 - - [01/Apr/2025 10:58:00] "GET /admin HTTP/1.1" 200 -
+2025-04-01 10:58:01,490 - INFO - Email sent: Alert Acknowledged
+2025-04-01 10:58:01,501 - INFO - Popup Stay awake! completed
+2025-04-01 10:58:01,502 - INFO - Qt event loop exited normally
+2025-04-01 10:58:01,502 - INFO - Initiating cleanup
+2025-04-01 10:58:01,502 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:58:01,882 - INFO - Email sent: Program Stopped
+2025-04-01 10:58:01,883 - INFO - Cleanup completed

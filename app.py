@@ -584,12 +584,33 @@ if __name__ == "__main__":
     qt_app = QApplication(sys.argv)
     logging.info("Qt application initialized")
 
-    # Show popup function
+    # Create a hidden main window to keep the event loop alive
+    from PyQt6.QtWidgets import QMainWindow
+
+    class MainAppWindow(QMainWindow):
+        def __init__(self):
+            super().__init__()
+            self.setWindowTitle("Security Alert App")
+            self.setGeometry(0, 0, 1, 1)  # Minimal size
+            self.hide()  # Keep it hidden
+            logging.info("MainAppWindow initialized")
+
+        def closeEvent(self, event):
+            logging.info("MainAppWindow close event ignored to keep app running")
+            event.ignore()  # Prevent closing unless explicitly requested
+
+    main_window = MainAppWindow()
+
+    # Show popup function with exception handling
     def show_popup(message, play_sound):
         config = load_config()
-        dialog = AlertDialog(config, message, play_sound)
-        logging.info(f"Showing popup: {message}")
-        dialog.exec()
+        try:
+            dialog = AlertDialog(config, message, play_sound)
+            logging.info(f"Showing popup: {message}")
+            dialog.exec()
+            logging.info(f"Popup {message} completed")
+        except Exception as e:
+            logging.error(f"Error in show_popup: {str(e)}")
 
     # Start threads
     logging.info("Starting MainLogicThread")
@@ -615,7 +636,9 @@ if __name__ == "__main__":
     logging.info("Starting Qt event loop")
     try:
         qt_app.exec()
+        logging.info("Qt event loop exited normally")  # Only on manual shutdown
     except KeyboardInterrupt:
+        logging.info("Received KeyboardInterrupt")
         cleanup()
     except Exception as e:
         logging.error(f"Qt app crashed: {str(e)}")

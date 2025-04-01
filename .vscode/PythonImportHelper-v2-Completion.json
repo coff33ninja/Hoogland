@@ -466,7 +466,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def run_flask():\n    logging.info(\"Starting Flask app in thread\")\n    app.run(debug=True, use_reloader=False)\n# Update the __main__ section to start the new thread\nif __name__ == \"__main__\":\n    # Initialize Qt app in main thread\n    qt_app = QApplication(sys.argv)\n    logging.info(\"Qt application initialized\")\n    # Show popup function\n    def show_popup(message, play_sound):",
+        "peekOfCode": "def run_flask():\n    logging.info(\"Starting Flask app in thread\")\n    app.run(debug=True, use_reloader=False)\n# Update the __main__ section to start the new thread\nif __name__ == \"__main__\":\n    # Initialize Qt app in main thread\n    qt_app = QApplication(sys.argv)\n    logging.info(\"Qt application initialized\")\n    # Create a hidden main window to keep the event loop alive\n    from PyQt6.QtWidgets import QMainWindow",
         "detail": "app",
         "documentation": {}
     },
