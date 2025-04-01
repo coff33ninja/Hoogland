@@ -21,6 +21,14 @@ import smtplib
 from email.mime.text import MIMEText
 from waitress import serve
 
+# Function to handle resource paths for PyInstaller
+def resource_path(relative_path):
+    """Get absolute path to resource, works for dev and PyInstaller"""
+    if hasattr(sys, '_MEIPASS'):
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
 # Set up logging
 logging.basicConfig(
     filename="app.log",
@@ -28,14 +36,14 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
-# Flask app setup
-app = Flask(__name__)
-app.secret_key = os.urandom(24).hex()  # Secure random key
+# Flask app setup with dynamic template folder
+app = Flask(__name__, template_folder=resource_path("templates"))
+app.secret_key = os.urandom(24).hex()
 
 # Flask-Login setup
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = "login"  # Redirect to login if unauthorized
+login_manager.login_view = "login"
 
 class User(UserMixin):
     pass
@@ -96,7 +104,7 @@ class AlertDialog(QDialog):
     def start_sound(self):
         def play_sound_loop():
             try:
-                mixer.music.load("alert_sound.mp3")
+                mixer.music.load(resource_path("alert_sound.mp3"))  # Use resource_path
                 mixer.music.play(-1)
                 logging.info("Sound started in loop")
                 while not self.stop_sound_event.is_set():
@@ -152,7 +160,7 @@ def load_config():
         "recipient_email": "recipient@example.com",
         "smtp_server": "smtp.gmail.com",
         "smtp_port": 587,
-        "start_time": "00:00",
+        "start_time": "18:00",
         "end_time": "23:59",
         "sound_after_minutes": 3,
         "report_if_longer_than_minutes": 5,
@@ -380,7 +388,7 @@ class SoundThread(QThread):
                 wait_time = random.randint(self.config["random_sound_min_seconds"], self.config["random_sound_max_seconds"])
                 time.sleep(wait_time)
                 try:
-                    mixer.music.load("alert_sound.mp3")
+                    mixer.music.load(resource_path("alert_sound.mp3"))  # Use resource_path
                     mixer.music.play(-1)
                     time.sleep(5)
                     mixer.music.stop()

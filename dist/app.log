@@ -223,3 +223,89 @@
 2025-04-01 13:26:51,876 - INFO - trigger_popup signal emitted for scheduled popup
 2025-04-01 13:26:52,462 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8314e110sm202352635e9.39 - gsmtp')
 2025-04-01 13:26:52,478 - INFO - Cleanup completed
+2025-04-01 13:51:52,258 - INFO - Qt application initialized
+2025-04-01 13:51:52,305 - INFO - System tray icon initialized
+2025-04-01 13:51:52,308 - INFO - Starting MainLogicThread
+2025-04-01 13:51:52,312 - WARNING - Config is default.
+2025-04-01 13:51:54,564 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b662c05sm14010675f8f.23 - gsmtp')
+2025-04-01 13:51:54,564 - INFO - MainLogicThread initialized successfully
+2025-04-01 13:51:54,564 - INFO - Starting ManualPopupThread
+2025-04-01 13:51:54,565 - INFO - ManualPopupThread initialized successfully
+2025-04-01 13:51:54,565 - WARNING - Config is default.
+2025-04-01 13:51:54,566 - INFO - MainLogicThread started
+2025-04-01 13:51:54,588 - INFO - ManualPopupThread started
+2025-04-01 13:51:56,747 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b7a4498sm14523348f8f.99 - gsmtp')
+2025-04-01 13:51:56,762 - INFO - Starting Waitress server on 0.0.0.0:5000
+2025-04-01 13:51:56,762 - INFO - Starting Qt event loop
+2025-04-01 13:51:56,920 - INFO - SoundThread started
+2025-04-01 13:51:56,956 - INFO - Serving on http://0.0.0.0:5000
+2025-04-01 13:51:56,978 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b6656afsm14017637f8f.40 - gsmtp')
+2025-04-01 13:51:56,978 - INFO - MainLogicThread loop running
+2025-04-01 13:51:56,979 - WARNING - Config is default.
+2025-04-01 13:51:59,083 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b66b015sm14627495f8f.54 - gsmtp')
+2025-04-01 13:51:59,083 - INFO - Current time: 13:51:59.083936, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:52:00,179 - INFO - User logged in successfully
+2025-04-01 13:52:00,196 - WARNING - Config is default.
+2025-04-01 13:52:02,390 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b66cb3dsm14454971f8f.57 - gsmtp')
+2025-04-01 13:52:12,605 - WARNING - Config is default.
+2025-04-01 13:52:14,802 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b66b015sm14628057f8f.54 - gsmtp')
+2025-04-01 13:52:14,803 - ERROR - Config update failed: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+2025-04-01 13:52:16,994 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c1845e66esm8232253f8f.18 - gsmtp')
+2025-04-01 13:52:17,085 - INFO - Triggering scheduled popup
+2025-04-01 13:52:17,085 - INFO - trigger_popup signal emitted for scheduled popup
+2025-04-01 13:52:17,085 - INFO - MainLogicThread loop running
+2025-04-01 13:52:17,086 - WARNING - Config is default.
+2025-04-01 13:52:17,086 - WARNING - Config is default.
+2025-04-01 13:52:19,192 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b79e37bsm14393440f8f.61 - gsmtp')
+2025-04-01 13:52:19,192 - INFO - Current time: 13:52:19.192128, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:52:19,290 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d82dede5csm204525635e9.8 - gsmtp')
+2025-04-01 13:52:19,292 - INFO - AlertDialog initialized
+2025-04-01 13:52:19,292 - INFO - Setting up AlertDialog UI
+2025-04-01 13:52:19,296 - INFO - Showing popup: Security Alert with sound=True
+2025-04-01 13:52:19,296 - INFO - Sound started in loop
+2025-04-01 13:52:22,978 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b79e136sm14229902f8f.67 - gsmtp')
+2025-04-01 13:52:23,010 - INFO - Sound stopped
+2025-04-01 13:52:23,039 - INFO - Popup Security Alert completed
+2025-04-01 13:52:35,174 - WARNING - Config is default.
+2025-04-01 13:52:37,193 - INFO - Triggering scheduled popup
+2025-04-01 13:52:37,193 - INFO - trigger_popup signal emitted for scheduled popup
+2025-04-01 13:52:37,193 - INFO - MainLogicThread loop running
+2025-04-01 13:52:37,194 - WARNING - Config is default.
+2025-04-01 13:52:37,196 - WARNING - Config is default.
+2025-04-01 13:52:37,367 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b66a8c9sm14016256f8f.47 - gsmtp')
+2025-04-01 13:52:37,370 - INFO - Configuration updated and backed up.
+2025-04-01 13:52:39,345 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d82efe9d1sm200119765e9.24 - gsmtp')
+2025-04-01 13:52:39,345 - INFO - AlertDialog initialized
+2025-04-01 13:52:39,345 - INFO - Setting up AlertDialog UI
+2025-04-01 13:52:39,348 - INFO - Showing popup: Security Alert with sound=True
+2025-04-01 13:52:39,350 - INFO - Sound started in loop
+2025-04-01 13:52:39,419 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b6588dbsm13962763f8f.2 - gsmtp')
+2025-04-01 13:52:39,420 - INFO - Current time: 13:52:39.419521, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:52:39,559 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d8314f5c6sm206011755e9.40 - gsmtp')
+2025-04-01 13:52:42,720 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b79e3b0sm14152488f8f.74 - gsmtp')
+2025-04-01 13:52:42,759 - INFO - Sound stopped
+2025-04-01 13:52:42,773 - INFO - Popup Security Alert completed
+2025-04-01 13:52:47,217 - INFO - Initiating cleanup
+2025-04-01 13:52:49,326 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials ffacd0b85a97d-39c0b662bf9sm13776138f8f.29 - gsmtp')
+2025-04-01 13:52:49,326 - INFO - Cleanup completed
+2025-04-01 13:55:48,438 - INFO - Qt application initialized
+2025-04-01 13:55:48,491 - INFO - System tray icon initialized
+2025-04-01 13:55:48,500 - INFO - Starting MainLogicThread
+2025-04-01 13:55:48,514 - INFO - MainLogicThread initialized successfully
+2025-04-01 13:55:48,515 - INFO - Starting ManualPopupThread
+2025-04-01 13:55:48,515 - INFO - ManualPopupThread initialized successfully
+2025-04-01 13:55:48,517 - INFO - MainLogicThread started
+2025-04-01 13:55:48,518 - INFO - SoundThread started
+2025-04-01 13:55:48,519 - INFO - Starting Waitress server on 0.0.0.0:5000
+2025-04-01 13:55:48,520 - INFO - Starting Qt event loop
+2025-04-01 13:55:48,520 - INFO - ManualPopupThread started
+2025-04-01 13:55:48,568 - INFO - Serving on http://0.0.0.0:5000
+2025-04-01 13:55:50,938 - ERROR - Failed to send email: (535, b'5.7.8 Username and Password not accepted. For more information, go to\n5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-43d82dede5csm204613515e9.8 - gsmtp')
+2025-04-01 13:55:50,938 - INFO - MainLogicThread loop running
+2025-04-01 13:55:50,938 - INFO - Current time: 13:55:50.938670, Start time: 18:00:00, End time: 23:59:00
+2025-04-01 13:55:50,939 - INFO - Outside schedule, sleeping until 2025-04-01 18:00:00.938670
+2025-04-01 13:56:29,991 - INFO - User logged in successfully
+2025-04-01 13:57:00,687 - INFO - Configuration updated and backed up.
+2025-04-01 13:57:01,057 - INFO - Email sent: Config Updated
+2025-04-01 13:57:04,151 - INFO - Configuration updated and backed up.
+2025-04-01 13:57:04,607 - INFO - Email sent: Config Updated

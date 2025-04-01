@@ -862,3 +862,41 @@
 2025-04-01 13:35:54,538 - INFO - Email sent: Alert Window Closed Without Acknowledging
 2025-04-01 13:35:54,564 - INFO - Sound stopped
 2025-04-01 13:35:54,607 - INFO - Popup Stay awake! completed
+2025-04-01 13:46:03,708 - INFO - Initiating cleanup
+2025-04-01 13:46:04,091 - INFO - Email sent: Program Stopped
+2025-04-01 13:46:04,092 - INFO - Cleanup completed
+2025-04-01 13:46:11,239 - INFO - Qt application initialized
+2025-04-01 13:46:11,327 - INFO - System tray icon initialized
+2025-04-01 13:46:11,330 - INFO - Starting MainLogicThread
+2025-04-01 13:46:11,336 - INFO - MainLogicThread initialized successfully
+2025-04-01 13:46:11,337 - INFO - Starting ManualPopupThread
+2025-04-01 13:46:11,337 - INFO - ManualPopupThread initialized successfully
+2025-04-01 13:46:11,338 - INFO - MainLogicThread started
+2025-04-01 13:46:11,338 - INFO - MainLogicThread loop running
+2025-04-01 13:46:11,339 - INFO - Starting Waitress server on 0.0.0.0:5000
+2025-04-01 13:46:11,339 - INFO - Starting Qt event loop
+2025-04-01 13:46:11,339 - INFO - ManualPopupThread started
+2025-04-01 13:46:11,339 - INFO - SoundThread started
+2025-04-01 13:46:11,340 - INFO - Current time: 13:46:11.340657, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:46:11,351 - INFO - Serving on http://0.0.0.0:5000
+2025-04-01 13:46:36,018 - INFO - Initiating cleanup
+2025-04-01 13:46:36,427 - INFO - Email sent: Program Stopped
+2025-04-01 13:46:36,428 - INFO - Cleanup completed
+2025-04-01 13:46:45,995 - INFO - Qt application initialized
+2025-04-01 13:46:46,129 - INFO - System tray icon initialized
+2025-04-01 13:46:46,130 - INFO - Starting MainLogicThread
+2025-04-01 13:46:46,135 - INFO - MainLogicThread initialized successfully
+2025-04-01 13:46:46,135 - INFO - Starting ManualPopupThread
+2025-04-01 13:46:46,136 - INFO - ManualPopupThread initialized successfully
+2025-04-01 13:46:46,173 - INFO - MainLogicThread started
+2025-04-01 13:46:46,173 - INFO - MainLogicThread loop running
+2025-04-01 13:46:46,173 - INFO - Current time: 13:46:46.173704, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 13:46:46,188 - INFO - ManualPopupThread started
+2025-04-01 13:46:46,189 - INFO - Starting Waitress server on 0.0.0.0:5000
+2025-04-01 13:46:46,189 - INFO - SoundThread started
+2025-04-01 13:46:46,189 - INFO - Starting Qt event loop
+2025-04-01 13:46:46,292 - INFO - Serving on http://0.0.0.0:5000
+2025-04-01 13:47:00,945 - INFO - User logged in successfully
+2025-04-01 13:47:47,450 - INFO - Initiating cleanup
+2025-04-01 13:47:47,931 - INFO - Email sent: Program Stopped
+2025-04-01 13:47:47,931 - INFO - Cleanup completed

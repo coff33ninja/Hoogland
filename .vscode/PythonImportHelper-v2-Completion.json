@@ -625,6 +625,15 @@
         "documentation": {}
     },
     {
+        "label": "resource_path",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def resource_path(relative_path):\n    \"\"\"Get absolute path to resource, works for dev and PyInstaller\"\"\"\n    if hasattr(sys, '_MEIPASS'):\n        # PyInstaller creates a temp folder and stores path in _MEIPASS\n        return os.path.join(sys._MEIPASS, relative_path)\n    return os.path.join(os.path.abspath(\".\"), relative_path)\n# Set up logging\nlogging.basicConfig(\n    filename=\"app.log\",\n    level=logging.INFO,",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
         "label": "load_user",
         "kind": 2,
         "importPath": "app",
@@ -638,7 +647,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def load_config():\n    config_path = \"config.json\"\n    default_config = {\n        \"sender_email\": \"your_email@example.com\",\n        \"password\": \"your_password\",\n        \"recipient_email\": \"recipient@example.com\",\n        \"smtp_server\": \"smtp.gmail.com\",\n        \"smtp_port\": 587,\n        \"start_time\": \"00:00\",\n        \"end_time\": \"23:59\",",
+        "peekOfCode": "def load_config():\n    config_path = \"config.json\"\n    default_config = {\n        \"sender_email\": \"your_email@example.com\",\n        \"password\": \"your_password\",\n        \"recipient_email\": \"recipient@example.com\",\n        \"smtp_server\": \"smtp.gmail.com\",\n        \"smtp_port\": 587,\n        \"start_time\": \"18:00\",\n        \"end_time\": \"23:59\",",
         "detail": "app",
         "documentation": {}
     },
@@ -755,7 +764,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "app = Flask(__name__)\napp.secret_key = os.urandom(24).hex()  # Secure random key\n# Flask-Login setup\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"  # Redirect to login if unauthorized\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"",
+        "peekOfCode": "app = Flask(__name__, template_folder=resource_path(\"templates\"))\napp.secret_key = os.urandom(24).hex()\n# Flask-Login setup\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"",
         "detail": "app",
         "documentation": {}
     },
@@ -764,7 +773,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "app.secret_key = os.urandom(24).hex()  # Secure random key\n# Flask-Login setup\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"  # Redirect to login if unauthorized\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader",
+        "peekOfCode": "app.secret_key = os.urandom(24).hex()\n# Flask-Login setup\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader",
         "detail": "app",
         "documentation": {}
     },
@@ -773,7 +782,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "login_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"  # Redirect to login if unauthorized\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):\n    if user_id == \"admin\":",
+        "peekOfCode": "login_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):\n    if user_id == \"admin\":",
         "detail": "app",
         "documentation": {}
     },
@@ -782,7 +791,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "login_manager.login_view = \"login\"  # Redirect to login if unauthorized\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):\n    if user_id == \"admin\":\n        return user\n    return None",
+        "peekOfCode": "login_manager.login_view = \"login\"\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):\n    if user_id == \"admin\":\n        return user\n    return None",
         "detail": "app",
         "documentation": {}
     },

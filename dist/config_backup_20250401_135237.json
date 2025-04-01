@@ -1,0 +1,24 @@
+{
+    "sender_email": "your_email@example.com",
+    "password": "your_password",
+    "recipient_email": "recipient@example.com",
+    "smtp_server": "smtp.gmail.com",
+    "smtp_port": 587,
+    "start_time": "18:00",
+    "end_time": "23:59",
+    "sound_after_minutes": 3,
+    "report_if_longer_than_minutes": 5,
+    "email_if_not_pressed_after_minutes": 10,
+    "min_wait_between_alerts_seconds": 10,
+    "max_wait_between_alerts_seconds": 20,
+    "random_sound_enabled": true,
+    "random_sound_min_seconds": 1800,
+    "random_sound_max_seconds": 3600,
+    "expected_hash": "abc123...",
+    "is_default": false,
+    "predefined_messages": [
+        "Stay awake!",
+        "Security check!",
+        "Alert now!"
+    ]
+}
