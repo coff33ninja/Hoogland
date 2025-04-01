@@ -144,3 +144,213 @@
 2025-03-31 12:56:56,717 - INFO - 127.0.0.1 - - [31/Mar/2025 12:56:56] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
 2025-03-31 12:56:56,742 - INFO - 127.0.0.1 - - [31/Mar/2025 12:56:56] "GET /admin HTTP/1.1" 200 -
 2025-03-31 13:00:00,935 - INFO - Triggering scheduled popup
+2025-04-01 08:06:42,933 - INFO - MainLogicThread started
+2025-04-01 08:06:42,933 - INFO - MainLogicThread loop running
+2025-04-01 08:06:42,934 - INFO - SoundThread started
+2025-04-01 08:06:42,934 - INFO - Starting Flask app in thread
+2025-04-01 08:06:42,934 - INFO - Starting Qt event loop
+2025-04-01 08:06:43,042 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-01 08:06:43,042 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-01 08:06:55,940 - INFO - 127.0.0.1 - - [01/Apr/2025 08:06:55] "GET /admin HTTP/1.1" 200 -
+2025-04-01 08:06:56,570 - INFO - 127.0.0.1 - - [01/Apr/2025 08:06:56] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-04-01 08:07:01,473 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 08:07:01,927 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 08:07:01,928 - INFO - 127.0.0.1 - - [01/Apr/2025 08:07:01] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 08:07:01,970 - INFO - 127.0.0.1 - - [01/Apr/2025 08:07:01] "GET /admin HTTP/1.1" 200 -
+2025-04-01 08:14:01,204 - INFO - 127.0.0.1 - - [01/Apr/2025 08:14:01] "GET /notifications HTTP/1.1" 200 -
+2025-04-01 08:14:07,956 - INFO - 127.0.0.1 - - [01/Apr/2025 08:14:07] "GET /admin HTTP/1.1" 200 -
+2025-04-01 08:14:09,508 - INFO - 127.0.0.1 - - [01/Apr/2025 08:14:09] "GET /logs HTTP/1.1" 200 -
+2025-04-01 09:57:02,222 - INFO - Signal connected to show_popup
+2025-04-01 09:57:02,222 - INFO - Starting Flask app in thread
+2025-04-01 09:57:02,224 - INFO - Starting Qt event loop
+2025-04-01 09:57:02,224 - INFO - MainLogicThread started
+2025-04-01 09:57:02,224 - INFO - SoundThread started
+2025-04-01 09:57:02,225 - INFO - MainLogicThread loop running
+2025-04-01 09:57:02,228 - INFO - Outside schedule, sleeping until 2025-04-01 12:00:00.225517
+2025-04-01 09:57:02,272 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-01 09:57:02,272 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-01 10:01:27,220 - INFO - 127.0.0.1 - - [01/Apr/2025 10:01:27] "[33mGET / HTTP/1.1[0m" 404 -
+2025-04-01 10:01:27,468 - INFO - 127.0.0.1 - - [01/Apr/2025 10:01:27] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-04-01 10:01:31,597 - INFO - 127.0.0.1 - - [01/Apr/2025 10:01:31] "[31m[1mGET /admin HTTP/1.1[0m" 401 -
+2025-04-01 10:01:38,607 - INFO - 127.0.0.1 - - [01/Apr/2025 10:01:38] "[31m[1mGET /admin HTTP/1.1[0m" 401 -
+2025-04-01 10:02:04,992 - INFO - 127.0.0.1 - - [01/Apr/2025 10:02:04] "GET /admin HTTP/1.1" 200 -
+2025-04-01 10:02:08,556 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 10:02:09,016 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 10:02:09,016 - INFO - 127.0.0.1 - - [01/Apr/2025 10:02:09] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 10:02:09,048 - INFO - 127.0.0.1 - - [01/Apr/2025 10:02:09] "GET /admin HTTP/1.1" 200 -
+2025-04-01 10:12:46,426 - INFO - Qt application initialized
+2025-04-01 10:12:46,426 - INFO - Starting MainLogicThread
+2025-04-01 10:12:46,427 - INFO - MainLogicThread initialized successfully
+2025-04-01 10:12:46,427 - INFO - Signal connected to show_popup
+2025-04-01 10:12:46,427 - INFO - Testing signal emission at startup
+2025-04-01 10:12:46,430 - INFO - MainLogicThread started
+2025-04-01 10:12:46,430 - INFO - MainLogicThread loop running
+2025-04-01 10:12:46,438 - INFO - AlertDialog initialized
+2025-04-01 10:12:46,438 - INFO - Setting up AlertDialog UI
+2025-04-01 10:12:46,484 - INFO - Showing popup: Test Popup at Startup
+2025-04-01 10:12:46,485 - INFO - Current time: 10:12:46.478950, Start time: 12:00:00, End time: 13:00:00
+2025-04-01 10:12:46,485 - INFO - Outside schedule, sleeping until 2025-04-01 12:00:00.478950
+2025-04-01 10:12:49,541 - INFO - Email sent: Alert Acknowledged
+2025-04-01 10:12:49,566 - INFO - Starting Flask app in thread
+2025-04-01 10:12:49,566 - INFO - Starting Qt event loop
+2025-04-01 10:12:49,568 - INFO - SoundThread started
+2025-04-01 10:12:49,619 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-01 10:12:49,619 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-01 10:12:59,088 - INFO - 127.0.0.1 - - [01/Apr/2025 10:12:59] "GET /admin HTTP/1.1" 200 -
+2025-04-01 10:13:01,428 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 10:13:01,809 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 10:13:01,809 - INFO - 127.0.0.1 - - [01/Apr/2025 10:13:01] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 10:13:01,830 - INFO - 127.0.0.1 - - [01/Apr/2025 10:13:01] "GET /admin HTTP/1.1" 200 -
+2025-04-01 10:15:18,973 - INFO - Qt application initialized
+2025-04-01 10:15:18,973 - INFO - Starting MainLogicThread
+2025-04-01 10:15:18,974 - INFO - MainLogicThread initialized successfully
+2025-04-01 10:15:18,974 - INFO - Signal connected to show_popup
+2025-04-01 10:15:18,974 - INFO - Testing signal emission at startup
+2025-04-01 10:15:18,975 - INFO - AlertDialog initialized
+2025-04-01 10:15:18,975 - INFO - Setting up AlertDialog UI
+2025-04-01 10:15:18,990 - INFO - MainLogicThread started
+2025-04-01 10:15:18,997 - INFO - MainLogicThread loop running
+2025-04-01 10:15:18,997 - INFO - Showing popup: Test Popup at Startup
+2025-04-01 10:15:18,999 - INFO - Current time: 10:15:18.998566, Start time: 12:00:00, End time: 13:00:00
+2025-04-01 10:15:18,999 - INFO - Outside schedule, sleeping until 2025-04-01 12:00:00.998566
+2025-04-01 10:15:23,171 - INFO - Email sent: Alert Acknowledged
+2025-04-01 10:15:23,202 - INFO - Starting Flask app in thread
+2025-04-01 10:15:23,202 - INFO - Starting Qt event loop
+2025-04-01 10:15:23,204 - INFO - SoundThread started
+2025-04-01 10:15:23,239 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-01 10:15:23,239 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-01 10:15:30,794 - INFO - 127.0.0.1 - - [01/Apr/2025 10:15:30] "GET /admin HTTP/1.1" 200 -
+2025-04-01 10:15:32,709 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 10:15:33,095 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 10:15:33,096 - INFO - 127.0.0.1 - - [01/Apr/2025 10:15:33] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 10:15:33,181 - INFO - 127.0.0.1 - - [01/Apr/2025 10:15:33] "GET /admin HTTP/1.1" 200 -
+2025-04-01 10:15:37,699 - INFO - 127.0.0.1 - - [01/Apr/2025 10:15:37] "GET /logs HTTP/1.1" 200 -
+2025-04-01 10:17:32,595 - INFO - Qt application initialized
+2025-04-01 10:17:32,596 - INFO - Starting MainLogicThread
+2025-04-01 10:17:32,596 - INFO - MainLogicThread initialized successfully
+2025-04-01 10:17:32,596 - INFO - Signal connected to show_popup
+2025-04-01 10:17:32,596 - INFO - Testing signal emission at startup
+2025-04-01 10:17:32,598 - INFO - AlertDialog initialized
+2025-04-01 10:17:32,598 - INFO - Setting up AlertDialog UI
+2025-04-01 10:17:32,604 - INFO - MainLogicThread started
+2025-04-01 10:17:32,604 - INFO - MainLogicThread loop running
+2025-04-01 10:17:32,617 - INFO - Showing popup: Test Popup at Startup
+2025-04-01 10:17:32,618 - INFO - Current time: 10:17:32.617533, Start time: 12:00:00, End time: 13:00:00
+2025-04-01 10:17:32,619 - INFO - Outside schedule, sleeping until 2025-04-01 12:00:00.617533
+2025-04-01 10:17:43,998 - INFO - Email sent: Alert Acknowledged
+2025-04-01 10:17:44,038 - INFO - Starting Flask app in thread
+2025-04-01 10:17:44,038 - INFO - Starting Qt event loop
+2025-04-01 10:17:44,040 - INFO - SoundThread started
+2025-04-01 10:17:44,096 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-01 10:17:44,096 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-01 10:17:52,772 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 10:17:53,138 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 10:17:53,139 - INFO - 127.0.0.1 - - [01/Apr/2025 10:17:53] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 10:17:53,225 - INFO - 127.0.0.1 - - [01/Apr/2025 10:17:53] "GET /admin HTTP/1.1" 200 -
+2025-04-01 10:18:16,608 - INFO - Configuration updated and backed up.
+2025-04-01 10:18:16,972 - INFO - Email sent: Config Updated
+2025-04-01 10:18:16,972 - INFO - 127.0.0.1 - - [01/Apr/2025 10:18:16] "POST /admin HTTP/1.1" 200 -
+2025-04-01 10:18:19,138 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 10:18:19,547 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 10:18:19,547 - INFO - 127.0.0.1 - - [01/Apr/2025 10:18:19] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 10:18:19,571 - INFO - 127.0.0.1 - - [01/Apr/2025 10:18:19] "GET /admin HTTP/1.1" 200 -
+2025-04-01 10:28:34,836 - INFO - Qt application initialized
+2025-04-01 10:28:34,836 - INFO - Starting MainLogicThread
+2025-04-01 10:28:34,837 - INFO - MainLogicThread initialized successfully
+2025-04-01 10:28:34,837 - INFO - MainLogicThread signal connected to show_popup
+2025-04-01 10:28:34,837 - INFO - Starting ManualPopupThread
+2025-04-01 10:28:34,837 - INFO - ManualPopupThread initialized successfully
+2025-04-01 10:28:34,837 - INFO - ManualPopupThread signal connected to show_popup
+2025-04-01 10:28:34,837 - INFO - Testing signal emission at startup
+2025-04-01 10:28:34,840 - INFO - AlertDialog initialized
+2025-04-01 10:28:34,840 - INFO - MainLogicThread started
+2025-04-01 10:28:34,840 - INFO - ManualPopupThread started
+2025-04-01 10:28:34,840 - INFO - Setting up AlertDialog UI
+2025-04-01 10:28:34,840 - INFO - MainLogicThread loop running
+2025-04-01 10:28:34,858 - INFO - Showing popup: Test Popup at Startup
+2025-04-01 10:28:34,863 - ERROR - Error in MainLogicThread: time data '23"59' does not match format '%H:%M'
+2025-04-01 10:28:35,488 - INFO - Email sent: Thread Error
+2025-04-01 10:30:23,081 - INFO - Qt application initialized
+2025-04-01 10:30:23,081 - INFO - Starting MainLogicThread
+2025-04-01 10:30:23,082 - INFO - MainLogicThread initialized successfully
+2025-04-01 10:30:23,082 - INFO - MainLogicThread signal connected to show_popup
+2025-04-01 10:30:23,082 - INFO - Starting ManualPopupThread
+2025-04-01 10:30:23,082 - INFO - ManualPopupThread initialized successfully
+2025-04-01 10:30:23,082 - INFO - ManualPopupThread signal connected to show_popup
+2025-04-01 10:30:23,082 - INFO - Testing signal emission at startup
+2025-04-01 10:30:23,084 - INFO - AlertDialog initialized
+2025-04-01 10:30:23,084 - INFO - Setting up AlertDialog UI
+2025-04-01 10:30:23,090 - INFO - ManualPopupThread started
+2025-04-01 10:30:23,104 - INFO - MainLogicThread started
+2025-04-01 10:30:23,105 - INFO - Showing popup: Test Popup at Startup
+2025-04-01 10:30:23,105 - INFO - MainLogicThread loop running
+2025-04-01 10:30:23,108 - ERROR - Error in MainLogicThread: time data '23"59' does not match format '%H:%M'
+2025-04-01 10:30:23,549 - INFO - Email sent: Thread Error
+2025-04-01 10:30:25,982 - INFO - Email sent: Alert Acknowledged
+2025-04-01 10:30:26,006 - INFO - Starting Flask app in thread
+2025-04-01 10:30:26,006 - INFO - Starting Qt event loop
+2025-04-01 10:30:26,008 - INFO - SoundThread started
+2025-04-01 10:32:29,401 - INFO - Qt application initialized
+2025-04-01 10:32:29,401 - INFO - Starting MainLogicThread
+2025-04-01 10:32:29,403 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:32:29,403 - INFO - MainLogicThread initialized successfully
+2025-04-01 10:32:29,404 - INFO - MainLogicThread signal connected to show_popup
+2025-04-01 10:32:29,404 - INFO - Starting ManualPopupThread
+2025-04-01 10:32:29,404 - INFO - ManualPopupThread initialized successfully
+2025-04-01 10:32:29,404 - INFO - ManualPopupThread signal connected to show_popup
+2025-04-01 10:32:29,404 - INFO - Testing signal emission at startup
+2025-04-01 10:32:29,405 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:32:29,406 - INFO - AlertDialog initialized
+2025-04-01 10:32:29,406 - INFO - Setting up AlertDialog UI
+2025-04-01 10:32:29,406 - INFO - ManualPopupThread started
+2025-04-01 10:32:29,406 - INFO - MainLogicThread started
+2025-04-01 10:32:29,425 - INFO - MainLogicThread loop running
+2025-04-01 10:32:29,425 - INFO - Showing popup: Test Popup at Startup
+2025-04-01 10:32:29,425 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:32:29,425 - INFO - Current time: 10:32:29.425071, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 10:32:32,334 - INFO - Email sent: Alert Acknowledged
+2025-04-01 10:32:32,356 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:32:32,390 - INFO - Starting Flask app in thread
+2025-04-01 10:32:32,390 - INFO - Starting Qt event loop
+2025-04-01 10:32:32,436 - INFO - SoundThread started
+2025-04-01 10:32:32,468 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-01 10:32:32,468 - INFO - [33mPress CTRL+C to quit[0m
+2025-04-01 10:32:37,675 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:32:37,679 - INFO - Manual popup requested: Stay awake!, sound: True
+2025-04-01 10:32:37,679 - INFO - Processing manual popup: Stay awake!
+2025-04-01 10:32:37,679 - INFO - trigger_popup signal emitted for manual popup
+2025-04-01 10:32:37,680 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:32:37,681 - INFO - AlertDialog initialized
+2025-04-01 10:32:37,681 - INFO - Setting up AlertDialog UI
+2025-04-01 10:32:37,681 - INFO - Showing popup: Stay awake!
+2025-04-01 10:32:38,086 - INFO - Email sent: Manual Popup Triggered
+2025-04-01 10:32:38,086 - INFO - 127.0.0.1 - - [01/Apr/2025 10:32:38] "[32mPOST /trigger_popup HTTP/1.1[0m" 302 -
+2025-04-01 10:32:38,192 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:32:38,211 - INFO - 127.0.0.1 - - [01/Apr/2025 10:32:38] "GET /admin HTTP/1.1" 200 -
+2025-04-01 10:32:39,966 - INFO - Email sent: Alert Acknowledged
+2025-04-01 10:48:01,062 - INFO - Qt application initialized
+2025-04-01 10:48:01,062 - INFO - Starting MainLogicThread
+2025-04-01 10:48:01,064 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:48:01,064 - INFO - MainLogicThread initialized successfully
+2025-04-01 10:48:01,064 - INFO - MainLogicThread signal connected to show_popup
+2025-04-01 10:48:01,065 - INFO - Starting ManualPopupThread
+2025-04-01 10:48:01,065 - INFO - ManualPopupThread initialized successfully
+2025-04-01 10:48:01,065 - INFO - ManualPopupThread signal connected to show_popup
+2025-04-01 10:48:01,065 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:48:01,066 - INFO - MainLogicThread started
+2025-04-01 10:48:01,066 - INFO - MainLogicThread loop running
+2025-04-01 10:48:01,066 - INFO - Starting Flask app in thread
+2025-04-01 10:48:01,066 - INFO - ManualPopupThread started
+2025-04-01 10:48:01,066 - INFO - Starting Qt event loop
+2025-04-01 10:48:01,067 - INFO - SoundThread started
+2025-04-01 10:48:01,067 - ERROR - Invalid end_time format: 23"59, expected HH:MM, using default
+2025-04-01 10:48:01,068 - INFO - Current time: 10:48:01.068039, Start time: 00:00:00, End time: 23:59:00
+2025-04-01 10:48:01,099 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-01 10:48:01,099 - INFO - [33mPress CTRL+C to quit[0m

@@ -8,6 +8,7 @@ import sys
 import hashlib
 import logging
 import signal
+import queue
 from queue import Queue
 from playsound import playsound
 from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout, QApplication
@@ -57,6 +58,7 @@ qt_app = None
 class AlertDialog(QDialog):
     def __init__(self, config, message="Security Alert", play_sound=True):
         super().__init__()
+        logging.info("AlertDialog initialized")
         self.config = config
         self.message = message
         self.play_sound = play_sound
@@ -65,6 +67,7 @@ class AlertDialog(QDialog):
         self.init_ui()
 
     def init_ui(self):
+        logging.info("Setting up AlertDialog UI")
         self.setWindowTitle("Security Alert")
         self.setGeometry(300, 300, 300, 100)
         self.setWindowFlags(self.windowFlags() | Qt.WindowType.WindowStaysOnTopHint)
@@ -117,7 +120,8 @@ class AlertDialog(QDialog):
             send_email(self.config, "Alert Window Closed Without Acknowledging", message)
         event.accept()
 
-# Load configuration
+
+# Load configuration with type validation
 def load_config():
     config_path = "config.json"
     default_config = {
@@ -126,8 +130,8 @@ def load_config():
         "recipient_email": "recipient@example.com",
         "smtp_server": "smtp.gmail.com",
         "smtp_port": 587,
-        "start_time": "00:00",  # Adjusted for immediate testing
-        "end_time": "23:59",    # Adjusted for immediate testing
+        "start_time": "00:00",
+        "end_time": "23:59",
         "sound_after_minutes": 3,
         "report_if_longer_than_minutes": 5,
         "email_if_not_pressed_after_minutes": 10,
@@ -141,25 +145,75 @@ def load_config():
         "predefined_messages": ["Stay awake!", "Security check!", "Alert now!"],
     }
 
+    def validate_time_string(time_str, key):
+        """Validate and correct a time string in HH:MM format."""
+        import re
+
+        if not isinstance(time_str, str):
+            logging.error(
+                f"Invalid type for {key}: expected str, got {type(time_str)}, using default"
+            )
+            return default_config[key]
+        # Remove any unexpected characters and ensure HH:MM format
+        cleaned = re.sub(r"[^0-9:]", "", time_str)
+        if not re.match(r"^\d{2}:\d{2}$", cleaned):
+            logging.error(
+                f"Invalid {key} format: {time_str}, expected HH:MM, using default"
+            )
+            return default_config[key]
+        try:
+            datetime.datetime.strptime(cleaned, "%H:%M")
+            return cleaned
+        except ValueError:
+            logging.error(
+                f"Invalid {key} value: {time_str}, out of range, using default"
+            )
+            return default_config[key]
+
     if os.path.exists(config_path):
         try:
             with open(config_path, "r") as f:
                 config = json.load(f)
-            required_keys = default_config.keys()
-            missing_keys = [key for key in required_keys if key not in config]
-            if missing_keys:
-                logging.error(f"Missing keys in config: {missing_keys}")
-                send_email(config, "Config Error", f"Missing keys: {missing_keys}")
-                return default_config
+            # Validate and correct types
+            for key, default_value in default_config.items():
+                if key not in config:
+                    logging.warning(
+                        f"Missing key {key} in config, using default: {default_value}"
+                    )
+                    config[key] = default_value
+                elif key in ["start_time", "end_time"]:
+                    config[key] = validate_time_string(config[key], key)
+                elif isinstance(default_value, int) and not isinstance(
+                    config[key], int
+                ):
+                    logging.error(
+                        f"Invalid type for {key}: expected int, got {type(config[key])}, reverting to default"
+                    )
+                    config[key] = default_value
+                elif isinstance(default_value, bool) and not isinstance(
+                    config[key], bool
+                ):
+                    logging.error(
+                        f"Invalid type for {key}: expected bool, got {type(config[key])}, reverting to default"
+                    )
+                    config[key] = default_value
             if config.get("is_default", False):
                 logging.warning("Config is default.")
-                send_email(config, "Default Config Detected", "Running with default config.")
+                send_email(
+                    config, "Default Config Detected", "Running with default config."
+                )
             return config
         except json.JSONDecodeError:
             logging.error("Invalid JSON in config file.")
-            send_email(default_config, "Config Error", "Invalid JSON detected in config.json.")
+            send_email(
+                default_config, "Config Error", "Invalid JSON detected in config.json."
+            )
 
-    backups = [f for f in os.listdir() if f.startswith("config_backup_") and f.endswith(".json")]
+    backups = [
+        f
+        for f in os.listdir()
+        if f.startswith("config_backup_") and f.endswith(".json")
+    ]
     if backups:
         latest_backup = max(backups, key=os.path.getctime)
         try:
@@ -168,7 +222,9 @@ def load_config():
             logging.info(f"Restored config from backup: {latest_backup}")
             with open(config_path, "w") as f:
                 json.dump(config, f, indent=4)
-            send_email(config, "Config Restored", f"Restored config from {latest_backup}.")
+            send_email(
+                config, "Config Restored", f"Restored config from {latest_backup}."
+            )
             return config
         except json.JSONDecodeError:
             logging.error(f"Invalid JSON in backup: {latest_backup}")
@@ -177,10 +233,15 @@ def load_config():
         json.dump(default_config, f, indent=4)
     logging.info("Default config generated.")
     try:
-        send_email(default_config, "Config Missing", "Default config generated. Update required.")
+        send_email(
+            default_config,
+            "Config Missing",
+            "Default config generated. Update required.",
+        )
     except:
         logging.error("Email failed on default config generation.")
     return default_config
+
 
 # Send email function
 def send_email(config, subject, message):
@@ -212,57 +273,132 @@ def calculate_executable_hash():
             return None
     return None
 
-# Main Logic Thread
+
+# Add this new class after MainLogicThread
+class ManualPopupThread(QThread):
+    trigger_popup = pyqtSignal(str, bool)
+
+    def __init__(self):
+        super().__init__()
+        logging.info("ManualPopupThread initialized successfully")
+
+    def run(self):
+        logging.info("ManualPopupThread started")
+        while not stop_event.is_set():
+            try:
+                # Wait for an item in the queue with a short timeout to check stop_event
+                popup_data = popup_queue.get(timeout=1.0)
+                logging.info(f"Processing manual popup: {popup_data['message']}")
+                self.trigger_popup.emit(popup_data["message"], popup_data["play_sound"])
+                logging.info("trigger_popup signal emitted for manual popup")
+                popup_queue.task_done()  # Mark task as completed
+            except queue.Empty:  # Corrected to queue.Empty
+                continue  # Queue is empty, loop again to check stop_event
+            except Exception as e:
+                logging.error(f"Error in ManualPopupThread: {str(e)}")
+                send_email(
+                    load_config(),
+                    "ManualPopupThread Error",
+                    f"Error processing manual popup: {str(e)}",
+                )
+                time.sleep(5)  # Brief delay before retrying
+
+
+# Modified MainLogicThread (removes popup_queue handling)
 class MainLogicThread(QThread):
     trigger_popup = pyqtSignal(str, bool)
 
     def __init__(self):
         super().__init__()
-        self.config = load_config()
+        try:
+            self.config = load_config()
+            logging.info("MainLogicThread initialized successfully")
+        except Exception as e:
+            logging.error(f"Failed to initialize MainLogicThread: {str(e)}")
+            raise
 
     def run(self):
         logging.info("MainLogicThread started")
-        current_hash = calculate_executable_hash()
-        if current_hash and current_hash != self.config["expected_hash"]:
-            send_email(self.config, "Integrity Check Failed", f"Hash mismatch: expected {self.config['expected_hash']}, got {current_hash}")
+        try:
+            current_hash = calculate_executable_hash()
+            if current_hash and current_hash != self.config["expected_hash"]:
+                send_email(
+                    self.config,
+                    "Integrity Check Failed",
+                    f"Hash mismatch: expected {self.config['expected_hash']}, got {current_hash}",
+                )
+        except Exception as e:
+            logging.error(f"Error during hash check: {str(e)}")
 
         while not stop_event.is_set():
-            logging.info("MainLogicThread loop running")
-            self.config = load_config()
-            now = datetime.datetime.now()
-            start_time = datetime.datetime.strptime(self.config["start_time"], "%H:%M").time()
-            end_time = datetime.datetime.strptime(self.config["end_time"], "%H:%M").time()
+            try:
+                logging.info("MainLogicThread loop running")
+                self.config = load_config()
+                now = datetime.datetime.now()
+                start_time = datetime.datetime.strptime(
+                    self.config["start_time"], "%H:%M"
+                ).time()
+                end_time = datetime.datetime.strptime(
+                    self.config["end_time"], "%H:%M"
+                ).time()
 
-            if start_time > end_time:
-                if now.time() < end_time:
-                    start_dt = now.replace(hour=start_time.hour, minute=start_time.minute, second=0) - datetime.timedelta(days=1)
+                logging.info(
+                    f"Current time: {now.time()}, Start time: {start_time}, End time: {end_time}"
+                )
+
+                if start_time > end_time:
+                    if now.time() < end_time:
+                        start_dt = now.replace(
+                            hour=start_time.hour, minute=start_time.minute, second=0
+                        ) - datetime.timedelta(days=1)
+                    else:
+                        start_dt = now.replace(
+                            hour=start_time.hour, minute=start_time.minute, second=0
+                        )
+                    end_dt = start_dt + datetime.timedelta(days=1)
+                    end_dt = end_dt.replace(hour=end_time.hour, minute=end_time.minute)
                 else:
-                    start_dt = now.replace(hour=start_time.hour, minute=start_time.minute, second=0)
-                end_dt = start_dt + datetime.timedelta(days=1)
-                end_dt = end_dt.replace(hour=end_time.hour, minute=end_time.minute)
-            else:
-                start_dt = now.replace(hour=start_time.hour, minute=start_time.minute, second=0)
-                end_dt = start_dt.replace(hour=end_time.hour, minute=end_time.minute)
+                    start_dt = now.replace(
+                        hour=start_time.hour, minute=start_time.minute, second=0
+                    )
+                    end_dt = start_dt.replace(
+                        hour=end_time.hour, minute=end_time.minute
+                    )
 
-            if now < start_dt:
-                time.sleep((start_dt - now).total_seconds())
+                if now < start_dt:
+                    logging.info(f"Outside schedule, sleeping until {start_dt}")
+                    time.sleep((start_dt - now).total_seconds())
+                    continue
 
-            while datetime.datetime.now() < end_dt and not stop_event.is_set():
-                if not popup_queue.empty():
-                    popup_data = popup_queue.get()
-                    logging.info(f"Processing manual popup: {popup_data['message']}")
-                    self.trigger_popup.emit(popup_data["message"], popup_data["play_sound"])
-                else:
-                    wait_time = random.randint(self.config["min_wait_between_alerts_seconds"], self.config["max_wait_between_alerts_seconds"])
-                    next_alert = datetime.datetime.now() + datetime.timedelta(seconds=wait_time)
+                if datetime.datetime.now() < end_dt:
+                    wait_time = random.randint(
+                        self.config["min_wait_between_alerts_seconds"],
+                        self.config["max_wait_between_alerts_seconds"],
+                    )
+                    next_alert = datetime.datetime.now() + datetime.timedelta(
+                        seconds=wait_time
+                    )
                     if next_alert > end_dt:
                         wait_time = (end_dt - datetime.datetime.now()).total_seconds()
                         if wait_time <= 0:
-                            break
+                            time.sleep(60)
+                            continue
                     time.sleep(wait_time)
                     logging.info("Triggering scheduled popup")
                     self.trigger_popup.emit("Security Alert", True)
-            time.sleep(60)
+                    logging.info("trigger_popup signal emitted for scheduled popup")
+                else:
+                    logging.info("Outside schedule window, waiting 60 seconds")
+                    time.sleep(60)
+            except Exception as e:
+                logging.error(f"Error in MainLogicThread: {str(e)}")
+                send_email(
+                    self.config,
+                    "Thread Error",
+                    f"MainLogicThread encountered an error: {str(e)}",
+                )
+                time.sleep(60)  # Retry after a delay
+
 
 # Random Sound Thread
 class SoundThread(QThread):
@@ -442,10 +578,11 @@ def run_flask():
     logging.info("Starting Flask app in thread")
     app.run(debug=True, use_reloader=False)
 
-# Setup and run
+# Update the __main__ section to start the new thread
 if __name__ == "__main__":
     # Initialize Qt app in main thread
     qt_app = QApplication(sys.argv)
+    logging.info("Qt application initialized")
 
     # Show popup function
     def show_popup(message, play_sound):
@@ -455,9 +592,17 @@ if __name__ == "__main__":
         dialog.exec()
 
     # Start threads
+    logging.info("Starting MainLogicThread")
     main_thread = MainLogicThread()
     main_thread.trigger_popup.connect(show_popup)
+    logging.info("MainLogicThread signal connected to show_popup")
     main_thread.start()
+
+    logging.info("Starting ManualPopupThread")
+    manual_thread = ManualPopupThread()
+    manual_thread.trigger_popup.connect(show_popup)
+    logging.info("ManualPopupThread signal connected to show_popup")
+    manual_thread.start()
 
     sound_thread = SoundThread(load_config())
     sound_thread.start()
