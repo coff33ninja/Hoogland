@@ -96,7 +96,6 @@ After initial setup, access the GUI anytime by navigating to `http://localhost:5
 
 ### Notes
 - **Login Security**: I noted the hardcoded credentials as a limitation. If you want to enhance this, I can help add environment variables or a user config file.
-- **Web GUI Details**: Assumes you have `admin.html`, `login.html`, etc., in `templates/`. If not, let me know, and I’ll provide sample templates.
 - **Purpose**: Tailored to a security/alertness use case—adjust if your vision differs!
 - **Email Functionality**: Ensure SMTP settings are correct for your email provider. I can help with that if needed.
 - **Testing**: After updating, run the app to ensure the GUI and email features work as expected.
