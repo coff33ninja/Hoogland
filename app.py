@@ -1,3 +1,5 @@
+# Copyright (c) 2025 DJ Kruger
+# Licensed under the MIT License. See LICENSE file in the repository root.
 import threading
 import time
 import json
@@ -187,7 +189,7 @@ def load_config():
         "expected_hash": "abc123...",
         "is_default": True,
         "predefined_messages": ["Stay awake!", "Security check!", "Alert now!"],
-        "update_url": "https://example.com/hoogland/latest_version.json"
+        "update_url": "https://raw.githubusercontent.com/coff33ninja/Hoogland/main/latest_version.json"
     }
 
     def validate_time_string(time_str, key):
