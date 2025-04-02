@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "download_url": "https://github.com/coff33ninja/Hoogland/releases/download/v1.0.0/HooglandInstaller.exe",
+  "changes": {
+    "app.py": "https://github.com/coff33ninja/Hoogland/raw/v1.0.0/app.py",
+    "requirements.txt": "https://github.com/coff33ninja/Hoogland/raw/v1.0.0/requirements.txt"
+  }
+}

@@ -1,4 +1,8 @@
-waitress
-playsound
 PyQt6
 pygame
+flask
+flask-login
+werkzeug
+waitress
+requests
+cryptography

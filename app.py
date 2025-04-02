@@ -9,6 +9,7 @@ import hashlib
 import logging
 import signal
 import queue
+import subprocess
 from queue import Queue
 from pygame import mixer
 from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout, QApplication, QSystemTrayIcon, QMenu
@@ -20,27 +21,42 @@ from werkzeug.utils import secure_filename
 import smtplib
 from email.mime.text import MIMEText
 from waitress import serve
+import requests
+import webbrowser
+from cryptography.fernet import Fernet
 
-# Function to handle resource paths for PyInstaller
+# Generate or load encryption key
+key_path = os.path.join(os.getenv("APPDATA", os.path.expanduser("~/.hoogland")), "Hoogland", "key.bin")
+app_data_dir = os.path.dirname(key_path)
+os.makedirs(app_data_dir, exist_ok=True)
+if not os.path.exists(key_path):
+    key = Fernet.generate_key()
+    with open(key_path, "wb") as f:
+        f.write(key)
+else:
+    with open(key_path, "rb") as f:
+        key = f.read()
+cipher = Fernet(key)
+
 def resource_path(relative_path):
-    """Get absolute path to resource, works for dev and PyInstaller"""
     if hasattr(sys, '_MEIPASS'):
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
         return os.path.join(sys._MEIPASS, relative_path)
     return os.path.join(os.path.abspath("."), relative_path)
 
-# Set up logging
+# Set app data directory for logs and config
+log_file = os.path.join(app_data_dir, "app.log")
+config_path = os.path.join(app_data_dir, "config.json")
+
 logging.basicConfig(
-    filename="app.log",
+    filename=log_file,
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
+logging.info(f"Logging initialized to {log_file}")
 
-# Flask app setup with dynamic template folder
 app = Flask(__name__, template_folder=resource_path("templates"))
 app.secret_key = os.urandom(24).hex()
 
-# Flask-Login setup
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
@@ -57,16 +73,13 @@ def load_user(user_id):
         return user
     return None
 
-# Global variables
 notifications = []
 popup_queue = Queue()
 stop_event = threading.Event()
 qt_app = None
 
-# Initialize pygame mixer
 mixer.init()
 
-# AlertDialog class
 class AlertDialog(QDialog):
     def __init__(self, config, message="Security Alert", play_sound=True):
         super().__init__()
@@ -104,7 +117,9 @@ class AlertDialog(QDialog):
     def start_sound(self):
         def play_sound_loop():
             try:
-                mixer.music.load(resource_path("alert_sound.mp3"))  # Use resource_path
+                sound_path = resource_path("alert_sound.mp3")
+                logging.info(f"Loading sound from: {sound_path}")
+                mixer.music.load(sound_path)
                 mixer.music.play(-1)
                 logging.info("Sound started in loop")
                 while not self.stop_sound_event.is_set():
@@ -153,10 +168,9 @@ class AlertDialog(QDialog):
         event.accept()
 
 def load_config():
-    config_path = "config.json"
     default_config = {
         "sender_email": "your_email@example.com",
-        "password": "your_password",
+        "password": cipher.encrypt("your_password".encode()).decode(),
         "recipient_email": "recipient@example.com",
         "smtp_server": "smtp.gmail.com",
         "smtp_port": 587,
@@ -173,6 +187,7 @@ def load_config():
         "expected_hash": "abc123...",
         "is_default": True,
         "predefined_messages": ["Stay awake!", "Security check!", "Alert now!"],
+        "update_url": "https://example.com/hoogland/latest_version.json"
     }
 
     def validate_time_string(time_str, key):
@@ -221,32 +236,41 @@ def load_config():
             if config.get("is_default", False):
                 logging.warning("Config is default.")
                 send_email(config, "Default Config Detected", "Running with default config.")
+            config["password"] = cipher.decrypt(config["password"].encode()).decode()
             return config
         except json.JSONDecodeError:
             logging.error("Invalid JSON in config file.")
             send_email(default_config, "Config Error", "Invalid JSON detected in config.json.")
 
-    backups = [f for f in os.listdir() if f.startswith("config_backup_") and f.endswith(".json")]
+    backups = [f for f in os.listdir(app_data_dir) if f.startswith("config_backup_") and f.endswith(".json")]
     if backups:
-        latest_backup = max(backups, key=os.path.getctime)
+        latest_backup = max(backups, key=lambda x: os.path.getctime(os.path.join(app_data_dir, x)))
         try:
-            with open(latest_backup, "r") as f:
+            with open(os.path.join(app_data_dir, latest_backup), "r") as f:
                 config = json.load(f)
             logging.info(f"Restored config from backup: {latest_backup}")
             with open(config_path, "w") as f:
                 json.dump(config, f, indent=4)
             send_email(config, "Config Restored", f"Restored config from {latest_backup}.")
+            config["password"] = cipher.decrypt(config["password"].encode()).decode()
             return config
         except json.JSONDecodeError:
             logging.error(f"Invalid JSON in backup: {latest_backup}")
 
+    # Config doesn’t exist—launch web UI for setup
+    logging.info("Config not found, launching web UI for initial setup")
+    waitress_thread = threading.Thread(target=run_waitress, daemon=True)
+    waitress_thread.start()
+    time.sleep(1)  # Wait for server to start
+    webbrowser.open("http://localhost:5000/admin")
     with open(config_path, "w") as f:
         json.dump(default_config, f, indent=4)
     logging.info("Default config generated.")
     try:
-        send_email(default_config, "Config Missing", "Default config generated. Update required.")
+        send_email(default_config, "Config Missing", "Default config generated. Please update via web UI.")
     except:
         logging.error("Email failed on default config generation.")
+    default_config["password"] = cipher.decrypt(default_config["password"].encode()).decode()
     return default_config
 
 def send_email(config, subject, message):
@@ -276,6 +300,67 @@ def calculate_executable_hash():
             send_email(load_config(), "Hash Error", f"Failed to calculate hash: {str(e)}")
             return None
     return None
+
+class UpdateCheckerThread(QThread):
+    update_available = pyqtSignal(str)
+
+    def __init__(self, config):
+        super().__init__()
+        self.config = config
+        self.current_version = "1.0.0"
+        self.app_dir = os.path.dirname(sys.executable) if getattr(sys, "frozen", False) else os.path.dirname(__file__)
+
+    def run(self):
+        logging.info("UpdateCheckerThread started")
+        while not stop_event.is_set():
+            try:
+                response = requests.get(self.config["update_url"], timeout=5)
+                response.raise_for_status()
+                update_data = response.json()
+                latest_version = update_data.get("version")
+                if latest_version and latest_version > self.current_version:
+                    logging.info(f"Update available: {latest_version}")
+                    self.apply_update(update_data)
+                    self.update_available.emit(f"Updated to {latest_version}")
+                    self.current_version = latest_version
+                else:
+                    logging.info("No update available")
+            except Exception as e:
+                logging.error(f"Update check failed: {str(e)}")
+            time.sleep(3600)
+
+    def apply_update(self, update_data):
+        changes = update_data.get("changes", {})
+        for file_name, url in changes.items():
+            try:
+                response = requests.get(url, timeout=5)
+                response.raise_for_status()
+                file_path = os.path.join(self.app_dir, file_name)
+                with open(file_path, "wb") as f:
+                    f.write(response.content)
+                logging.info(f"Updated {file_name}")
+            except Exception as e:
+                logging.error(f"Failed to update {file_name}: {str(e)}")
+                send_email(self.config, "Update Error", f"Failed to update {file_name}: {str(e)}")
+
+        if "requirements.txt" in changes:
+            if getattr(sys, "frozen", False):
+                logging.info("New dependencies detected in frozen app, full update required")
+                self.update_available.emit(f"New dependencies detected. Please download the latest installer from {update_data.get('download_url', 'unknown URL')}")
+            else:
+                try:
+                    subprocess.check_call(
+                        [sys.executable, "-m", "pip", "install", "-r", os.path.join(self.app_dir, "requirements.txt")]
+                    )
+                    logging.info("Updated dependencies")
+                except Exception as e:
+                    logging.error(f"Failed to update dependencies: {str(e)}")
+                    send_email(self.config, "Update Error", f"Failed to update dependencies: {str(e)}")
+
+        if "app.py" in changes:
+            logging.info("Restarting app to apply update")
+            subprocess.Popen([sys.executable] + sys.argv)
+            sys.exit(0)
 
 class ManualPopupThread(QThread):
     trigger_popup = pyqtSignal(str, bool)
@@ -332,33 +417,32 @@ class MainLogicThread(QThread):
                 logging.info(f"Current time: {now.time()}, Start time: {start_time}, End time: {end_time}")
 
                 if start_time > end_time:
+                    start_dt = now.replace(hour=start_time.hour, minute=start_time.minute, second=0)
                     if now.time() < end_time:
-                        start_dt = now.replace(hour=start_time.hour, minute=start_time.minute, second=0) - datetime.timedelta(days=1)
-                    else:
-                        start_dt = now.replace(hour=start_time.hour, minute=start_time.minute, second=0)
+                        start_dt -= datetime.timedelta(days=1)
                     end_dt = start_dt + datetime.timedelta(days=1)
-                    end_dt = end_dt.replace(hour=end_time.hour, minute=end_time.minute)
+                    end_dt = end_dt.replace(hour=end_time.hour, minute=end_time.minute, second=0)
                 else:
                     start_dt = now.replace(hour=start_time.hour, minute=start_time.minute, second=0)
-                    end_dt = start_dt.replace(hour=end_time.hour, minute=end_time.minute)
+                    end_dt = now.replace(hour=end_time.hour, minute=end_time.minute, second=0)
 
                 if now < start_dt:
                     logging.info(f"Outside schedule, sleeping until {start_dt}")
                     time.sleep((start_dt - now).total_seconds())
                     continue
 
-                if datetime.datetime.now() < end_dt:
-                    wait_time = random.randint(self.config["min_wait_between_alerts_seconds"], self.config["max_wait_between_alerts_seconds"])
-                    next_alert = datetime.datetime.now() + datetime.timedelta(seconds=wait_time)
-                    if next_alert > end_dt:
-                        wait_time = (end_dt - datetime.datetime.now()).total_seconds()
-                        if wait_time <= 0:
-                            time.sleep(60)
-                            continue
+                if now < end_dt:
+                    total_seconds = (end_dt - now).total_seconds()
+                    if total_seconds <= 0:
+                        time.sleep(60)
+                        continue
+                    wait_time = random.uniform(0, total_seconds)
+                    logging.info(f"Random wait time: {wait_time} seconds")
                     time.sleep(wait_time)
                     logging.info("Triggering scheduled popup")
                     self.trigger_popup.emit("Security Alert", True)
                     logging.info("trigger_popup signal emitted for scheduled popup")
+                    time.sleep((end_dt - datetime.datetime.now()).total_seconds() + 60)
                 else:
                     logging.info("Outside schedule window, waiting 60 seconds")
                     time.sleep(60)
@@ -388,7 +472,7 @@ class SoundThread(QThread):
                 wait_time = random.randint(self.config["random_sound_min_seconds"], self.config["random_sound_max_seconds"])
                 time.sleep(wait_time)
                 try:
-                    mixer.music.load(resource_path("alert_sound.mp3"))  # Use resource_path
+                    mixer.music.load(resource_path("alert_sound.mp3"))
                     mixer.music.play(-1)
                     time.sleep(5)
                     mixer.music.stop()
@@ -399,7 +483,6 @@ class SoundThread(QThread):
             else:
                 time.sleep(60)
 
-# Flask routes
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -421,7 +504,7 @@ def logout():
 @login_required
 def logs():
     try:
-        with open("app.log", "r") as f:
+        with open(log_file, "r") as f:
             logs = f.readlines()
     except FileNotFoundError:
         logs = ["Log file not found."]
@@ -431,12 +514,14 @@ def logs():
 @login_required
 def admin():
     config = load_config()
-    backups = [f for f in os.listdir() if f.startswith("config_backup_") and f.endswith(".json")]
+    backups = [f for f in os.listdir(app_data_dir) if f.startswith("config_backup_") and f.endswith(".json")]
     if request.method == "POST":
         try:
+            new_password = request.form["password"]
+            encrypted_password = cipher.encrypt(new_password.encode()).decode() if new_password else config["password"]
             config = {
                 "sender_email": request.form["sender_email"],
-                "password": request.form["password"],
+                "password": encrypted_password,
                 "recipient_email": request.form["recipient_email"],
                 "smtp_server": request.form["smtp_server"],
                 "smtp_port": int(request.form["smtp_port"]),
@@ -453,10 +538,11 @@ def admin():
                 "expected_hash": request.form["expected_hash"],
                 "is_default": False,
                 "predefined_messages": config["predefined_messages"],
+                "update_url": request.form.get("update_url", config["update_url"])
             }
-            with open("config.json", "w") as f:
+            with open(config_path, "w") as f:
                 json.dump(config, f, indent=4)
-            backup_path = f"config_backup_{time.strftime('%Y%m%d_%H%M%S')}.json"
+            backup_path = os.path.join(app_data_dir, f"config_backup_{time.strftime('%Y%m%d_%H%M%S')}.json")
             with open(backup_path, "w") as f:
                 json.dump(config, f, indent=4)
             logging.info("Configuration updated and backed up.")
@@ -489,10 +575,10 @@ def get_notifications():
 @app.route("/download_backup")
 @login_required
 def download_backup():
-    backups = [f for f in os.listdir() if f.startswith("config_backup_") and f.endswith(".json")]
+    backups = [f for f in os.listdir(app_data_dir) if f.startswith("config_backup_") and f.endswith(".json")]
     if backups:
-        latest_backup = max(backups, key=os.path.getctime)
-        return send_file(latest_backup, as_attachment=True)
+        latest_backup = max(backups, key=lambda x: os.path.getctime(os.path.join(app_data_dir, x)))
+        return send_file(os.path.join(app_data_dir, latest_backup), as_attachment=True)
     return "No backups available.", 404
 
 @app.route("/restore_config", methods=["POST"])
@@ -506,7 +592,7 @@ def restore_config():
         try:
             with open(filename, "r") as f:
                 new_config = json.load(f)
-            with open("config.json", "w") as f:
+            with open(config_path, "w") as f:
                 json.dump(new_config, f, indent=4)
             os.remove(filename)
             logging.info(f"Config restored from uploaded file: {filename}")
@@ -516,11 +602,12 @@ def restore_config():
             send_email(config, "Config Restore Error", f"Failed to restore config from {filename}: {str(e)}")
     elif "backup_file" in request.form and request.form["backup_file"]:
         backup_file = request.form["backup_file"]
-        if os.path.exists(backup_file):
+        backup_full_path = os.path.join(app_data_dir, backup_file)
+        if os.path.exists(backup_full_path):
             try:
-                with open(backup_file, "r") as f:
+                with open(backup_full_path, "r") as f:
                     new_config = json.load(f)
-                with open("config.json", "w") as f:
+                with open(config_path, "w") as f:
                     json.dump(new_config, f, indent=4)
                 logging.info(f"Config restored from backup: {backup_file}")
                 send_email(config, "Config Restored", f"Config restored from backup: {backup_file}")
@@ -529,7 +616,6 @@ def restore_config():
                 send_email(config, "Config Restore Error", f"Failed to restore config from {backup_file}: {str(e)}")
     return redirect(url_for("admin"))
 
-# Cleanup function
 def cleanup(signum=None, frame=None):
     logging.info("Initiating cleanup")
     stop_event.set()
@@ -541,41 +627,32 @@ def cleanup(signum=None, frame=None):
     logging.info("Cleanup completed")
     sys.exit(0)
 
-# Signal handlers
 signal.signal(signal.SIGINT, cleanup)
 signal.signal(signal.SIGTERM, cleanup)
 
-# Waitress runner
 def run_waitress():
     logging.info("Starting Waitress server on 0.0.0.0:5000")
     serve(app, host="0.0.0.0", port=5000, threads=2)
 
-# Main execution
 if __name__ == "__main__":
-    # Initialize Qt app
     qt_app = QApplication(sys.argv)
     qt_app.setQuitOnLastWindowClosed(False)
     logging.info("Qt application initialized")
 
-    # Create a self-generated icon (red square)
     pixmap = QPixmap(16, 16)
     pixmap.fill(QColor("red"))
     tray_icon = QIcon(pixmap)
-
-    # Set up system tray
     tray = QSystemTrayIcon()
     tray.setIcon(tray_icon)
     tray.setToolTip("Security Alert App")
     tray.setVisible(True)
     logging.info("System tray icon initialized")
 
-    # Add a context menu with a Quit option
     tray_menu = QMenu()
     quit_action = tray_menu.addAction("Quit")
     quit_action.triggered.connect(cleanup)
     tray.setContextMenu(tray_menu)
 
-    # Show popup function
     def show_popup(message, play_sound):
         config = load_config()
         try:
@@ -586,7 +663,10 @@ if __name__ == "__main__":
         except Exception as e:
             logging.error(f"Error in show_popup: {str(e)}")
 
-    # Start threads
+    def show_update_notification(update_message):
+        tray.showMessage("Hoogland Update", update_message, QSystemTrayIcon.MessageIcon.Information, 10000)
+        notifications.append(f"{time.strftime('%H:%M:%S')} - Update: {update_message}")
+
     logging.info("Starting MainLogicThread")
     main_thread = MainLogicThread()
     main_thread.trigger_popup.connect(show_popup)
@@ -597,14 +677,18 @@ if __name__ == "__main__":
     manual_thread.trigger_popup.connect(show_popup)
     manual_thread.start()
 
+    logging.info("Starting SoundThread")
     sound_thread = SoundThread(load_config())
     sound_thread.start()
 
-    # Run Waitress in a separate thread
+    logging.info("Starting UpdateCheckerThread")
+    update_thread = UpdateCheckerThread(load_config())
+    update_thread.update_available.connect(show_update_notification)
+    update_thread.start()
+
     waitress_thread = threading.Thread(target=run_waitress, daemon=True)
     waitress_thread.start()
 
-    # Run Qt event loop
     logging.info("Starting Qt event loop")
     try:
         qt_app.exec()
