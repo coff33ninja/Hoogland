@@ -2,83 +2,183 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Panel</title>
+    <title>Admin Panel - Hoogland</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        h2 {
+            color: #3498db;
+            margin-top: 30px;
+        }
+        form, .section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #34495e;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        #custom_message_div {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>Admin Panel</h1>
-    <h2>Configuration</h2>
-    <form method="post">
-        <label>Sender Email:</label><br>
-        <input type="text" name="sender_email" value="{{ config.sender_email }}" required><br>
-        <label>Password:</label><br>
-        <input type="password" name="password" value="{{ config.password }}" required><br>
-        <label>Recipient Email:</label><br>
-        <input type="text" name="recipient_email" value="{{ config.recipient_email }}" required><br>
-        <label>SMTP Server:</label><br>
-        <input type="text" name="smtp_server" value="{{ config.smtp_server }}" required><br>
-        <label>SMTP Port:</label><br>
-        <input type="number" name="smtp_port" value="{{ config.smtp_port }}" required><br>
-        <label>Start Time (HH:MM):</label><br>
-        <input type="text" name="start_time" value="{{ config.start_time }}" required><br>
-        <label>End Time (HH:MM):</label><br>
-        <input type="text" name="end_time" value="{{ config.end_time }}" required><br>
-        <label>Sound After Minutes:</label><br>
-        <input type="number" name="sound_after_minutes" value="{{ config.sound_after_minutes }}" required><br>
-        <label>Report If Longer Than Minutes:</label><br>
-        <input type="number" name="report_if_longer_than_minutes" value="{{ config.report_if_longer_than_minutes }}" required><br>
-        <label>Email If Not Pressed After Minutes:</label><br>
-        <input type="number" name="email_if_not_pressed_after_minutes" value="{{ config.email_if_not_pressed_after_minutes }}" required><br>
-        <label>Min Wait Between Alerts (seconds):</label><br>
-        <input type="number" name="min_wait_between_alerts_seconds" value="{{ config.min_wait_between_alerts_seconds }}" required><br>
-        <label>Max Wait Between Alerts (seconds):</label><br>
-        <input type="number" name="max_wait_between_alerts_seconds" value="{{ config.max_wait_between_alerts_seconds }}" required><br>
-        <label>Enable Random Sound:</label><br>
-        <input type="checkbox" name="random_sound_enabled" {% if config.random_sound_enabled %}checked{% endif %}><br>
-        <label>Random Sound Min Seconds:</label><br>
-        <input type="number" name="random_sound_min_seconds" value="{{ config.random_sound_min_seconds }}" required><br>
-        <label>Random Sound Max Seconds:</label><br>
-        <input type="number" name="random_sound_max_seconds" value="{{ config.random_sound_max_seconds }}" required><br>
-        <label>Expected Hash:</label><br>
-        <input type="text" name="expected_hash" value="{{ config.expected_hash }}" required><br>
-        <button type="submit">Save</button>
-    </form>
+    <div class="container">
+        <h1>Admin Panel</h1>
 
-    <h2>Trigger Manual Popup</h2>
-    <form method="post" action="{{ url_for('trigger_popup') }}">
-        <label>Message:</label><br>
-        <select name="message_type" onchange="toggleCustomMessage(this)">
-            {% for msg in config.predefined_messages %}
-                <option value="{{ msg }}">{{ msg }}</option>
-            {% endfor %}
-            <option value="custom">Custom Message</option>
-        </select><br>
-        <div id="custom_message_div" style="display: none;">
-            <label>Custom Message:</label><br>
-            <input type="text" name="custom_message" placeholder="Enter your message"><br>
+        <div class="section">
+            <h2>Configuration</h2>
+            <form method="post">
+                <label>Sender Email:</label>
+                <input type="text" name="sender_email" value="{{ config.sender_email }}" required>
+                <label>Password:</label>
+                <input type="password" name="password" value="{{ config.password }}" required>
+                <label>Recipient Email:</label>
+                <input type="text" name="recipient_email" value="{{ config.recipient_email }}" required>
+                <label>SMTP Server:</label>
+                <input type="text" name="smtp_server" value="{{ config.smtp_server }}" required>
+                <label>SMTP Port:</label>
+                <input type="number" name="smtp_port" value="{{ config.smtp_port }}" required>
+                <label>Start Time (HH:MM):</label>
+                <input type="text" name="start_time" value="{{ config.start_time }}" required>
+                <label>End Time (HH:MM):</label>
+                <input type="text" name="end_time" value="{{ config.end_time }}" required>
+                <label>Sound After Minutes:</label>
+                <input type="number" name="sound_after_minutes" value="{{ config.sound_after_minutes }}" required>
+                <label>Report If Longer Than Minutes:</label>
+                <input type="number" name="report_if_longer_than_minutes" value="{{ config.report_if_longer_than_minutes }}" required>
+                <label>Email If Not Pressed After Minutes:</label>
+                <input type="number" name="email_if_not_pressed_after_minutes" value="{{ config.email_if_not_pressed_after_minutes }}" required>
+                <label>Min Wait Between Alerts (seconds):</label>
+                <input type="number" name="min_wait_between_alerts_seconds" value="{{ config.min_wait_between_alerts_seconds }}" required>
+                <label>Max Wait Between Alerts (seconds):</label>
+                <input type="number" name="max_wait_between_alerts_seconds" value="{{ config.max_wait_between_alerts_seconds }}" required>
+                <label>Enable Random Sound:</label>
+                <input type="checkbox" name="random_sound_enabled" {% if config.random_sound_enabled %}checked{% endif %}>
+                <label>Random Sound Min Seconds:</label>
+                <input type="number" name="random_sound_min_seconds" value="{{ config.random_sound_min_seconds }}" required>
+                <label>Random Sound Max Seconds:</label>
+                <input type="number" name="random_sound_max_seconds" value="{{ config.random_sound_max_seconds }}" required>
+                <label>Expected Hash:</label>
+                <input type="text" name="expected_hash" value="{{ config.expected_hash }}" required>
+                <button type="submit">Save</button>
+            </form>
         </div>
-        <label>Play Sound:</label>
-        <input type="checkbox" name="play_sound" checked><br>
-        <button type="submit">Trigger Popup</button>
-    </form>
 
-    <h2>Restore Config</h2>
-    <form method="post" action="{{ url_for('restore_config') }}" enctype="multipart/form-data">
-        <label>Upload Config File:</label><br>
-        <input type="file" name="config_file" accept=".json"><br>
-        <label>Or Select Backup:</label><br>
-        <select name="backup_file">
-            <option value="">-- Select a backup --</option>
-            {% for backup in backups %}
-                <option value="{{ backup }}">{{ backup }}</option>
-            {% endfor %}
-        </select><br>
-        <button type="submit">Restore Config</button>
-    </form>
+        <div class="section">
+            <h2>Trigger Manual Popup</h2>
+            <form method="post" action="{{ url_for('trigger_popup') }}">
+                <label>Message:</label>
+                <select name="message_type" onchange="toggleCustomMessage(this)">
+                    {% for msg in config.predefined_messages %}
+                        <option value="{{ msg }}">{{ msg }}</option>
+                    {% endfor %}
+                    <option value="custom">Custom Message</option>
+                </select>
+                <div id="custom_message_div">
+                    <label>Custom Message:</label>
+                    <input type="text" name="custom_message" placeholder="Enter your message">
+                </div>
+                <label>Play Sound:</label>
+                <input type="checkbox" name="play_sound" checked>
+                <button type="submit">Trigger Popup</button>
+            </form>
+        </div>
 
-    <a href="{{ url_for('logs') }}">View Logs</a> |
-    <a href="{{ url_for('get_notifications') }}">View Notifications</a> |
-    <a href="{{ url_for('download_backup') }}">Download Latest Backup</a> |
-    <a href="{{ url_for('logout') }}">Logout</a>
+        <div class="section">
+            <h2>Manage Custom Sounds</h2>
+            <form method="post" action="{{ url_for('upload_sound') }}" enctype="multipart/form-data">
+                <label>Upload Sound (MP3 only, max 5 sounds)</label>
+                <input type="file" name="sound_file" accept=".mp3">
+                <button type="submit">Upload</button>
+            </form>
+            <ul>
+                {% for sound in config.custom_sounds %}
+                    <li>{{ sound }} <a href="{{ url_for('delete_sound', filename=sound) }}">Delete</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Restore Config</h2>
+            <form method="post" action="{{ url_for('restore_config') }}" enctype="multipart/form-data">
+                <label>Upload Config File:</label>
+                <input type="file" name="config_file" accept=".json">
+                <label>Or Select Backup:</label>
+                <select name="backup_file">
+                    <option value="">-- Select a backup --</option>
+                    {% for backup in backups %}
+                        <option value="{{ backup }}">{{ backup }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Restore Config</button>
+            </form>
+        </div>
+
+        <div class="links">
+            <a href="{{ url_for('logs') }}">View Logs</a> |
+            <a href="{{ url_for('get_notifications') }}">View Notifications</a> |
+            <a href="{{ url_for('download_backup') }}">Download Latest Backup</a> |
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
 
     <script>
         function toggleCustomMessage(select) {

@@ -4,6 +4,7 @@ import threading
 import time
 import json
 import os
+import uuid
 import random
 import datetime
 import sys
@@ -23,6 +24,7 @@ from werkzeug.utils import secure_filename
 import smtplib
 from email.mime.text import MIMEText
 from waitress import serve
+from cryptography.fernet import Fernet
 import requests
 import webbrowser
 from cryptography.fernet import Fernet
@@ -88,7 +90,7 @@ class AlertDialog(QDialog):
         logging.info("AlertDialog initialized")
         self.config = config
         self.message = message
-        self.play_sound = play_sound
+        self.play_sound = play_sound  # Single assignment
         self.start_time = time.time()
         self.pressed = False
         self.sound_thread = None
@@ -119,10 +121,17 @@ class AlertDialog(QDialog):
     def start_sound(self):
         def play_sound_loop():
             try:
-                sound_path = resource_path("alert_sound.mp3")
+                sound_path = resource_path("alert_sound.mp3")  # Default sound
+                if self.config.get("custom_sounds"):
+                    # Filter for existing custom sounds
+                    available_sounds = [s for s in self.config["custom_sounds"]
+                                      if os.path.exists(os.path.join(app_data_dir, "sounds", s))]
+                    if available_sounds:
+                        sound_file = random.choice(available_sounds)
+                        sound_path = os.path.join(app_data_dir, "sounds", sound_file)
                 logging.info(f"Loading sound from: {sound_path}")
                 mixer.music.load(sound_path)
-                mixer.music.play(-1)
+                mixer.music.play(-1)  # Loop indefinitely
                 logging.info("Sound started in loop")
                 while not self.stop_sound_event.is_set():
                     time.sleep(0.1)
@@ -130,6 +139,7 @@ class AlertDialog(QDialog):
                 logging.info("Sound stopped")
             except Exception as e:
                 logging.error(f"Sound playback failed: {str(e)}")
+                # Optionally notify via email
                 send_email(self.config, "Sound Error", f"Failed to play sound: {str(e)}")
 
         if self.play_sound and not self.sound_thread:
@@ -138,7 +148,7 @@ class AlertDialog(QDialog):
             self.sound_thread.start()
 
     def stop_sound(self):
-        if self.sound_thread and self.play_sound:
+        if self.sound_thread:
             self.stop_sound_event.set()
             self.sound_thread.join()
             self.sound_thread = None
@@ -170,28 +180,46 @@ class AlertDialog(QDialog):
         event.accept()
 
 def load_config():
-    default_config = {
-        "sender_email": "your_email@example.com",
-        "password": cipher.encrypt("your_password".encode()).decode(),
-        "recipient_email": "recipient@example.com",
-        "smtp_server": "smtp.gmail.com",
-        "smtp_port": 587,
-        "start_time": "18:00",
-        "end_time": "23:59",
-        "sound_after_minutes": 3,
-        "report_if_longer_than_minutes": 5,
-        "email_if_not_pressed_after_minutes": 10,
-        "min_wait_between_alerts_seconds": 10,
-        "max_wait_between_alerts_seconds": 20,
-        "random_sound_enabled": False,
-        "random_sound_min_seconds": 1800,
-        "random_sound_max_seconds": 3600,
-        "expected_hash": "abc123...",
-        "is_default": True,
-        "predefined_messages": ["Stay awake!", "Security check!", "Alert now!"],
-        "update_url": "https://raw.githubusercontent.com/coff33ninja/Hoogland/main/latest_version.json"
-    }
-
+    config_lock = threading.Lock()
+    with config_lock:
+        default_config = {
+            "web_username": "admin",
+            "web_password": cipher.encrypt("password".encode()).decode(),
+            "sender_email": "your_email@example.com",
+            "password": cipher.encrypt("your_password".encode()).decode(),
+            "recipient_email": "recipient@example.com",
+            "smtp_server": "smtp.gmail.com",
+            "smtp_port": 587,
+            "start_time": "18:00",
+            "end_time": "23:59",
+            "sound_after_minutes": 3,
+            "report_if_longer_than_minutes": 5,
+            "email_if_not_pressed_after_minutes": 10,
+            "min_wait_between_alerts_seconds": 10,
+            "max_wait_between_alerts_seconds": 20,
+            "random_sound_enabled": False,
+            "random_sound_min_seconds": 1800,
+            "random_sound_max_seconds": 3600,
+            "expected_hash": "abc123...",
+            "is_default": True,
+            "predefined_messages": ["Stay awake!", "Security check!", "Alert now!"],
+            "update_url": "https://raw.githubusercontent.com/coff33ninja/Hoogland/main/latest_version.json",
+            "custom_sounds": []
+            }
+        try:
+            if os.path.exists(config_path):
+                with open(config_path, "r") as f:
+                    config = json.load(f)
+                # Validate and correct fields
+                config["start_time"] = validate_time_string(config.get("start_time", default_config["start_time"]), "start_time")
+                return config
+            else:
+                with open(config_path, "w") as f:
+                    json.dump(default_config, f)
+                return default_config
+        except Exception as e:
+            logging.error(f"Config error: {e}")
+            return default_config
     def validate_time_string(time_str, key):
         import re
         if not isinstance(time_str, str):
@@ -331,19 +359,21 @@ class UpdateCheckerThread(QThread):
                 logging.error(f"Update check failed: {str(e)}")
             time.sleep(3600)
 
+
     def apply_update(self, update_data):
         changes = update_data.get("changes", {})
+        expected_hashes = update_data.get("hashes", {})
         for file_name, url in changes.items():
-            try:
-                response = requests.get(url, timeout=5)
-                response.raise_for_status()
-                file_path = os.path.join(self.app_dir, file_name)
-                with open(file_path, "wb") as f:
-                    f.write(response.content)
+            response = requests.get(url, timeout=5)
+            response.raise_for_status()
+            content = response.content
+            if hashlib.sha256(content).hexdigest() == expected_hashes.get(file_name):
+                with open(os.path.join(self.app_dir, file_name), "wb") as f:
+                    f.write(content)
                 logging.info(f"Updated {file_name}")
-            except Exception as e:
-                logging.error(f"Failed to update {file_name}: {str(e)}")
-                send_email(self.config, "Update Error", f"Failed to update {file_name}: {str(e)}")
+            else:
+                logging.error(f"Hash mismatch for {file_name}")
+                send_email(self.config, "Update Error", f"Hash mismatch for {file_name}")
 
         if "requirements.txt" in changes:
             if getattr(sys, "frozen", False):
@@ -363,6 +393,7 @@ class UpdateCheckerThread(QThread):
             logging.info("Restarting app to apply update")
             subprocess.Popen([sys.executable] + sys.argv)
             sys.exit(0)
+
 
 class ManualPopupThread(QThread):
     trigger_popup = pyqtSignal(str, bool)
@@ -485,16 +516,22 @@ class SoundThread(QThread):
             else:
                 time.sleep(60)
 
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    config = load_config()
     if request.method == "POST":
-        if request.form["username"] == "admin" and request.form["password"] == "password":
+        username = request.form["username"]
+        password = request.form["password"]
+        if (
+            username == config["web_username"]
+            and password == cipher.decrypt(config["web_password"].encode()).decode()
+        ):
             login_user(user)
-            logging.info("User logged in successfully")
             return redirect(url_for("admin"))
-        logging.warning("Invalid login attempt")
         return "Invalid credentials"
     return render_template("login.html")
+
 
 @app.route("/logout")
 @login_required
@@ -573,6 +610,45 @@ def trigger_popup():
 @login_required
 def get_notifications():
     return render_template("notifications.html", notifications=notifications)
+
+@app.route("/upload_sound", methods=["POST"])
+@login_required
+def upload_sound():
+    config = load_config()
+    if len(config.get("custom_sounds", [])) >= 5:
+        return "Maximum of 5 custom sounds reached.", 400
+    if "sound_file" not in request.files:
+        return "No file uploaded.", 400
+    file = request.files["sound_file"]
+    if file.filename == "":
+        return "No file selected.", 400
+    if not file.filename.lower().endswith(".mp3"):
+        return "Only MP3 files are allowed.", 400
+    # Generate a unique filename to avoid overwrites
+    filename = f"custom_sound_{uuid.uuid4().hex}.mp3"
+    sounds_dir = os.path.join(app_data_dir, "sounds")
+    os.makedirs(sounds_dir, exist_ok=True)
+    file_path = os.path.join(sounds_dir, filename)
+    file.save(file_path)
+    # Update config
+    config["custom_sounds"] = config.get("custom_sounds", []) + [filename]
+    with open(config_path, "w") as f:
+        json.dump(config, f, indent=4)
+    return redirect(url_for("admin"))
+
+@app.route("/delete_sound/<filename>", methods=["GET"])
+@login_required
+def delete_sound(filename):
+    config = load_config()
+    sounds_dir = os.path.join(app_data_dir, "sounds")
+    file_path = os.path.join(sounds_dir, filename)
+    if os.path.exists(file_path):
+        os.remove(file_path)
+    # Remove filename from config
+    config["custom_sounds"] = [s for s in config.get("custom_sounds", []) if s != filename]
+    with open(config_path, "w") as f:
+        json.dump(config, f, indent=4)
+    return redirect(url_for("admin"))
 
 @app.route("/download_backup")
 @login_required

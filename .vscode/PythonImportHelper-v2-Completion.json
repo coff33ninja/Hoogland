@@ -36,6 +36,15 @@
         "documentation": {}
     },
     {
+        "label": "uuid",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "uuid",
+        "description": "uuid",
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
         "label": "random",
         "kind": 6,
         "isExtraImport": true,
@@ -357,6 +366,22 @@
         "documentation": {}
     },
     {
+        "label": "Fernet",
+        "importPath": "cryptography.fernet",
+        "description": "cryptography.fernet",
+        "isExtraImport": true,
+        "detail": "cryptography.fernet",
+        "documentation": {}
+    },
+    {
+        "label": "Fernet",
+        "importPath": "cryptography.fernet",
+        "description": "cryptography.fernet",
+        "isExtraImport": true,
+        "detail": "cryptography.fernet",
+        "documentation": {}
+    },
+    {
         "label": "requests",
         "kind": 6,
         "isExtraImport": true,
@@ -375,14 +400,6 @@
         "documentation": {}
     },
     {
-        "label": "Fernet",
-        "importPath": "cryptography.fernet",
-        "description": "cryptography.fernet",
-        "isExtraImport": true,
-        "detail": "cryptography.fernet",
-        "documentation": {}
-    },
-    {
         "label": "User",
         "kind": 6,
         "importPath": "app",
@@ -396,7 +413,7 @@
         "kind": 6,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "class AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound\n        self.start_time = time.time()\n        self.pressed = False\n        self.sound_thread = None",
+        "peekOfCode": "class AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound  # Single assignment\n        self.start_time = time.time()\n        self.pressed = False\n        self.sound_thread = None",
         "detail": "app",
         "documentation": {}
     },
@@ -459,7 +476,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def load_config():\n    default_config = {\n        \"sender_email\": \"your_email@example.com\",\n        \"password\": cipher.encrypt(\"your_password\".encode()).decode(),\n        \"recipient_email\": \"recipient@example.com\",\n        \"smtp_server\": \"smtp.gmail.com\",\n        \"smtp_port\": 587,\n        \"start_time\": \"18:00\",\n        \"end_time\": \"23:59\",\n        \"sound_after_minutes\": 3,",
+        "peekOfCode": "def load_config():\n    config_lock = threading.Lock()\n    with config_lock:\n        default_config = {\n            \"web_username\": \"admin\",\n            \"web_password\": cipher.encrypt(\"password\".encode()).decode(),\n            \"sender_email\": \"your_email@example.com\",\n            \"password\": cipher.encrypt(\"your_password\".encode()).decode(),\n            \"recipient_email\": \"recipient@example.com\",\n            \"smtp_server\": \"smtp.gmail.com\",",
         "detail": "app",
         "documentation": {}
     },
@@ -486,7 +503,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def login():\n    if request.method == \"POST\":\n        if request.form[\"username\"] == \"admin\" and request.form[\"password\"] == \"password\":\n            login_user(user)\n            logging.info(\"User logged in successfully\")\n            return redirect(url_for(\"admin\"))\n        logging.warning(\"Invalid login attempt\")\n        return \"Invalid credentials\"\n    return render_template(\"login.html\")\n@app.route(\"/logout\")",
+        "peekOfCode": "def login():\n    config = load_config()\n    if request.method == \"POST\":\n        username = request.form[\"username\"]\n        password = request.form[\"password\"]\n        if (\n            username == config[\"web_username\"]\n            and password == cipher.decrypt(config[\"web_password\"].encode()).decode()\n        ):\n            login_user(user)",
         "detail": "app",
         "documentation": {}
     },
@@ -531,7 +548,25 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def get_notifications():\n    return render_template(\"notifications.html\", notifications=notifications)\n@app.route(\"/download_backup\")\n@login_required\ndef download_backup():\n    backups = [f for f in os.listdir(app_data_dir) if f.startswith(\"config_backup_\") and f.endswith(\".json\")]\n    if backups:\n        latest_backup = max(backups, key=lambda x: os.path.getctime(os.path.join(app_data_dir, x)))\n        return send_file(os.path.join(app_data_dir, latest_backup), as_attachment=True)\n    return \"No backups available.\", 404",
+        "peekOfCode": "def get_notifications():\n    return render_template(\"notifications.html\", notifications=notifications)\n@app.route(\"/upload_sound\", methods=[\"POST\"])\n@login_required\ndef upload_sound():\n    config = load_config()\n    if len(config.get(\"custom_sounds\", [])) >= 5:\n        return \"Maximum of 5 custom sounds reached.\", 400\n    if \"sound_file\" not in request.files:\n        return \"No file uploaded.\", 400",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "upload_sound",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def upload_sound():\n    config = load_config()\n    if len(config.get(\"custom_sounds\", [])) >= 5:\n        return \"Maximum of 5 custom sounds reached.\", 400\n    if \"sound_file\" not in request.files:\n        return \"No file uploaded.\", 400\n    file = request.files[\"sound_file\"]\n    if file.filename == \"\":\n        return \"No file selected.\", 400\n    if not file.filename.lower().endswith(\".mp3\"):",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "delete_sound",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def delete_sound(filename):\n    config = load_config()\n    sounds_dir = os.path.join(app_data_dir, \"sounds\")\n    file_path = os.path.join(sounds_dir, filename)\n    if os.path.exists(file_path):\n        os.remove(file_path)\n    # Remove filename from config\n    config[\"custom_sounds\"] = [s for s in config.get(\"custom_sounds\", []) if s != filename]\n    with open(config_path, \"w\") as f:\n        json.dump(config, f, indent=4)",
         "detail": "app",
         "documentation": {}
     },
@@ -693,7 +728,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "stop_event = threading.Event()\nqt_app = None\nmixer.init()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound",
+        "peekOfCode": "stop_event = threading.Event()\nqt_app = None\nmixer.init()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound  # Single assignment",
         "detail": "app",
         "documentation": {}
     },
@@ -702,7 +737,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "qt_app = None\nmixer.init()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound\n        self.start_time = time.time()",
+        "peekOfCode": "qt_app = None\nmixer.init()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound  # Single assignment\n        self.start_time = time.time()",
         "detail": "app",
         "documentation": {}
     }
