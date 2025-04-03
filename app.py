@@ -27,7 +27,6 @@ from waitress import serve
 from cryptography.fernet import Fernet
 import requests
 import webbrowser
-from cryptography.fernet import Fernet
 
 # Generate or load encryption key
 key_path = os.path.join(os.getenv("APPDATA", os.path.expanduser("~/.hoogland")), "Hoogland", "key.bin")
@@ -90,7 +89,7 @@ class AlertDialog(QDialog):
         logging.info("AlertDialog initialized")
         self.config = config
         self.message = message
-        self.play_sound = play_sound  # Single assignment
+        self.play_sound = play_sound
         self.start_time = time.time()
         self.pressed = False
         self.sound_thread = None
@@ -122,10 +121,9 @@ class AlertDialog(QDialog):
         def play_sound_loop():
             try:
                 sound_path = resource_path("alert_sound.mp3")  # Default sound
-                if self.config.get("custom_sounds"):
-                    # Filter for existing custom sounds
-                    available_sounds = [s for s in self.config["custom_sounds"]
-                                      if os.path.exists(os.path.join(app_data_dir, "sounds", s))]
+                if self.config.get("use_custom_sounds", False) and self.config.get("custom_sounds"):
+                    available_sounds = [s["filename"] for s in self.config["custom_sounds"]
+                                      if s["active"] and os.path.exists(os.path.join(app_data_dir, "sounds", s["filename"]))]
                     if available_sounds:
                         sound_file = random.choice(available_sounds)
                         sound_path = os.path.join(app_data_dir, "sounds", sound_file)
@@ -139,7 +137,6 @@ class AlertDialog(QDialog):
                 logging.info("Sound stopped")
             except Exception as e:
                 logging.error(f"Sound playback failed: {str(e)}")
-                # Optionally notify via email
                 send_email(self.config, "Sound Error", f"Failed to play sound: {str(e)}")
 
         if self.play_sound and not self.sound_thread:
@@ -204,104 +201,99 @@ def load_config():
             "is_default": True,
             "predefined_messages": ["Stay awake!", "Security check!", "Alert now!"],
             "update_url": "https://raw.githubusercontent.com/coff33ninja/Hoogland/main/latest_version.json",
-            "custom_sounds": []
-            }
-        try:
-            if os.path.exists(config_path):
+            "custom_sounds": [],
+            "use_custom_sounds": False  # New field for explicit custom sound usage
+        }
+
+        def validate_time_string(time_str, key):
+            import re
+            if not isinstance(time_str, str):
+                logging.error(f"Invalid type for {key}: expected str, got {type(time_str)}, using default")
+                return default_config[key]
+            cleaned = re.sub(r"[^0-9:]", "", time_str)
+            if not re.match(r"^\d{2}:\d{2}$", cleaned):
+                logging.error(f"Invalid {key} format: {time_str}, expected HH:MM, using default")
+                return default_config[key]
+            try:
+                datetime.datetime.strptime(cleaned, "%H:%M")
+                return cleaned
+            except ValueError:
+                logging.error(f"Invalid {key} value: {time_str}, out of range, using default")
+                return default_config[key]
+
+        if os.path.exists(config_path):
+            try:
                 with open(config_path, "r") as f:
                     config = json.load(f)
-                # Validate and correct fields
-                config["start_time"] = validate_time_string(config.get("start_time", default_config["start_time"]), "start_time")
-                return config
-            else:
-                with open(config_path, "w") as f:
-                    json.dump(default_config, f)
-                return default_config
-        except Exception as e:
-            logging.error(f"Config error: {e}")
-            return default_config
-    def validate_time_string(time_str, key):
-        import re
-        if not isinstance(time_str, str):
-            logging.error(f"Invalid type for {key}: expected str, got {type(time_str)}, using default")
-            return default_config[key]
-        cleaned = re.sub(r"[^0-9:]", "", time_str)
-        if not re.match(r"^\d{2}:\d{2}$", cleaned):
-            logging.error(f"Invalid {key} format: {time_str}, expected HH:MM, using default")
-            return default_config[key]
-        try:
-            datetime.datetime.strptime(cleaned, "%H:%M")
-            return cleaned
-        except ValueError:
-            logging.error(f"Invalid {key} value: {time_str}, out of range, using default")
-            return default_config[key]
-
-    if os.path.exists(config_path):
-        try:
-            with open(config_path, "r") as f:
-                config = json.load(f)
-            updated = False
-            for key, default_value in default_config.items():
-                if key not in config:
-                    logging.warning(f"Missing key {key} in config, using default: {default_value}")
-                    config[key] = default_value
-                    updated = True
-                elif key in ["start_time", "end_time"]:
-                    corrected = validate_time_string(config[key], key)
-                    if corrected != config[key]:
-                        config[key] = corrected
+                updated = False
+                for key, default_value in default_config.items():
+                    if key not in config:
+                        logging.warning(f"Missing key {key} in config, using default: {default_value}")
+                        config[key] = default_value
                         updated = True
-                elif isinstance(default_value, int) and not isinstance(config[key], int):
-                    logging.error(f"Invalid type for {key}: expected int, got {type(config[key])}, reverting to default")
-                    config[key] = default_value
+                    elif key in ["start_time", "end_time"]:
+                        corrected = validate_time_string(config[key], key)
+                        if corrected != config[key]:
+                            config[key] = corrected
+                            updated = True
+                    elif isinstance(default_value, int) and not isinstance(config[key], int):
+                        logging.error(f"Invalid type for {key}: expected int, got {type(config[key])}, reverting to default")
+                        config[key] = default_value
+                        updated = True
+                    elif isinstance(default_value, bool) and not isinstance(config[key], bool):
+                        logging.error(f"Invalid type for {key}: expected bool, got {type(config[key])}, reverting to default")
+                        config[key] = default_value
+                        updated = True
+                # Migrate old custom_sounds format to new dict-based format
+                if "custom_sounds" in config and all(isinstance(s, str) for s in config["custom_sounds"]):
+                    config["custom_sounds"] = [{"filename": s, "active": True} for s in config["custom_sounds"]]
                     updated = True
-                elif isinstance(default_value, bool) and not isinstance(config[key], bool):
-                    logging.error(f"Invalid type for {key}: expected bool, got {type(config[key])}, reverting to default")
-                    config[key] = default_value
-                    updated = True
-            if updated:
+                if updated:
+                    with open(config_path, "w") as f:
+                        json.dump(config, f, indent=4)
+                    logging.info("Config file updated with corrected values")
+                if config.get("is_default", False):
+                    logging.warning("Config is default.")
+                    send_email(config, "Default Config Detected", "Running with default config.")
+                config["password"] = cipher.decrypt(config["password"].encode()).decode()
+                return config
+            except json.JSONDecodeError:
+                logging.error("Invalid JSON in config file.")
+                send_email(default_config, "Config Error", "Invalid JSON detected in config.json.")
+
+        backups = [f for f in os.listdir(app_data_dir) if f.startswith("config_backup_") and f.endswith(".json")]
+        if backups:
+            latest_backup = max(backups, key=lambda x: os.path.getctime(os.path.join(app_data_dir, x)))
+            try:
+                with open(os.path.join(app_data_dir, latest_backup), "r") as f:
+                    config = json.load(f)
+                # Migrate old custom_sounds format if present
+                if "custom_sounds" in config and all(isinstance(s, str) for s in config["custom_sounds"]):
+                    config["custom_sounds"] = [{"filename": s, "active": True} for s in config["custom_sounds"]]
+                logging.info(f"Restored config from backup: {latest_backup}")
                 with open(config_path, "w") as f:
                     json.dump(config, f, indent=4)
-                logging.info("Config file updated with corrected values")
-            if config.get("is_default", False):
-                logging.warning("Config is default.")
-                send_email(config, "Default Config Detected", "Running with default config.")
-            config["password"] = cipher.decrypt(config["password"].encode()).decode()
-            return config
-        except json.JSONDecodeError:
-            logging.error("Invalid JSON in config file.")
-            send_email(default_config, "Config Error", "Invalid JSON detected in config.json.")
+                send_email(config, "Config Restored", f"Restored config from {latest_backup}.")
+                config["password"] = cipher.decrypt(config["password"].encode()).decode()
+                return config
+            except json.JSONDecodeError:
+                logging.error(f"Invalid JSON in backup: {latest_backup}")
 
-    backups = [f for f in os.listdir(app_data_dir) if f.startswith("config_backup_") and f.endswith(".json")]
-    if backups:
-        latest_backup = max(backups, key=lambda x: os.path.getctime(os.path.join(app_data_dir, x)))
+        # Config doesn’t exist—launch web UI for setup
+        logging.info("Config not found, launching web UI for initial setup")
+        waitress_thread = threading.Thread(target=run_waitress, daemon=True)
+        waitress_thread.start()
+        time.sleep(1)  # Wait for server to start
+        webbrowser.open("http://localhost:5000/admin")
+        with open(config_path, "w") as f:
+            json.dump(default_config, f, indent=4)
+        logging.info("Default config generated.")
         try:
-            with open(os.path.join(app_data_dir, latest_backup), "r") as f:
-                config = json.load(f)
-            logging.info(f"Restored config from backup: {latest_backup}")
-            with open(config_path, "w") as f:
-                json.dump(config, f, indent=4)
-            send_email(config, "Config Restored", f"Restored config from {latest_backup}.")
-            config["password"] = cipher.decrypt(config["password"].encode()).decode()
-            return config
-        except json.JSONDecodeError:
-            logging.error(f"Invalid JSON in backup: {latest_backup}")
-
-    # Config doesn’t exist—launch web UI for setup
-    logging.info("Config not found, launching web UI for initial setup")
-    waitress_thread = threading.Thread(target=run_waitress, daemon=True)
-    waitress_thread.start()
-    time.sleep(1)  # Wait for server to start
-    webbrowser.open("http://localhost:5000/admin")
-    with open(config_path, "w") as f:
-        json.dump(default_config, f, indent=4)
-    logging.info("Default config generated.")
-    try:
-        send_email(default_config, "Config Missing", "Default config generated. Please update via web UI.")
-    except:
-        logging.error("Email failed on default config generation.")
-    default_config["password"] = cipher.decrypt(default_config["password"].encode()).decode()
-    return default_config
+            send_email(default_config, "Config Missing", "Default config generated. Please update via web UI.")
+        except:
+            logging.error("Email failed on default config generation.")
+        default_config["password"] = cipher.decrypt(default_config["password"].encode()).decode()
+        return default_config
 
 def send_email(config, subject, message):
     try:
@@ -359,7 +351,6 @@ class UpdateCheckerThread(QThread):
                 logging.error(f"Update check failed: {str(e)}")
             time.sleep(3600)
 
-
     def apply_update(self, update_data):
         changes = update_data.get("changes", {})
         expected_hashes = update_data.get("hashes", {})
@@ -393,7 +384,6 @@ class UpdateCheckerThread(QThread):
             logging.info("Restarting app to apply update")
             subprocess.Popen([sys.executable] + sys.argv)
             sys.exit(0)
-
 
 class ManualPopupThread(QThread):
     trigger_popup = pyqtSignal(str, bool)
@@ -516,7 +506,6 @@ class SoundThread(QThread):
             else:
                 time.sleep(60)
 
-
 @app.route("/login", methods=["GET", "POST"])
 def login():
     config = load_config()
@@ -531,7 +520,6 @@ def login():
             return redirect(url_for("admin"))
         return "Invalid credentials"
     return render_template("login.html")
-
 
 @app.route("/logout")
 @login_required
@@ -571,13 +559,15 @@ def admin():
                 "email_if_not_pressed_after_minutes": int(request.form["email_if_not_pressed_after_minutes"]),
                 "min_wait_between_alerts_seconds": int(request.form["min_wait_between_alerts_seconds"]),
                 "max_wait_between_alerts_seconds": int(request.form["max_wait_between_alerts_seconds"]),
-                "random_sound_enabled": request.form["random_sound_enabled"] == "on",
+                "random_sound_enabled": request.form.get("random_sound_enabled") == "on",
                 "random_sound_min_seconds": int(request.form["random_sound_min_seconds"]),
                 "random_sound_max_seconds": int(request.form["random_sound_max_seconds"]),
                 "expected_hash": request.form["expected_hash"],
                 "is_default": False,
                 "predefined_messages": config["predefined_messages"],
-                "update_url": request.form.get("update_url", config["update_url"])
+                "update_url": request.form.get("update_url", config["update_url"]),
+                "custom_sounds": config.get("custom_sounds", []),
+                "use_custom_sounds": request.form.get("use_custom_sounds") == "on"
             }
             with open(config_path, "w") as f:
                 json.dump(config, f, indent=4)
@@ -624,14 +614,24 @@ def upload_sound():
         return "No file selected.", 400
     if not file.filename.lower().endswith(".mp3"):
         return "Only MP3 files are allowed.", 400
-    # Generate a unique filename to avoid overwrites
     filename = f"custom_sound_{uuid.uuid4().hex}.mp3"
     sounds_dir = os.path.join(app_data_dir, "sounds")
     os.makedirs(sounds_dir, exist_ok=True)
     file_path = os.path.join(sounds_dir, filename)
     file.save(file_path)
-    # Update config
-    config["custom_sounds"] = config.get("custom_sounds", []) + [filename]
+    config["custom_sounds"] = config.get("custom_sounds", []) + [{"filename": filename, "active": True}]
+    with open(config_path, "w") as f:
+        json.dump(config, f, indent=4)
+    return redirect(url_for("admin", message="Sound uploaded successfully"))
+
+@app.route("/toggle_sound/<filename>", methods=["POST"])
+@login_required
+def toggle_sound(filename):
+    config = load_config()
+    for sound in config.get("custom_sounds", []):
+        if sound["filename"] == filename:
+            sound["active"] = not sound["active"]
+            break
     with open(config_path, "w") as f:
         json.dump(config, f, indent=4)
     return redirect(url_for("admin"))
@@ -644,8 +644,7 @@ def delete_sound(filename):
     file_path = os.path.join(sounds_dir, filename)
     if os.path.exists(file_path):
         os.remove(file_path)
-    # Remove filename from config
-    config["custom_sounds"] = [s for s in config.get("custom_sounds", []) if s != filename]
+    config["custom_sounds"] = [s for s in config.get("custom_sounds", []) if s["filename"] != filename]
     with open(config_path, "w") as f:
         json.dump(config, f, indent=4)
     return redirect(url_for("admin"))

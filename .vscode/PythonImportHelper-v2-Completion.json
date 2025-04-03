@@ -374,14 +374,6 @@
         "documentation": {}
     },
     {
-        "label": "Fernet",
-        "importPath": "cryptography.fernet",
-        "description": "cryptography.fernet",
-        "isExtraImport": true,
-        "detail": "cryptography.fernet",
-        "documentation": {}
-    },
-    {
         "label": "requests",
         "kind": 6,
         "isExtraImport": true,
@@ -413,7 +405,7 @@
         "kind": 6,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "class AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound  # Single assignment\n        self.start_time = time.time()\n        self.pressed = False\n        self.sound_thread = None",
+        "peekOfCode": "class AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound\n        self.start_time = time.time()\n        self.pressed = False\n        self.sound_thread = None",
         "detail": "app",
         "documentation": {}
     },
@@ -562,11 +554,20 @@
         "documentation": {}
     },
     {
+        "label": "toggle_sound",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def toggle_sound(filename):\n    config = load_config()\n    for sound in config.get(\"custom_sounds\", []):\n        if sound[\"filename\"] == filename:\n            sound[\"active\"] = not sound[\"active\"]\n            break\n    with open(config_path, \"w\") as f:\n        json.dump(config, f, indent=4)\n    return redirect(url_for(\"admin\"))\n@app.route(\"/delete_sound/<filename>\", methods=[\"GET\"])",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
         "label": "delete_sound",
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def delete_sound(filename):\n    config = load_config()\n    sounds_dir = os.path.join(app_data_dir, \"sounds\")\n    file_path = os.path.join(sounds_dir, filename)\n    if os.path.exists(file_path):\n        os.remove(file_path)\n    # Remove filename from config\n    config[\"custom_sounds\"] = [s for s in config.get(\"custom_sounds\", []) if s != filename]\n    with open(config_path, \"w\") as f:\n        json.dump(config, f, indent=4)",
+        "peekOfCode": "def delete_sound(filename):\n    config = load_config()\n    sounds_dir = os.path.join(app_data_dir, \"sounds\")\n    file_path = os.path.join(sounds_dir, filename)\n    if os.path.exists(file_path):\n        os.remove(file_path)\n    config[\"custom_sounds\"] = [s for s in config.get(\"custom_sounds\", []) if s[\"filename\"] != filename]\n    with open(config_path, \"w\") as f:\n        json.dump(config, f, indent=4)\n    return redirect(url_for(\"admin\"))",
         "detail": "app",
         "documentation": {}
     },
@@ -728,7 +729,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "stop_event = threading.Event()\nqt_app = None\nmixer.init()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound  # Single assignment",
+        "peekOfCode": "stop_event = threading.Event()\nqt_app = None\nmixer.init()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound",
         "detail": "app",
         "documentation": {}
     },
@@ -737,7 +738,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "qt_app = None\nmixer.init()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound  # Single assignment\n        self.start_time = time.time()",
+        "peekOfCode": "qt_app = None\nmixer.init()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound\n        self.start_time = time.time()",
         "detail": "app",
         "documentation": {}
     }
