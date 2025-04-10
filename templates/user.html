@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard - Hoogland</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .info { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>User Dashboard</h1>
+    <div class="info">
+        <p><strong>Alert Schedule:</strong></p>
+        <p>Start Time: {{ config.start_time }}</p>
+        <p>End Time: {{ config.end_time }}</p>
+    </div>
+    <form method="POST" action="{{ url_for('trigger_popup') }}">
+        <button type="submit">Test Popup</button>
+        <input type="hidden" name="message_type" value="Security Alert">
+        <input type="hidden" name="play_sound" value="on">
+    </form>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</body>
+</html>
