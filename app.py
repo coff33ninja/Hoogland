@@ -27,6 +27,7 @@ from waitress import serve
 from cryptography.fernet import Fernet
 import requests
 import webbrowser
+from argon2 import PasswordHasher
 
 # Generate or load encryption key
 key_path = os.path.join(os.getenv("APPDATA", os.path.expanduser("~/.hoogland")), "Hoogland", "key.bin")
@@ -65,15 +66,16 @@ login_manager.init_app(app)
 login_manager.login_view = "login"
 
 class User(UserMixin):
-    pass
-
-user = User()
-user.id = "admin"
+    def __init__(self, username, role):
+        self.id = username
+        self.role = role
 
 @login_manager.user_loader
-def load_user(user_id):
-    if user_id == "admin":
-        return user
+def load_user(username):
+    config = load_config()
+    for user in config.get("users", []):
+        if user["username"] == username:
+            return User(username, user["role"])
     return None
 
 notifications = []
@@ -82,6 +84,8 @@ stop_event = threading.Event()
 qt_app = None
 
 mixer.init()
+
+ph = PasswordHasher()
 
 class AlertDialog(QDialog):
     def __init__(self, config, message="Security Alert", play_sound=True):
@@ -179,16 +183,11 @@ class AlertDialog(QDialog):
 def load_config():
     config_lock = threading.Lock()
     with config_lock:
+        # Default configuration template
         default_config = {
-            "users": [
-                {
-                    "username": "admin",
-                    "password": cipher.encrypt("admin_password".encode()).decode(),
-                    "role": "admin"
-                }
-            ],
-            "sender_email": "your_email@example.com",
-            "password": cipher.encrypt("your_password".encode()).decode(),
+            "users": [],
+            "sender_email": "",
+            "password": "",
             "smtp_server": "smtp.gmail.com",
             "smtp_port": 587,
             "start_time": "18:00",
@@ -196,108 +195,46 @@ def load_config():
             "sound_after_minutes": 3,
             "report_if_longer_than_minutes": 5,
             "email_if_not_pressed_after_minutes": 10,
-            "min_wait_between_alerts_seconds": 10,
-            "max_wait_between_alerts_seconds": 20,
-            "random_sound_enabled": False,
-            "random_sound_min_seconds": 1800,
-            "random_sound_max_seconds": 3600,
-            "expected_hash": "abc123...",
             "is_default": True,
             "predefined_messages": ["Stay awake!", "Security check!", "Alert now!"],
             "update_url": "https://raw.githubusercontent.com/coff33ninja/Hoogland/main/latest_version.json",
             "custom_sounds": [],
-            "use_custom_sounds": False  # New field for explicit custom sound usage
+            "use_custom_sounds": False
         }
 
-        def validate_time_string(time_str, key):
-            import re
-            if not isinstance(time_str, str):
-                logging.error(f"Invalid type for {key}: expected str, got {type(time_str)}, using default")
-                return default_config[key]
-            cleaned = re.sub(r"[^0-9:]", "", time_str)
-            if not re.match(r"^\d{2}:\d{2}$", cleaned):
-                logging.error(f"Invalid {key} format: {time_str}, expected HH:MM, using default")
-                return default_config[key]
-            try:
-                datetime.datetime.strptime(cleaned, "%H:%M")
-                return cleaned
-            except ValueError:
-                logging.error(f"Invalid {key} value: {time_str}, out of range, using default")
-                return default_config[key]
+        # Check if the config file exists
+        if not os.path.exists(config_path):
+            logging.info("Configuration file not found. Returning default configuration.")
+            return default_config
 
-        if os.path.exists(config_path):
-            try:
-                with open(config_path, "r") as f:
-                    config = json.load(f)
-                updated = False
-                for key, default_value in default_config.items():
-                    if key not in config:
-                        logging.warning(f"Missing key {key} in config, using default: {default_value}")
-                        config[key] = default_value
-                        updated = True
-                    elif key in ["start_time", "end_time"]:
-                        corrected = validate_time_string(config[key], key)
-                        if corrected != config[key]:
-                            config[key] = corrected
-                            updated = True
-                    elif isinstance(default_value, int) and not isinstance(config[key], int):
-                        logging.error(f"Invalid type for {key}: expected int, got {type(config[key])}, reverting to default")
-                        config[key] = default_value
-                        updated = True
-                    elif isinstance(default_value, bool) and not isinstance(config[key], bool):
-                        logging.error(f"Invalid type for {key}: expected bool, got {type(config[key])}, reverting to default")
-                        config[key] = default_value
-                        updated = True
-                # Migrate old custom_sounds format to new dict-based format
-                if "custom_sounds" in config and all(isinstance(s, str) for s in config["custom_sounds"]):
-                    config["custom_sounds"] = [{"filename": s, "active": True} for s in config["custom_sounds"]]
-                    updated = True
-                if updated:
-                    with open(config_path, "w") as f:
-                        json.dump(config, f, indent=4)
-                    logging.info("Config file updated with corrected values")
-                if config.get("is_default", False):
-                    logging.warning("Config is default.")
-                    send_email(config, "Default Config Detected", "Running with default config.")
-                config["password"] = cipher.decrypt(config["password"].encode()).decode()
-                return config
-            except json.JSONDecodeError:
-                logging.error("Invalid JSON in config file.")
-                send_email(default_config, "Config Error", "Invalid JSON detected in config.json.")
-
-        backups = [f for f in os.listdir(app_data_dir) if f.startswith("config_backup_") and f.endswith(".json")]
-        if backups:
-            latest_backup = max(backups, key=lambda x: os.path.getctime(os.path.join(app_data_dir, x)))
-            try:
-                with open(os.path.join(app_data_dir, latest_backup), "r") as f:
-                    config = json.load(f)
-                # Migrate old custom_sounds format if present
-                if "custom_sounds" in config and all(isinstance(s, str) for s in config["custom_sounds"]):
-                    config["custom_sounds"] = [{"filename": s, "active": True} for s in config["custom_sounds"]]
-                logging.info(f"Restored config from backup: {latest_backup}")
-                with open(config_path, "w") as f:
-                    json.dump(config, f, indent=4)
-                send_email(config, "Config Restored", f"Restored config from {latest_backup}.")
-                config["password"] = cipher.decrypt(config["password"].encode()).decode()
-                return config
-            except json.JSONDecodeError:
-                logging.error(f"Invalid JSON in backup: {latest_backup}")
-
-        # Config doesn’t exist—launch web UI for setup
-        logging.info("Config not found, launching web UI for initial setup")
-        waitress_thread = threading.Thread(target=run_waitress, daemon=True)
-        waitress_thread.start()
-        time.sleep(1)  # Wait for server to start
-        webbrowser.open("http://localhost:5000/admin")
-        with open(config_path, "w") as f:
-            json.dump(default_config, f, indent=4)
-        logging.info("Default config generated.")
+        # Load the existing config file
         try:
-            send_email(default_config, "Config Missing", "Default config generated. Please update via web UI.")
-        except:
-            logging.error("Email failed on default config generation.")
-        default_config["password"] = cipher.decrypt(default_config["password"].encode()).decode()
-        return default_config
+            with open(config_path, "r") as f:
+                config = json.load(f)
+
+            # Validate and update missing keys
+            for key, default_value in default_config.items():
+                if key not in config:
+                    logging.warning(f"Missing key '{key}' in config. Adding default value: {default_value}")
+                    config[key] = default_value
+
+            return config
+
+        except json.JSONDecodeError:
+            logging.error("Invalid JSON in configuration file. Returning default configuration.")
+            return default_config
+
+def save_config(config):
+    try:
+        # Validate the configuration before saving
+        if not isinstance(config, dict):
+            raise ValueError("Configuration must be a dictionary.")
+
+        with open(config_path, "w") as f:
+            json.dump(config, f, indent=4)
+        logging.info("Configuration file saved successfully.")
+    except Exception as e:
+        logging.error(f"Failed to save configuration: {str(e)}")
 
 def send_email(config, subject, message):
     try:
@@ -526,236 +463,12 @@ class SoundThread(QThread):
             else:
                 time.sleep(60)
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    config = load_config()
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-
-        # Check credentials
-        for user in config["users"]:
-            if (
-                user["username"] == username
-                and cipher.decrypt(user["password"].encode()).decode() == password
-            ):
-                login_user(UserMixin())
-                return redirect(url_for("admin" if user["role"] == "admin" else "user_dashboard"))
-
-        return "Invalid credentials"
-    return render_template("login.html")
-
-@app.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for("login"))
-
-@app.route("/logs")
-@login_required
-def logs():
-    try:
-        with open(log_file, "r") as f:
-            logs = f.readlines()
-    except FileNotFoundError:
-        logs = ["Log file not found."]
-    return render_template("logs.html", logs=logs)
-
-@app.route("/admin", methods=["GET", "POST"])
-@login_required
-def admin():
-    if current_user.role != "admin":
-        return redirect(url_for("user_dashboard"))
-    config = load_config()
-    backups = [f for f in os.listdir(app_data_dir) if f.startswith("config_backup_") and f.endswith(".json")]
-    if request.method == "POST":
-        try:
-            new_password = request.form["password"]
-            encrypted_password = cipher.encrypt(new_password.encode()).decode() if new_password else config["password"]
-            config = {
-                "sender_email": request.form["sender_email"],
-                "password": encrypted_password,
-                "recipient_email": request.form["recipient_email"],
-                "smtp_server": request.form["smtp_server"],
-                "smtp_port": int(request.form["smtp_port"]),
-                "start_time": request.form["start_time"],
-                "end_time": request.form["end_time"],
-                "sound_after_minutes": int(request.form["sound_after_minutes"]),
-                "report_if_longer_than_minutes": int(request.form["report_if_longer_than_minutes"]),
-                "email_if_not_pressed_after_minutes": int(request.form["email_if_not_pressed_after_minutes"]),
-                "min_wait_between_alerts_seconds": int(request.form["min_wait_between_alerts_seconds"]),
-                "max_wait_between_alerts_seconds": int(request.form["max_wait_between_alerts_seconds"]),
-                "random_sound_enabled": request.form.get("random_sound_enabled") == "on",
-                "random_sound_min_seconds": int(request.form["random_sound_min_seconds"]),
-                "random_sound_max_seconds": int(request.form["random_sound_max_seconds"]),
-                "expected_hash": request.form["expected_hash"],
-                "is_default": False,
-                "predefined_messages": config["predefined_messages"],
-                "update_url": request.form.get("update_url", config["update_url"]),
-                "custom_sounds": config.get("custom_sounds", []),
-                "use_custom_sounds": request.form.get("use_custom_sounds") == "on"
-            }
-            with open(config_path, "w") as f:
-                json.dump(config, f, indent=4)
-            backup_path = os.path.join(app_data_dir, f"config_backup_{time.strftime('%Y%m%d_%H%M%S')}.json")
-            with open(backup_path, "w") as f:
-                json.dump(config, f, indent=4)
-            logging.info("Configuration updated and backed up.")
-            send_email(config, "Config Updated", "Configuration updated via web UI.")
-        except Exception as e:
-            logging.error(f"Config update failed: {str(e)}")
-            send_email(config, "Config Update Error", f"Failed to update config: {str(e)}")
-    return render_template("admin.html", config=config, backups=backups)
-
-@app.route("/trigger_popup", methods=["POST"])
-@login_required
-def trigger_popup():
-    config = load_config()
-    message_type = request.form["message_type"]
-    if message_type == "custom":
-        message = request.form["custom_message"]
-    else:
-        message = message_type
-    play_sound = request.form.get("play_sound") == "on"
-    popup_queue.put({"message": message, "play_sound": play_sound})
-    logging.info(f"Manual popup requested: {message}, sound: {play_sound}")
-    send_email(config, "Manual Popup Triggered", f"Popup initiated with message: {message}, sound: {play_sound}")
-    return redirect(url_for("admin"))
-
-@app.route("/notifications")
-@login_required
-def get_notifications():
-    return render_template("notifications.html", notifications=notifications)
-
-@app.route("/upload_sound", methods=["POST"])
-@login_required
-def upload_sound():
-    config = load_config()
-    if len(config.get("custom_sounds", [])) >= 5:
-        return "Maximum of 5 custom sounds reached.", 400
-    if "sound_file" not in request.files:
-        return "No file uploaded.", 400
-    file = request.files["sound_file"]
-    if file.filename == "":
-        return "No file selected.", 400
-    if not file.filename.lower().endswith(".mp3"):
-        return "Only MP3 files are allowed.", 400
-    filename = f"custom_sound_{uuid.uuid4().hex}.mp3"
-    sounds_dir = os.path.join(app_data_dir, "sounds")
-    os.makedirs(sounds_dir, exist_ok=True)
-    file_path = os.path.join(sounds_dir, filename)
-    file.save(file_path)
-    config["custom_sounds"] = config.get("custom_sounds", []) + [{"filename": filename, "active": True}]
-    with open(config_path, "w") as f:
-        json.dump(config, f, indent=4)
-    return redirect(url_for("admin", message="Sound uploaded successfully"))
-
-@app.route("/toggle_sound/<filename>", methods=["POST"])
-@login_required
-def toggle_sound(filename):
-    config = load_config()
-    for sound in config.get("custom_sounds", []):
-        if sound["filename"] == filename:
-            sound["active"] = not sound["active"]
-            break
-    with open(config_path, "w") as f:
-        json.dump(config, f, indent=4)
-    return redirect(url_for("admin"))
-
-@app.route("/delete_sound/<filename>", methods=["GET"])
-@login_required
-def delete_sound(filename):
-    config = load_config()
-    sounds_dir = os.path.join(app_data_dir, "sounds")
-    file_path = os.path.join(sounds_dir, filename)
-    if os.path.exists(file_path):
-        os.remove(file_path)
-    config["custom_sounds"] = [s for s in config.get("custom_sounds", []) if s["filename"] != filename]
-    with open(config_path, "w") as f:
-        json.dump(config, f, indent=4)
-    return redirect(url_for("admin"))
-
-@app.route("/download_backup")
-@login_required
-def download_backup():
-    backups = [f for f in os.listdir(app_data_dir) if f.startswith("config_backup_") and f.endswith(".json")]
-    if backups:
-        latest_backup = max(backups, key=lambda x: os.path.getctime(os.path.join(app_data_dir, x)))
-        return send_file(os.path.join(app_data_dir, latest_backup), as_attachment=True)
-    return "No backups available.", 404
-
-@app.route("/restore_config", methods=["POST"])
-@login_required
-def restore_config():
-    config = load_config()
-    if "config_file" in request.files and request.files["config_file"].filename != "":
-        file = request.files["config_file"]
-        filename = secure_filename(file.filename)
-        file.save(filename)
-        try:
-            with open(filename, "r") as f:
-                new_config = json.load(f)
-            with open(config_path, "w") as f:
-                json.dump(new_config, f, indent=4)
-            os.remove(filename)
-            logging.info(f"Config restored from uploaded file: {filename}")
-            send_email(config, "Config Restored", f"Config restored from uploaded file: {filename}")
-        except Exception as e:
-            logging.error(f"Failed to restore config from upload: {str(e)}")
-            send_email(config, "Config Restore Error", f"Failed to restore config from {filename}: {str(e)}")
-    elif "backup_file" in request.form and request.form["backup_file"]:
-        backup_file = request.form["backup_file"]
-        backup_full_path = os.path.join(app_data_dir, backup_file)
-        if os.path.exists(backup_full_path):
-            try:
-                with open(backup_full_path, "r") as f:
-                    new_config = json.load(f)
-                with open(config_path, "w") as f:
-                    json.dump(new_config, f, indent=4)
-                logging.info(f"Config restored from backup: {backup_file}")
-                send_email(config, "Config Restored", f"Config restored from backup: {backup_file}")
-            except Exception as e:
-                logging.error(f"Failed to restore config from backup: {str(e)}")
-                send_email(config, "Config Restore Error", f"Failed to restore config from {backup_file}: {str(e)}")
-    return redirect(url_for("admin"))
-
-@app.route("/create_user", methods=["POST"])
-@login_required
-def create_user():
-    config = load_config()
-    if not request.form.get("role") in ["admin", "user"]:
-        return "Invalid role specified.", 400
-
-    username = request.form["username"]
-    password = request.form["password"]
-    role = request.form["role"]
-
-    # Encrypt the password
-    encrypted_password = cipher.encrypt(password.encode()).decode()
-
-    # Add the new user to the config
-    config["users"].append({"username": username, "password": encrypted_password, "role": role})
-    with open(config_path, "w") as f:
-        json.dump(config, f, indent=4)
-
-    # Send email with credentials
-    send_email(
-        config,
-        "New Account Created",
-        f"Your account has been created.\n\nUsername: {username}\nPassword: {password}\nRole: {role}"
-    )
-
-    return redirect(url_for("admin"))
-
-@app.route("/user_dashboard")
-@login_required
-def user_dashboard():
-    return render_template("user_dashboard.html")
-
 @app.route("/setup", methods=["GET", "POST"])
 def setup():
+    logging.info("Accessed /setup route")
     config = load_config()
-    if config.get("users"):
+    if config and config.get("users"):
+        # If users already exist, redirect to login
         return redirect(url_for("login"))
 
     if request.method == "POST":
@@ -767,22 +480,37 @@ def setup():
         smtp_server = request.form["smtp_server"]
         smtp_port = int(request.form["smtp_port"])
 
-        if len(username) < 8 or len(password) < 8 or not any(c.isalpha() for c in password) or not any(c.isdigit() for c in password):
-            return "Username and password must be at least 8 characters with letters and numbers.", 400
+        # Validate username and password
+        if len(username) < 8:
+            return "Username must be at least 8 characters.", 400
+        if len(password) < 8 or not any(c.isalpha() for c in password) or not any(c.isdigit() for c in password) or not any(c in "!@#$%^&*()-_=+[]{}|;:'\",.<>?/`~" for c in password):
+            return "Password must be at least 8 characters with letters, numbers, and symbols.", 400
 
+        # Hash the password and create the admin user
         hashed_password = ph.hash(password)
-        config["users"] = [{
-            "username": username,
-            "password_hash": hashed_password,
-            "role": "admin",
-            "email": email
-        }]
-        config["sender_email"] = smtp_email
-        config["smtp_server"] = smtp_server
-        config["smtp_port"] = smtp_port
-        config["password"] = cipher.encrypt(smtp_password.encode()).decode()
-        config["is_default"] = False
+        new_config = {
+            "users": [{
+                "username": username,
+                "password_hash": hashed_password,
+                "role": "admin",
+                "email": email
+            }],
+            "sender_email": smtp_email,
+            "password": cipher.encrypt(smtp_password.encode()).decode(),
+            "smtp_server": smtp_server,
+            "smtp_port": smtp_port,
+            "start_time": "18:00",
+            "end_time": "23:59",
+            "sound_after_minutes": 3,
+            "report_if_longer_than_minutes": 5,
+            "email_if_not_pressed_after_minutes": 10,
+            "is_default": False
+        }
 
+        # Save the configuration
+        save_config(new_config)
+
+        # Send credentials email
         try:
             send_credentials_email(email, username, password, "Admin", {
                 "sender_email": smtp_email,
@@ -791,31 +519,60 @@ def setup():
                 "smtp_port": smtp_port
             })
         except Exception as e:
+            logging.error(f"Failed to send credentials email: {str(e)}")
             return f"Failed to send email: {str(e)}", 500
 
-        save_config(config)
-        return redirect(url_for("login"))
+        # Automatically log in the admin
+        user = User(username, "admin")
+        login_user(user)
+        return redirect(url_for("admin"))
 
     return render_template("setup.html")
 
-@app.route("/users", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    config = load_config()
+    if not config or not config.get("users"):
+        # Redirect to setup wizard if no users exist
+        return redirect(url_for("setup"))
+
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        # Check credentials
+        for user in config["users"]:
+            if user["username"] == username and ph.verify(user["password_hash"], password):
+                login_user(User(username, user["role"]))
+                return redirect(url_for("admin" if user["role"] == "admin" else "user_dashboard"))
+
+        return "Invalid credentials", 401
+    return render_template("login.html")
+
+@app.route("/admin", methods=["GET", "POST"])
 @login_required
-def manage_users():
+def admin():
     config = load_config()
     if current_user.role != "admin":
         return "Access denied", 403
 
     if request.method == "POST":
         action = request.form["action"]
-        if action == "add":
+        if action == "add_user":
             username = request.form["username"]
             password = request.form["password"]
             email = request.form["email"]
             role = request.form["role"]
+
+            # Validate username and password
             if len(username) < 8 or len(password) < 8 or not any(c.isalpha() for c in password) or not any(c.isdigit() for c in password):
                 return "Invalid username or password", 400
+
+            # Check if username already exists
             if any(u["username"] == username for u in config["users"]):
                 return "Username already exists", 400
+
+            # Hash the password and add the user
             hashed_password = ph.hash(password)
             config["users"].append({
                 "username": username,
@@ -823,25 +580,28 @@ def manage_users():
                 "role": role,
                 "email": email
             })
+            save_config(config)
+
+            # Send credentials email
             try:
-                smtp_config = {
+                send_credentials_email(email, username, password, role.capitalize(), {
                     "sender_email": config["sender_email"],
                     "password": cipher.decrypt(config["password"].encode()).decode(),
                     "smtp_server": config["smtp_server"],
                     "smtp_port": config["smtp_port"]
-                }
-                send_credentials_email(email, username, password, role.capitalize(), smtp_config)
+                })
             except Exception as e:
+                logging.error(f"Failed to send credentials email: {str(e)}")
                 return f"Failed to send email: {str(e)}", 500
-        elif action == "delete":
+
+        elif action == "delete_user":
             username = request.form["username"]
             if username == current_user.id:
                 return "Cannot delete your own account", 400
             config["users"] = [u for u in config["users"] if u["username"] != username]
-        save_config(config)
-        return redirect(url_for("manage_users"))
+            save_config(config)
 
-    return render_template("users.html", users=config["users"])
+    return render_template("admin.html", users=config["users"])
 
 def cleanup(signum=None, frame=None):
     logging.info("Initiating cleanup")
@@ -862,6 +622,14 @@ def run_waitress():
     serve(app, host="0.0.0.0", port=5000, threads=2)
 
 if __name__ == "__main__":
+    # Check if configuration exists
+    config = load_config()
+    if config is None:
+        # Launch the web UI for setup
+        logging.info("Launching setup web UI...")
+        webbrowser.open("http://localhost:5000/setup")
+
+    # Start the Qt application
     qt_app = QApplication(sys.argv)
     qt_app.setQuitOnLastWindowClosed(False)
     logging.info("Qt application initialized")

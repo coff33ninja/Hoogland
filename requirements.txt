@@ -6,3 +6,4 @@ werkzeug
 waitress
 requests
 cryptography
+argon2-cffi

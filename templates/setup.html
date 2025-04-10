@@ -1,48 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Initial Setup - Hoogland</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; }
-        input { width: 300px; padding: 8px; }
-        button { padding: 10px 20px; background-color: #3498db; color: white; border: none; cursor: pointer; }
-        button:hover { background-color: #2980b9; }
-    </style>
+    <title>Setup Hoogland</title>
 </head>
 <body>
     <h1>Setup Hoogland Admin Account</h1>
     <form method="POST">
-        <div class="form-group">
-            <label>Username (min 8 characters):</label>
-            <input type="text" name="username" required minlength="8">
-        </div>
-        <div class="form-group">
-            <label>Password (min 8 characters, letters + numbers):</label>
-            <input type="password" name="password" required minlength="8" pattern="^(?=.*[A-Za-z])(?=.*\d).+$">
-        </div>
-        <div class="form-group">
-            <label>Email (credentials will be sent here):</label>
-            <input type="email" name="email" required>
-        </div>
-        <div class="form-group">
-            <label>SMTP Email:</label>
-            <input type="email" name="smtp_email" required>
-        </div>
-        <div class="form-group">
-            <label>SMTP Password:</label>
-            <input type="password" name="smtp_password" required>
-        </div>
-        <div class="form-group">
-            <label>SMTP Server:</label>
-            <input type="text" name="smtp_server" required value="smtp.gmail.com">
-        </div>
-        <div class="form-group">
-            <label>SMTP Port:</label>
-            <input type="number" name="smtp_port" required value="587">
-        </div>
-        <button type="submit">Create Account</button>
+        <label>Username:</label>
+        <input type="text" name="username" required minlength="8"><br>
+        <label>Password:</label>
+        <input type="password" name="password" required minlength="8"><br>
+        <label>Email:</label>
+        <input type="email" name="email" required><br>
+        <label>SMTP Email:</label>
+        <input type="email" name="smtp_email" required><br>
+        <label>SMTP Password:</label>
+        <input type="password" name="smtp_password" required><br>
+        <label>SMTP Server:</label>
+        <input type="text" name="smtp_server" value="smtp.gmail.com" required><br>
+        <label>SMTP Port:</label>
+        <input type="number" name="smtp_port" value="587" required><br>
+        <button type="submit">Create Admin Account</button>
     </form>
 </body>
 </html>

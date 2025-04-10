@@ -1,4 +1,3 @@
-
 # Hoogland
 Hoogland is a security alert application designed to keep users vigilant during specified time windows, such as night shifts or monitoring duties. It triggers random popups with sound notifications to ensure attention, logs interactions, and sends email reports. Configuration is managed through an intuitive web-based GUI, and the app supports silent updates from GitHub for seamless maintenance.
 
@@ -14,9 +13,11 @@ Ideal for security personnel, system administrators, or anyone needing to stay a
 ## Features
 - **Random Alerts**: Popups occur at unpredictable intervals within a configurable time window.
 - **Web-Based Configuration UI**: Manage settings via a browser at `http://localhost:5000/admin`.
-- **Encrypted Password Storage**: Email credentials are securely encrypted and only editable via the GUI.
+- **Encrypted Password Storage**: Email credentials are securely hashed using Argon2 and stored in the configuration file.
 - **Silent Updates**: Automatically pulls updates from GitHub, applying changes or notifying for full installer downloads.
 - **System Tray Integration**: Runs discreetly with a tray icon for easy access and exit.
+- **Setup Wizard**: On first run, a setup wizard guides you through creating an admin account and configuring SMTP settings.
+- **User Management**: Admins can create and manage both admin and normal user accounts via the web GUI.
 
 ## Installation
 1. **Install Dependencies**:
@@ -40,67 +41,54 @@ Ideal for security personnel, system administrators, or anyone needing to stay a
    - Open `setup.iss` in Inno Setup Compiler and build to generate `HooglandInstaller.exe`.
 
 ## Web GUI
-On first run (or if `config.json` is missing), Hoogland launches a browser to `http://localhost:5000/admin`. The web interface allows you to:
-- **Login**: Use default credentials:
-  - **Username**: `admin`
-  - **Password**: `password`
+On first run (or if `config.json` is missing), Hoogland launches a browser to `http://localhost:5000/setup`. The web interface allows you to:
+- **Setup Wizard**:
+  - Create an admin account with a unique username, secure password, and email address.
+  - Configure SMTP settings for email notifications.
+  - Credentials are securely hashed and stored, and the password is sent to the provided email.
+- **Login**:
+  - Use the credentials created during the setup wizard.
 - **Configure Settings**:
   - Set email details (sender, recipient, SMTP server, port).
   - Define the alert time window (e.g., `start_time: 18:00`, `end_time: 23:59`).
   - Adjust alert timing, sound options, and email triggers.
   - Update the GitHub update URL.
+- **User Management**:
+  - Admins can create new users (admin or normal) and delete existing ones.
+  - Credentials for new users are emailed securely.
 - **Trigger Manual Popups**: Test alerts with custom messages and sound.
 - **View Logs**: Check application logs for debugging.
 - **Manage Backups**: Download or restore configuration backups.
 
 After initial setup, access the GUI anytime by navigating to `http://localhost:5000` and logging in.
 
+## First Run
+On the first run, if `config.json` is missing, Hoogland will redirect to the setup wizard at `http://localhost:5000/setup`. The setup wizard ensures the first account created is an admin account. After completing the setup, you can log in and manage additional users and settings.
+
 ## Login Details
-- **Default Credentials**:
-  - **Username**: `admin`
-  - **Password**: `password`
-- **Security Note**: These are hardcoded for simplicity. For production, modify `app.py`’s `login()` function to use secure, configurable credentials (e.g., environment variables or a database).
+- **Admin Account**:
+  - Created during the setup wizard.
+  - Credentials are emailed to the admin for secure storage.
+- **User Accounts**:
+  - Admins can create additional admin or normal user accounts via the web GUI.
+  - Credentials for new users are emailed securely.
 
 ## Usage
 1. Run the app or installer.
-2. On first launch, configure via the web GUI.
+2. On first launch, complete the setup wizard via the web GUI.
 3. The app minimizes to the system tray, triggering random alerts during the set window.
 4. Acknowledge alerts to log response times and avoid email warnings.
 5. Updates are checked hourly, applying changes silently or notifying via the tray.
+
+## Security Enhancements
+- **Password Hashing**: All passwords are hashed using Argon2 for secure storage.
+- **Tamper Detection**: Critical files are verified for integrity, and tampering attempts are logged.
+- **Encrypted SMTP Credentials**: SMTP passwords are encrypted using a secure key stored in the OS's credential manager.
 
 ## Development
 - **Repository**: [https://github.com/coff33ninja/Hoogland](https://github.com/coff33ninja/Hoogland)
 - **Versioning**: Uses semantic versioning (e.g., `1.0.0`). Check `UpdateCheckerThread.current_version` in `app.py`.
 - **Contributing**: Fork, modify, and submit a PR!
-```
-
----
-
-### Steps to Update
-1. **Replace `README.md`**:
-   - Open `Hoogland/README.md` in a text editor.
-   - Copy and paste the above content.
-
-2. **Commit and Push**:
-   ```powershell
-   cd Hoogland
-   git add README.md
-   git commit -m "Update README with purpose, login details, and web GUI info"
-   git push origin main
-   ```
-
-3. **Verify**:
-   - Check `https://github.com/coff33ninja/Hoogland` to ensure the README reflects the new info.
-
----
-
-### Notes
-- **Login Security**: I noted the hardcoded credentials as a limitation. If you want to enhance this, I can help add environment variables or a user config file.
-- **Purpose**: Tailored to a security/alertness use case—adjust if your vision differs!
-- **Email Functionality**: Ensure SMTP settings are correct for your email provider. I can help with that if needed.
-- **Testing**: After updating, run the app to ensure the GUI and email features work as expected.
-- **Documentation**: Consider adding a `docs/` folder for more detailed user guides or API documentation in the future.
-- **Future Features**: If you plan to add more features, consider a `CHANGELOG.md` to track changes and updates.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

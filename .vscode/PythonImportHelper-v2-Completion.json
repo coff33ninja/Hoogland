@@ -400,11 +400,19 @@
         "documentation": {}
     },
     {
+        "label": "PasswordHasher",
+        "importPath": "argon2",
+        "description": "argon2",
+        "isExtraImport": true,
+        "detail": "argon2",
+        "documentation": {}
+    },
+    {
         "label": "User",
         "kind": 6,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "class User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):\n    if user_id == \"admin\":\n        return user\n    return None\nnotifications = []",
+        "peekOfCode": "class User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\n@login_manager.user_loader\ndef load_user(username):\n    config = load_config()\n    for user in config.get(\"users\", []):\n        if user[\"username\"] == username:\n            return User(username, user[\"role\"])",
         "detail": "app",
         "documentation": {}
     },
@@ -467,7 +475,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def load_user(user_id):\n    if user_id == \"admin\":\n        return user\n    return None\nnotifications = []\npopup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None\nmixer.init()\nclass AlertDialog(QDialog):",
+        "peekOfCode": "def load_user(username):\n    config = load_config()\n    for user in config.get(\"users\", []):\n        if user[\"username\"] == username:\n            return User(username, user[\"role\"])\n    return None\nnotifications = []\npopup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None",
         "detail": "app",
         "documentation": {}
     },
@@ -476,7 +484,16 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def load_config():\n    config_lock = threading.Lock()\n    with config_lock:\n        default_config = {\n            \"users\": [\n                {\n                    \"username\": \"admin\",\n                    \"password\": cipher.encrypt(\"admin_password\".encode()).decode(),\n                    \"role\": \"admin\"\n                }",
+        "peekOfCode": "def load_config():\n    config_lock = threading.Lock()\n    with config_lock:\n        # Default configuration template\n        default_config = {\n            \"users\": [],\n            \"sender_email\": \"\",\n            \"password\": \"\",\n            \"smtp_server\": \"smtp.gmail.com\",\n            \"smtp_port\": 587,",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "save_config",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def save_config(config):\n    try:\n        # Validate the configuration before saving\n        if not isinstance(config, dict):\n            raise ValueError(\"Configuration must be a dictionary.\")\n        with open(config_path, \"w\") as f:\n            json.dump(config, f, indent=4)\n        logging.info(\"Configuration file saved successfully.\")\n    except Exception as e:\n        logging.error(f\"Failed to save configuration: {str(e)}\")",
         "detail": "app",
         "documentation": {}
     },
@@ -508,29 +525,20 @@
         "documentation": {}
     },
     {
+        "label": "setup",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def setup():\n    logging.info(\"Accessed /setup route\")\n    config = load_config()\n    if config and config.get(\"users\"):\n        # If users already exist, redirect to login\n        return redirect(url_for(\"login\"))\n    if request.method == \"POST\":\n        username = request.form[\"username\"]\n        password = request.form[\"password\"]\n        email = request.form[\"email\"]",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
         "label": "login",
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def login():\n    config = load_config()\n    if request.method == \"POST\":\n        username = request.form[\"username\"]\n        password = request.form[\"password\"]\n        # Check credentials\n        for user in config[\"users\"]:\n            if (\n                user[\"username\"] == username\n                and cipher.decrypt(user[\"password\"].encode()).decode() == password",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "logout",
-        "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def logout():\n    logout_user()\n    return redirect(url_for(\"login\"))\n@app.route(\"/logs\")\n@login_required\ndef logs():\n    try:\n        with open(log_file, \"r\") as f:\n            logs = f.readlines()\n    except FileNotFoundError:",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "logs",
-        "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def logs():\n    try:\n        with open(log_file, \"r\") as f:\n            logs = f.readlines()\n    except FileNotFoundError:\n        logs = [\"Log file not found.\"]\n    return render_template(\"logs.html\", logs=logs)\n@app.route(\"/admin\", methods=[\"GET\", \"POST\"])\n@login_required\ndef admin():",
+        "peekOfCode": "def login():\n    config = load_config()\n    if not config or not config.get(\"users\"):\n        # Redirect to setup wizard if no users exist\n        return redirect(url_for(\"setup\"))\n    if request.method == \"POST\":\n        username = request.form[\"username\"]\n        password = request.form[\"password\"]\n        # Check credentials\n        for user in config[\"users\"]:",
         "detail": "app",
         "documentation": {}
     },
@@ -539,106 +547,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def admin():\n    if current_user.role != \"admin\":\n        return redirect(url_for(\"user_dashboard\"))\n    config = load_config()\n    backups = [f for f in os.listdir(app_data_dir) if f.startswith(\"config_backup_\") and f.endswith(\".json\")]\n    if request.method == \"POST\":\n        try:\n            new_password = request.form[\"password\"]\n            encrypted_password = cipher.encrypt(new_password.encode()).decode() if new_password else config[\"password\"]\n            config = {",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "trigger_popup",
-        "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def trigger_popup():\n    config = load_config()\n    message_type = request.form[\"message_type\"]\n    if message_type == \"custom\":\n        message = request.form[\"custom_message\"]\n    else:\n        message = message_type\n    play_sound = request.form.get(\"play_sound\") == \"on\"\n    popup_queue.put({\"message\": message, \"play_sound\": play_sound})\n    logging.info(f\"Manual popup requested: {message}, sound: {play_sound}\")",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "get_notifications",
-        "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def get_notifications():\n    return render_template(\"notifications.html\", notifications=notifications)\n@app.route(\"/upload_sound\", methods=[\"POST\"])\n@login_required\ndef upload_sound():\n    config = load_config()\n    if len(config.get(\"custom_sounds\", [])) >= 5:\n        return \"Maximum of 5 custom sounds reached.\", 400\n    if \"sound_file\" not in request.files:\n        return \"No file uploaded.\", 400",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "upload_sound",
-        "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def upload_sound():\n    config = load_config()\n    if len(config.get(\"custom_sounds\", [])) >= 5:\n        return \"Maximum of 5 custom sounds reached.\", 400\n    if \"sound_file\" not in request.files:\n        return \"No file uploaded.\", 400\n    file = request.files[\"sound_file\"]\n    if file.filename == \"\":\n        return \"No file selected.\", 400\n    if not file.filename.lower().endswith(\".mp3\"):",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "toggle_sound",
-        "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def toggle_sound(filename):\n    config = load_config()\n    for sound in config.get(\"custom_sounds\", []):\n        if sound[\"filename\"] == filename:\n            sound[\"active\"] = not sound[\"active\"]\n            break\n    with open(config_path, \"w\") as f:\n        json.dump(config, f, indent=4)\n    return redirect(url_for(\"admin\"))\n@app.route(\"/delete_sound/<filename>\", methods=[\"GET\"])",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "delete_sound",
-        "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def delete_sound(filename):\n    config = load_config()\n    sounds_dir = os.path.join(app_data_dir, \"sounds\")\n    file_path = os.path.join(sounds_dir, filename)\n    if os.path.exists(file_path):\n        os.remove(file_path)\n    config[\"custom_sounds\"] = [s for s in config.get(\"custom_sounds\", []) if s[\"filename\"] != filename]\n    with open(config_path, \"w\") as f:\n        json.dump(config, f, indent=4)\n    return redirect(url_for(\"admin\"))",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "download_backup",
-        "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def download_backup():\n    backups = [f for f in os.listdir(app_data_dir) if f.startswith(\"config_backup_\") and f.endswith(\".json\")]\n    if backups:\n        latest_backup = max(backups, key=lambda x: os.path.getctime(os.path.join(app_data_dir, x)))\n        return send_file(os.path.join(app_data_dir, latest_backup), as_attachment=True)\n    return \"No backups available.\", 404\n@app.route(\"/restore_config\", methods=[\"POST\"])\n@login_required\ndef restore_config():\n    config = load_config()",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "restore_config",
-        "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def restore_config():\n    config = load_config()\n    if \"config_file\" in request.files and request.files[\"config_file\"].filename != \"\":\n        file = request.files[\"config_file\"]\n        filename = secure_filename(file.filename)\n        file.save(filename)\n        try:\n            with open(filename, \"r\") as f:\n                new_config = json.load(f)\n            with open(config_path, \"w\") as f:",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "create_user",
-        "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def create_user():\n    config = load_config()\n    if not request.form.get(\"role\") in [\"admin\", \"user\"]:\n        return \"Invalid role specified.\", 400\n    username = request.form[\"username\"]\n    password = request.form[\"password\"]\n    role = request.form[\"role\"]\n    # Encrypt the password\n    encrypted_password = cipher.encrypt(password.encode()).decode()\n    # Add the new user to the config",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "user_dashboard",
-        "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def user_dashboard():\n    return render_template(\"user_dashboard.html\")\n@app.route(\"/setup\", methods=[\"GET\", \"POST\"])\ndef setup():\n    config = load_config()\n    if config.get(\"users\"):\n        return redirect(url_for(\"login\"))\n    if request.method == \"POST\":\n        username = request.form[\"username\"]\n        password = request.form[\"password\"]",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "setup",
-        "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def setup():\n    config = load_config()\n    if config.get(\"users\"):\n        return redirect(url_for(\"login\"))\n    if request.method == \"POST\":\n        username = request.form[\"username\"]\n        password = request.form[\"password\"]\n        email = request.form[\"email\"]\n        smtp_email = request.form[\"smtp_email\"]\n        smtp_password = request.form[\"smtp_password\"]",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "manage_users",
-        "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def manage_users():\n    config = load_config()\n    if current_user.role != \"admin\":\n        return \"Access denied\", 403\n    if request.method == \"POST\":\n        action = request.form[\"action\"]\n        if action == \"add\":\n            username = request.form[\"username\"]\n            password = request.form[\"password\"]\n            email = request.form[\"email\"]",
+        "peekOfCode": "def admin():\n    config = load_config()\n    if current_user.role != \"admin\":\n        return \"Access denied\", 403\n    if request.method == \"POST\":\n        action = request.form[\"action\"]\n        if action == \"add_user\":\n            username = request.form[\"username\"]\n            password = request.form[\"password\"]\n            email = request.form[\"email\"]",
         "detail": "app",
         "documentation": {}
     },
@@ -656,7 +565,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def run_waitress():\n    logging.info(\"Starting Waitress server on 0.0.0.0:5000\")\n    serve(app, host=\"0.0.0.0\", port=5000, threads=2)\nif __name__ == \"__main__\":\n    qt_app = QApplication(sys.argv)\n    qt_app.setQuitOnLastWindowClosed(False)\n    logging.info(\"Qt application initialized\")\n    pixmap = QPixmap(16, 16)\n    pixmap.fill(QColor(\"red\"))\n    tray_icon = QIcon(pixmap)",
+        "peekOfCode": "def run_waitress():\n    logging.info(\"Starting Waitress server on 0.0.0.0:5000\")\n    serve(app, host=\"0.0.0.0\", port=5000, threads=2)\nif __name__ == \"__main__\":\n    # Check if configuration exists\n    config = load_config()\n    if config is None:\n        # Launch the web UI for setup\n        logging.info(\"Launching setup web UI...\")\n        webbrowser.open(\"http://localhost:5000/setup\")",
         "detail": "app",
         "documentation": {}
     },
@@ -710,7 +619,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "app = Flask(__name__, template_folder=resource_path(\"templates\"))\napp.secret_key = os.urandom(24).hex()\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader",
+        "peekOfCode": "app = Flask(__name__, template_folder=resource_path(\"templates\"))\napp.secret_key = os.urandom(24).hex()\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"\nclass User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\n@login_manager.user_loader",
         "detail": "app",
         "documentation": {}
     },
@@ -719,7 +628,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "app.secret_key = os.urandom(24).hex()\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):",
+        "peekOfCode": "app.secret_key = os.urandom(24).hex()\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"\nclass User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\n@login_manager.user_loader\ndef load_user(username):",
         "detail": "app",
         "documentation": {}
     },
@@ -728,7 +637,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "login_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):\n    if user_id == \"admin\":",
+        "peekOfCode": "login_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"\nclass User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\n@login_manager.user_loader\ndef load_user(username):\n    config = load_config()",
         "detail": "app",
         "documentation": {}
     },
@@ -737,25 +646,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "login_manager.login_view = \"login\"\nclass User(UserMixin):\n    pass\nuser = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):\n    if user_id == \"admin\":\n        return user\n    return None",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "user",
-        "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "user = User()\nuser.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):\n    if user_id == \"admin\":\n        return user\n    return None\nnotifications = []\npopup_queue = Queue()\nstop_event = threading.Event()",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "user.id",
-        "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "user.id = \"admin\"\n@login_manager.user_loader\ndef load_user(user_id):\n    if user_id == \"admin\":\n        return user\n    return None\nnotifications = []\npopup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None",
+        "peekOfCode": "login_manager.login_view = \"login\"\nclass User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\n@login_manager.user_loader\ndef load_user(username):\n    config = load_config()\n    for user in config.get(\"users\", []):\n        if user[\"username\"] == username:",
         "detail": "app",
         "documentation": {}
     },
@@ -764,7 +655,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "notifications = []\npopup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None\nmixer.init()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config",
+        "peekOfCode": "notifications = []\npopup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None\nmixer.init()\nph = PasswordHasher()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")",
         "detail": "app",
         "documentation": {}
     },
@@ -773,7 +664,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "popup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None\nmixer.init()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message",
+        "peekOfCode": "popup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None\nmixer.init()\nph = PasswordHasher()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config",
         "detail": "app",
         "documentation": {}
     },
@@ -782,7 +673,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "stop_event = threading.Event()\nqt_app = None\nmixer.init()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound",
+        "peekOfCode": "stop_event = threading.Event()\nqt_app = None\nmixer.init()\nph = PasswordHasher()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message",
         "detail": "app",
         "documentation": {}
     },
@@ -791,7 +682,16 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "qt_app = None\nmixer.init()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound\n        self.start_time = time.time()",
+        "peekOfCode": "qt_app = None\nmixer.init()\nph = PasswordHasher()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "ph",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "ph = PasswordHasher()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound\n        self.start_time = time.time()\n        self.pressed = False",
         "detail": "app",
         "documentation": {}
     }
