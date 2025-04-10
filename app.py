@@ -19,7 +19,7 @@ from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout, QApplicat
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 from PyQt6.QtGui import QIcon, QPixmap, QColor
 from flask import Flask, render_template, request, redirect, url_for, send_file
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.utils import secure_filename
 import smtplib
 from email.mime.text import MIMEText
@@ -180,11 +180,15 @@ def load_config():
     config_lock = threading.Lock()
     with config_lock:
         default_config = {
-            "web_username": "admin",
-            "web_password": cipher.encrypt("password".encode()).decode(),
+            "users": [
+                {
+                    "username": "admin",
+                    "password": cipher.encrypt("admin_password".encode()).decode(),
+                    "role": "admin"
+                }
+            ],
             "sender_email": "your_email@example.com",
             "password": cipher.encrypt("your_password".encode()).decode(),
-            "recipient_email": "recipient@example.com",
             "smtp_server": "smtp.gmail.com",
             "smtp_port": 587,
             "start_time": "18:00",
@@ -303,13 +307,29 @@ def send_email(config, subject, message):
         msg["To"] = config["recipient_email"]
         with smtplib.SMTP(config["smtp_server"], config["smtp_port"]) as server:
             server.starttls()
-            server.login(config["sender_email"], config["password"])
+            server.login(config["sender_email"], cipher.decrypt(config["password"].encode()).decode())
             server.sendmail(config["sender_email"], config["recipient_email"], msg.as_string())
         logging.info(f"Email sent: {subject}")
-        notifications.append(f"{time.strftime('%H:%M:%S')} - {subject}: {message}")
     except Exception as e:
         logging.error(f"Failed to send email: {str(e)}")
-        notifications.append(f"{time.strftime('%H:%M:%S')} - Email Failed: {str(e)}")
+
+def send_credentials_email(to_email, username, password, role, smtp_config):
+    msg = MIMEText(f"""
+Your Hoogland account has been created. Please keep this information secure:
+
+Username: {username}
+Password: {password}
+Role: {role}
+
+Access the web GUI at http://localhost:5000 to manage settings.
+    """)
+    msg["Subject"] = "Your Hoogland Credentials"
+    msg["From"] = smtp_config["sender_email"]
+    msg["To"] = to_email
+    with smtplib.SMTP(smtp_config["smtp_server"], smtp_config["smtp_port"]) as server:
+        server.starttls()
+        server.login(smtp_config["sender_email"], smtp_config["password"])
+        server.sendmail(smtp_config["sender_email"], to_email, msg.as_string())
 
 def calculate_executable_hash():
     if getattr(sys, "frozen", False):
@@ -512,12 +532,16 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        if (
-            username == config["web_username"]
-            and password == cipher.decrypt(config["web_password"].encode()).decode()
-        ):
-            login_user(user)
-            return redirect(url_for("admin"))
+
+        # Check credentials
+        for user in config["users"]:
+            if (
+                user["username"] == username
+                and cipher.decrypt(user["password"].encode()).decode() == password
+            ):
+                login_user(UserMixin())
+                return redirect(url_for("admin" if user["role"] == "admin" else "user_dashboard"))
+
         return "Invalid credentials"
     return render_template("login.html")
 
@@ -540,6 +564,8 @@ def logs():
 @app.route("/admin", methods=["GET", "POST"])
 @login_required
 def admin():
+    if current_user.role != "admin":
+        return redirect(url_for("user_dashboard"))
     config = load_config()
     backups = [f for f in os.listdir(app_data_dir) if f.startswith("config_backup_") and f.endswith(".json")]
     if request.method == "POST":
@@ -692,6 +718,130 @@ def restore_config():
                 logging.error(f"Failed to restore config from backup: {str(e)}")
                 send_email(config, "Config Restore Error", f"Failed to restore config from {backup_file}: {str(e)}")
     return redirect(url_for("admin"))
+
+@app.route("/create_user", methods=["POST"])
+@login_required
+def create_user():
+    config = load_config()
+    if not request.form.get("role") in ["admin", "user"]:
+        return "Invalid role specified.", 400
+
+    username = request.form["username"]
+    password = request.form["password"]
+    role = request.form["role"]
+
+    # Encrypt the password
+    encrypted_password = cipher.encrypt(password.encode()).decode()
+
+    # Add the new user to the config
+    config["users"].append({"username": username, "password": encrypted_password, "role": role})
+    with open(config_path, "w") as f:
+        json.dump(config, f, indent=4)
+
+    # Send email with credentials
+    send_email(
+        config,
+        "New Account Created",
+        f"Your account has been created.\n\nUsername: {username}\nPassword: {password}\nRole: {role}"
+    )
+
+    return redirect(url_for("admin"))
+
+@app.route("/user_dashboard")
+@login_required
+def user_dashboard():
+    return render_template("user_dashboard.html")
+
+@app.route("/setup", methods=["GET", "POST"])
+def setup():
+    config = load_config()
+    if config.get("users"):
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        email = request.form["email"]
+        smtp_email = request.form["smtp_email"]
+        smtp_password = request.form["smtp_password"]
+        smtp_server = request.form["smtp_server"]
+        smtp_port = int(request.form["smtp_port"])
+
+        if len(username) < 8 or len(password) < 8 or not any(c.isalpha() for c in password) or not any(c.isdigit() for c in password):
+            return "Username and password must be at least 8 characters with letters and numbers.", 400
+
+        hashed_password = ph.hash(password)
+        config["users"] = [{
+            "username": username,
+            "password_hash": hashed_password,
+            "role": "admin",
+            "email": email
+        }]
+        config["sender_email"] = smtp_email
+        config["smtp_server"] = smtp_server
+        config["smtp_port"] = smtp_port
+        config["password"] = cipher.encrypt(smtp_password.encode()).decode()
+        config["is_default"] = False
+
+        try:
+            send_credentials_email(email, username, password, "Admin", {
+                "sender_email": smtp_email,
+                "password": smtp_password,
+                "smtp_server": smtp_server,
+                "smtp_port": smtp_port
+            })
+        except Exception as e:
+            return f"Failed to send email: {str(e)}", 500
+
+        save_config(config)
+        return redirect(url_for("login"))
+
+    return render_template("setup.html")
+
+@app.route("/users", methods=["GET", "POST"])
+@login_required
+def manage_users():
+    config = load_config()
+    if current_user.role != "admin":
+        return "Access denied", 403
+
+    if request.method == "POST":
+        action = request.form["action"]
+        if action == "add":
+            username = request.form["username"]
+            password = request.form["password"]
+            email = request.form["email"]
+            role = request.form["role"]
+            if len(username) < 8 or len(password) < 8 or not any(c.isalpha() for c in password) or not any(c.isdigit() for c in password):
+                return "Invalid username or password", 400
+            if any(u["username"] == username for u in config["users"]):
+                return "Username already exists", 400
+            hashed_password = ph.hash(password)
+            config["users"].append({
+                "username": username,
+                "password_hash": hashed_password,
+                "role": role,
+                "email": email
+            })
+            try:
+                smtp_config = {
+                    "sender_email": config["sender_email"],
+                    "password": cipher.decrypt(config["password"].encode()).decode(),
+                    "smtp_server": config["smtp_server"],
+                    "smtp_port": config["smtp_port"]
+                }
+                send_credentials_email(email, username, password, role.capitalize(), smtp_config)
+            except Exception as e:
+                return f"Failed to send email: {str(e)}", 500
+        elif action == "delete":
+            username = request.form["username"]
+            if username == current_user.id:
+                return "Cannot delete your own account", 400
+            config["users"] = [u for u in config["users"] if u["username"] != username]
+        save_config(config)
+        return redirect(url_for("manage_users"))
+
+    return render_template("users.html", users=config["users"])
 
 def cleanup(signum=None, frame=None):
     logging.info("Initiating cleanup")

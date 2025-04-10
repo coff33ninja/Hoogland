@@ -194,6 +194,23 @@
             </form>
         </div>
 
+        <div class="section">
+            <h2>Create New User</h2>
+            <form method="POST" action="{{ url_for('create_user') }}">
+                <h3>Create New User</h3>
+                <label for="username">Username:</label>
+                <input type="text" name="username" required>
+                <label for="password">Password:</label>
+                <input type="password" name="password" required>
+                <label for="role">Role:</label>
+                <select name="role">
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                </select>
+                <button type="submit">Create User</button>
+            </form>
+        </div>
+
         <div class="links">
             <a href="{{ url_for('logs') }}">View Logs</a> |
             <a href="{{ url_for('get_notifications') }}">View Notifications</a> |

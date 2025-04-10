@@ -333,6 +333,14 @@
         "documentation": {}
     },
     {
+        "label": "current_user",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
         "label": "secure_filename",
         "importPath": "werkzeug.utils",
         "description": "werkzeug.utils",
@@ -468,7 +476,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def load_config():\n    config_lock = threading.Lock()\n    with config_lock:\n        default_config = {\n            \"web_username\": \"admin\",\n            \"web_password\": cipher.encrypt(\"password\".encode()).decode(),\n            \"sender_email\": \"your_email@example.com\",\n            \"password\": cipher.encrypt(\"your_password\".encode()).decode(),\n            \"recipient_email\": \"recipient@example.com\",\n            \"smtp_server\": \"smtp.gmail.com\",",
+        "peekOfCode": "def load_config():\n    config_lock = threading.Lock()\n    with config_lock:\n        default_config = {\n            \"users\": [\n                {\n                    \"username\": \"admin\",\n                    \"password\": cipher.encrypt(\"admin_password\".encode()).decode(),\n                    \"role\": \"admin\"\n                }",
         "detail": "app",
         "documentation": {}
     },
@@ -477,7 +485,16 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def send_email(config, subject, message):\n    try:\n        msg = MIMEText(message)\n        msg[\"Subject\"] = subject\n        msg[\"From\"] = config[\"sender_email\"]\n        msg[\"To\"] = config[\"recipient_email\"]\n        with smtplib.SMTP(config[\"smtp_server\"], config[\"smtp_port\"]) as server:\n            server.starttls()\n            server.login(config[\"sender_email\"], config[\"password\"])\n            server.sendmail(config[\"sender_email\"], config[\"recipient_email\"], msg.as_string())",
+        "peekOfCode": "def send_email(config, subject, message):\n    try:\n        msg = MIMEText(message)\n        msg[\"Subject\"] = subject\n        msg[\"From\"] = config[\"sender_email\"]\n        msg[\"To\"] = config[\"recipient_email\"]\n        with smtplib.SMTP(config[\"smtp_server\"], config[\"smtp_port\"]) as server:\n            server.starttls()\n            server.login(config[\"sender_email\"], cipher.decrypt(config[\"password\"].encode()).decode())\n            server.sendmail(config[\"sender_email\"], config[\"recipient_email\"], msg.as_string())",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "send_credentials_email",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def send_credentials_email(to_email, username, password, role, smtp_config):\n    msg = MIMEText(f\"\"\"\nYour Hoogland account has been created. Please keep this information secure:\nUsername: {username}\nPassword: {password}\nRole: {role}\nAccess the web GUI at http://localhost:5000 to manage settings.\n    \"\"\")\n    msg[\"Subject\"] = \"Your Hoogland Credentials\"\n    msg[\"From\"] = smtp_config[\"sender_email\"]",
         "detail": "app",
         "documentation": {}
     },
@@ -495,7 +512,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def login():\n    config = load_config()\n    if request.method == \"POST\":\n        username = request.form[\"username\"]\n        password = request.form[\"password\"]\n        if (\n            username == config[\"web_username\"]\n            and password == cipher.decrypt(config[\"web_password\"].encode()).decode()\n        ):\n            login_user(user)",
+        "peekOfCode": "def login():\n    config = load_config()\n    if request.method == \"POST\":\n        username = request.form[\"username\"]\n        password = request.form[\"password\"]\n        # Check credentials\n        for user in config[\"users\"]:\n            if (\n                user[\"username\"] == username\n                and cipher.decrypt(user[\"password\"].encode()).decode() == password",
         "detail": "app",
         "documentation": {}
     },
@@ -522,7 +539,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def admin():\n    config = load_config()\n    backups = [f for f in os.listdir(app_data_dir) if f.startswith(\"config_backup_\") and f.endswith(\".json\")]\n    if request.method == \"POST\":\n        try:\n            new_password = request.form[\"password\"]\n            encrypted_password = cipher.encrypt(new_password.encode()).decode() if new_password else config[\"password\"]\n            config = {\n                \"sender_email\": request.form[\"sender_email\"],\n                \"password\": encrypted_password,",
+        "peekOfCode": "def admin():\n    if current_user.role != \"admin\":\n        return redirect(url_for(\"user_dashboard\"))\n    config = load_config()\n    backups = [f for f in os.listdir(app_data_dir) if f.startswith(\"config_backup_\") and f.endswith(\".json\")]\n    if request.method == \"POST\":\n        try:\n            new_password = request.form[\"password\"]\n            encrypted_password = cipher.encrypt(new_password.encode()).decode() if new_password else config[\"password\"]\n            config = {",
         "detail": "app",
         "documentation": {}
     },
@@ -586,6 +603,42 @@
         "importPath": "app",
         "description": "app",
         "peekOfCode": "def restore_config():\n    config = load_config()\n    if \"config_file\" in request.files and request.files[\"config_file\"].filename != \"\":\n        file = request.files[\"config_file\"]\n        filename = secure_filename(file.filename)\n        file.save(filename)\n        try:\n            with open(filename, \"r\") as f:\n                new_config = json.load(f)\n            with open(config_path, \"w\") as f:",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "create_user",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def create_user():\n    config = load_config()\n    if not request.form.get(\"role\") in [\"admin\", \"user\"]:\n        return \"Invalid role specified.\", 400\n    username = request.form[\"username\"]\n    password = request.form[\"password\"]\n    role = request.form[\"role\"]\n    # Encrypt the password\n    encrypted_password = cipher.encrypt(password.encode()).decode()\n    # Add the new user to the config",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "user_dashboard",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def user_dashboard():\n    return render_template(\"user_dashboard.html\")\n@app.route(\"/setup\", methods=[\"GET\", \"POST\"])\ndef setup():\n    config = load_config()\n    if config.get(\"users\"):\n        return redirect(url_for(\"login\"))\n    if request.method == \"POST\":\n        username = request.form[\"username\"]\n        password = request.form[\"password\"]",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "setup",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def setup():\n    config = load_config()\n    if config.get(\"users\"):\n        return redirect(url_for(\"login\"))\n    if request.method == \"POST\":\n        username = request.form[\"username\"]\n        password = request.form[\"password\"]\n        email = request.form[\"email\"]\n        smtp_email = request.form[\"smtp_email\"]\n        smtp_password = request.form[\"smtp_password\"]",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "manage_users",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def manage_users():\n    config = load_config()\n    if current_user.role != \"admin\":\n        return \"Access denied\", 403\n    if request.method == \"POST\":\n        action = request.form[\"action\"]\n        if action == \"add\":\n            username = request.form[\"username\"]\n            password = request.form[\"password\"]\n            email = request.form[\"email\"]",
         "detail": "app",
         "documentation": {}
     },
