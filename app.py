@@ -626,6 +626,17 @@ def admin():
 
     config = load_config()
 
+    # Ensure password_policy exists in the config
+    if "password_policy" not in config:
+        config["password_policy"] = {
+            "min_length": 8,
+            "require_uppercase": True,
+            "require_lowercase": True,
+            "require_number": True,
+            "require_symbol": True,
+            "symbols": "!@#$%^&*()-_=+[]{}|;:'\",.<>?/`~"
+        }
+
     if request.method == "POST":
         action = request.form["action"]
         if action == "add_user":
@@ -642,17 +653,17 @@ def admin():
             if password_errors:
                 for error in password_errors:
                     flash(error, 'error')
-                return render_template("admin.html", users=config.get("users", [])), 400
+                return render_template("admin.html", config=config, users=config.get("users", [])), 400
 
             # Validate username
             if len(username) < 8:
                 flash("Username must be at least 8 characters.", 'error')
-                return render_template("admin.html", users=config.get("users", [])), 400
+                return render_template("admin.html", config=config, users=config.get("users", [])), 400
 
             # Check if username already exists
             if any(u["username"] == username for u in config.get("users", [])):
                 flash("Username already exists.", 'error')
-                return render_template("admin.html", users=config.get("users", [])), 400
+                return render_template("admin.html", config=config, users=config.get("users", [])), 400
 
             # Add the user
             hashed_password = ph.hash(password)
@@ -679,7 +690,22 @@ def admin():
 
             return redirect(url_for("admin"))
 
-    return render_template("admin.html", users=config.get("users", []))
+    return render_template("admin.html", config=config, users=config.get("users", []))
+
+@app.route("/trigger_popup", methods=["POST"])
+@login_required
+def trigger_popup():
+    if current_user.role != "admin":
+        flash("Access denied: Admin privileges required.", "error")
+        return redirect(url_for("user_dashboard"))
+
+    message = request.form.get("message", "Manual Popup Triggered")
+    play_sound = request.form.get("play_sound", "true").lower() == "true"
+
+    # Add the popup to the queue
+    popup_queue.put({"message": message, "play_sound": play_sound})
+    flash("Popup triggered successfully.", "success")
+    return redirect(url_for("admin"))
 
 def cleanup(signum=None, frame=None):
     logging.info("Initiating cleanup")
