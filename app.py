@@ -756,6 +756,40 @@ def upload_sound():
 
     return redirect(url_for('admin'))
 
+@app.route('/restore_config', methods=['POST'])
+@login_required
+def restore_config():
+    # Ensure the user has admin rights
+    if current_user.role != 'admin':
+        flash("Access denied: Admin privileges required.", "error")
+        return redirect(url_for('admin'))
+
+    # Check if a file is included in the request
+    if 'config_file' not in request.files:
+        flash('No file part in the request.', 'error')
+        return redirect(url_for('admin'))
+
+    file = request.files['config_file']
+    if file.filename == '':
+        flash('No file selected.', 'error')
+        return redirect(url_for('admin'))
+
+    # Validate the file type (only allow JSON files)
+    if not file.filename.endswith('.json'):
+        flash('Only JSON files are allowed.', 'error')
+        return redirect(url_for('admin'))
+
+    # Save the uploaded configuration file
+    try:
+        config_data = json.load(file)
+        save_config(config_data)
+        flash('Configuration restored successfully.', 'success')
+    except Exception as e:
+        logging.error(f"Failed to restore configuration: {str(e)}")
+        flash('Failed to restore configuration. Ensure the file is valid.', 'error')
+
+    return redirect(url_for('admin'))
+
 def cleanup(signum=None, frame=None):
     logging.info("Initiating cleanup")
     stop_event.set()
