@@ -2,53 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logs - Hoogland</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7fa;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        h1 {
-            color: #3498db;
-            text-align: center;
-        }
-        pre {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-height: 500px;
-            overflow-y: auto;
-            font-size: 14px;
-            color: #2c3e50;
-        }
-        a {
-            display: block;
-            text-align: center;
-            color: #3498db;
-            text-decoration: none;
-            margin-top: 20px;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
-        <h1>Logs</h1>
+        <h1>Application Logs</h1>
         <pre>
+{% if logs %}
 {% for log in logs %}
 {{ log }}
 {% endfor %}
+{% else %}
+No log entries found.
+{% endif %}
         </pre>
-        <a href="{{ url_for('admin') }}">Back to Admin</a>
+        <a href="{{ url_for('admin') }}" class="back-link">Back to Admin Panel</a>
     </div>
 </body>
 </html>

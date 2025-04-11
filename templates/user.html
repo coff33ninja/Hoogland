@@ -1,24 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard - Hoogland</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .info { margin-bottom: 20px; }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>User Dashboard</h1>
-    <div class="info">
-        <p><strong>Alert Schedule:</strong></p>
-        <p>Start Time: {{ config.start_time }}</p>
-        <p>End Time: {{ config.end_time }}</p>
+    <div class="container">
+        <h1>User Dashboard</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="notification {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="section info">
+            <h2>Information</h2>
+            <p><strong>Your Alert Schedule:</strong></p>
+            <p>Alerts are active between: <strong>{{ config.start_time }}</strong> and <strong>{{ config.end_time }}</strong></p>
+            </div>
+
+        <div class="section">
+             <h2>Test Popup</h2>
+             <p>You can manually trigger a test popup alert here.</p>
+            <form method="POST" action="{{ url_for('trigger_popup') }}">
+                <input type="hidden" name="message_type" value="Manual Test Alert">
+                <input type="hidden" name="play_sound" value="on">
+                <button type="submit" style="width: auto;">Send Test Popup</button> </form>
+        </div>
+
+        <div class="links text-center mt-20">
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
     </div>
-    <form method="POST" action="{{ url_for('trigger_popup') }}">
-        <button type="submit">Test Popup</button>
-        <input type="hidden" name="message_type" value="Security Alert">
-        <input type="hidden" name="play_sound" value="on">
-    </form>
-    <a href="{{ url_for('logout') }}">Logout</a>
 </body>
 </html>

@@ -1,62 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users - Hoogland</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        button { padding: 5px 10px; background-color: #3498db; color: white; border: none; cursor: pointer; }
-        .form-group { margin-bottom: 15px; }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Manage Users</h1>
-    <form method="POST">
-        <input type="hidden" name="action" value="add">
-        <div class="form-group">
-            <label>Username:</label>
-            <input type="text" name="username" required minlength="8">
+    <div class="container">
+        <h1>Manage Users</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="notification {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="section">
+            <h2>Add New User</h2>
+            <form method="POST">
+                <input type="hidden" name="action" value="add_user"> <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required minlength="8" placeholder="Minimum 8 characters">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required minlength="8" pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()-_=+\[\]{}|;:'\",.<>?/`~]).{8,}$" title="Minimum 8 characters, including letters, numbers, and symbols.">
+                     <small>Must contain letters, numbers, and symbols (!@#$...). Credentials will be emailed.</small>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required placeholder="User's email address">
+                </div>
+                <div class="form-group">
+                    <label for="role">Role:</label>
+                    <select id="role" name="role">
+                        <option value="user">Normal User</option> <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <button type="submit">Add User</button>
+            </form>
         </div>
-        <div class="form-group">
-            <label>Password:</label>
-            <input type="password" name="password" required minlength="8" pattern="^(?=.*[A-Za-z])(?=.*\d).+$">
+
+        <div class="section">
+            <h2>Existing Users</h2>
+            {% if users %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Email</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.role | capitalize }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {% if user.username != current_user.id %} <form method="POST" onsubmit="return confirm('Are you sure you want to delete user {{ user.username }}?');">
+                                <input type="hidden" name="action" value="delete_user">
+                                <input type="hidden" name="username" value="{{ user.username }}">
+                                <button type="submit" class="delete-button">Delete</button>
+                            </form>
+                            {% else %}
+                            (Current User)
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No other users found.</p>
+            {% endif %}
         </div>
-        <div class="form-group">
-            <label>Email:</label>
-            <input type="email" name="email" required>
-        </div>
-        <div class="form-group">
-            <label>Role:</label>
-            <select name="role">
-                <option value="admin">Admin</option>
-                <option value="user">Normal</option>
-            </select>
-        </div>
-        <button type="submit">Add User</button>
-    </form>
-    <table>
-        <tr>
-            <th>Username</th>
-            <th>Role</th>
-            <th>Email</th>
-            <th>Action</th>
-        </tr>
-        {% for user in users %}
-        <tr>
-            <td>{{ user.username }}</td>
-            <td>{{ user.role | capitalize }}</td>
-            <td>{{ user.email }}</td>
-            <td>
-                <form method="POST">
-                    <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="username" value="{{ user.username }}">
-                    <button type="submit">Delete</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-    <a href="{{ url_for('admin') }}">Back to Admin</a>
+
+        <a href="{{ url_for('admin') }}" class="back-link">Back to Admin Panel</a>
+    </div>
 </body>
 </html>

@@ -1,26 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Setup Hoogland</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Ensure full viewport height */
+            background-color: #f8f9fa; /* Match background */
+            padding: 0; /* Remove body padding for centering */
+        }
+        .setup-container { /* Similar to login container */
+            max-width: 500px;
+            margin: 5vh auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
-    <h1>Setup Hoogland Admin Account</h1>
-    <form method="POST">
-        <label>Username:</label>
-        <input type="text" name="username" required minlength="8"><br>
-        <label>Password:</label>
-        <input type="password" name="password" required minlength="8"><br>
-        <label>Email:</label>
-        <input type="email" name="email" required><br>
-        <label>SMTP Email:</label>
-        <input type="email" name="smtp_email" required><br>
-        <label>SMTP Password:</label>
-        <input type="password" name="smtp_password" required><br>
-        <label>SMTP Server:</label>
-        <input type="text" name="smtp_server" value="smtp.gmail.com" required><br>
-        <label>SMTP Port:</label>
-        <input type="number" name="smtp_port" value="587" required><br>
-        <button type="submit">Create Admin Account</button>
-    </form>
+    <div class="setup-container">
+        <h1>Setup Hoogland Admin Account</h1>
+        <p>Create the initial administrator account and configure email settings.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="notification {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <h3>Admin User Details</h3>
+            <div class="form-group">
+                <label for="username">Admin Username:</label>
+                <input type="text" id="username" name="username" required minlength="8" placeholder="Minimum 8 characters">
+            </div>
+            <div class="form-group">
+                <label for="password">Admin Password:</label>
+                <input type="password" id="password" name="password" required minlength="8" pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()-_=+\[\]{}|;:'\",.<>?/`~]).{8,}$" title="Minimum 8 characters, including letters, numbers, and symbols.">
+                <small>Must contain letters, numbers, and symbols (!@#$...).</small>
+            </div>
+            <div class="form-group">
+                <label for="email">Admin Email Address:</label>
+                <input type="email" id="email" name="email" required placeholder="Credentials will be sent here">
+            </div>
+
+            <h3>SMTP Email Configuration</h3>
+            <p><small>Used for sending alert notifications and credentials.</small></p>
+            <div class="form-group">
+                <label for="smtp_email">SMTP Email (Sender):</label>
+                <input type="email" id="smtp_email" name="smtp_email" required placeholder="e.g., your-email@gmail.com">
+            </div>
+            <div class="form-group">
+                <label for="smtp_password">SMTP Password:</label>
+                <input type="password" id="smtp_password" name="smtp_password" required placeholder="e.g., Gmail App Password">
+                <small>For Gmail, use an <a href="https://support.google.com/accounts/answer/185833" target="_blank">App Password</a>.</small>
+            </div>
+            <div class="form-group">
+                <label for="smtp_server">SMTP Server:</label>
+                <input type="text" id="smtp_server" name="smtp_server" value="smtp.gmail.com" required>
+            </div>
+            <div class="form-group">
+                <label for="smtp_port">SMTP Port:</label>
+                <input type="number" id="smtp_port" name="smtp_port" value="587" required>
+            </div>
+            <button type="submit">Create Admin Account & Configure</button>
+        </form>
+    </div>
 </body>
 </html>
