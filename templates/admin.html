@@ -93,6 +93,39 @@
         </div>
 
         <div class="section">
+            <h3>Password Policy</h3>
+            <form method="POST" action="{{ url_for('admin') }}">
+                <div class="form-group">
+                    <label for="pwd_min_length">Minimum Length:</label>
+                    <input type="number" id="pwd_min_length" name="pwd_min_length" value="{{ config.password_policy.min_length }}" min="4" required>
+                </div>
+                <div class="form-group" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="pwd_require_uppercase" name="pwd_require_uppercase" {% if config.password_policy.require_uppercase %}checked{% endif %} style="width: auto; margin-right: 10px;">
+                    <label for="pwd_require_uppercase" style="margin-bottom: 0;">Require Uppercase Letter</label>
+                </div>
+                <div class="form-group" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="pwd_require_lowercase" name="pwd_require_lowercase" {% if config.password_policy.require_lowercase %}checked{% endif %} style="width: auto; margin-right: 10px;">
+                    <label for="pwd_require_lowercase" style="margin-bottom: 0;">Require Lowercase Letter</label>
+                </div>
+                <div class="form-group" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="pwd_require_number" name="pwd_require_number" {% if config.password_policy.require_number %}checked{% endif %} style="width: auto; margin-right: 10px;">
+                    <label for="pwd_require_number" style="margin-bottom: 0;">Require Number</label>
+                </div>
+                <div class="form-group" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="pwd_require_symbol" name="pwd_require_symbol" {% if config.password_policy.require_symbol %}checked{% endif %} style="width: auto; margin-right: 10px;">
+                    <label for="pwd_require_symbol" style="margin-bottom: 0;">Require Symbol</label>
+                </div>
+                <div class="form-group">
+                    <label for="pwd_symbols">Allowed Symbols:</label>
+                    <input type="text" id="pwd_symbols" name="pwd_symbols" value="{{ config.password_policy.symbols }}">
+                    <small>Symbols used for password validation if 'Require Symbol' is checked.</small>
+                </div>
+                <input type="hidden" name="action" value="update_config">
+                <button type="submit" class="btn btn-primary">Update Password Policy</button>
+            </form>
+        </div>
+
+        <div class="section">
             <h2>Trigger Manual Popup</h2>
             <form method="post" action="{{ url_for('trigger_popup') }}">
                 <div class="form-group">
