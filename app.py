@@ -13,6 +13,7 @@ import logging
 import signal
 import queue
 import subprocess
+import re  # Add this import at the top of app.py
 from queue import Queue
 from pygame import mixer
 from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout, QApplication, QSystemTrayIcon, QMenu
@@ -183,46 +184,93 @@ class AlertDialog(QDialog):
 def load_config():
     config_lock = threading.Lock()
     with config_lock:
-        # Default configuration template
+        # Default configuration template including password rules
         default_config = {
             "users": [],
             "sender_email": "",
-            "password": "",
+            "password": "",  # Encrypted SMTP password
             "smtp_server": "smtp.gmail.com",
             "smtp_port": 587,
+            "recipient_email": "",  # Added recipient email field
             "start_time": "18:00",
             "end_time": "23:59",
             "sound_after_minutes": 3,
             "report_if_longer_than_minutes": 5,
             "email_if_not_pressed_after_minutes": 10,
-            "is_default": True,
-            "predefined_messages": ["Stay awake!", "Security check!", "Alert now!"],
+            "min_wait_between_alerts_seconds": 60,  # Added sensible defaults
+            "max_wait_between_alerts_seconds": 300,  # Added sensible defaults
+            "random_sound_enabled": False,  # Added default
+            "random_sound_min_seconds": 300,  # Added default
+            "random_sound_max_seconds": 1800,  # Added default
+            "use_custom_sounds": False,
+            "custom_sounds": [],
+            "predefined_messages": ["Stay awake!", "Security check!", "Alert now!", "System Check Required"],  # Added more default messages
             "update_url": "https://raw.githubusercontent.com/coff33ninja/Hoogland/main/latest_version.json",
             "custom_sounds": [],
-            "use_custom_sounds": False
+            "use_custom_sounds": False,
+            "expected_hash": "",  # Default empty hash
+            "is_default": True,  # Flag indicating if it's the default config
+            # --- Password Complexity Rules ---
+            "password_policy": {
+                "min_length": 8,
+                "require_uppercase": True,
+                "require_lowercase": True,
+                "require_number": True,
+                "require_symbol": True,
+                "symbols": "!@#$%^&*()-_=+[]{}|;:'\",.<>?/`~"  # Define allowed symbols
+            }
         }
 
-        # Check if the config file exists
-        if not os.path.exists(config_path):
-            logging.info("Configuration file not found. Returning default configuration.")
-            return default_config
-
-        # Load the existing config file
+        config = None
         try:
-            with open(config_path, "r") as f:
-                config = json.load(f)
+            if os.path.exists(config_path):
+                with open(config_path, "r") as f:
+                    config = json.load(f)
+                logging.info("Configuration file loaded successfully.")
 
-            # Validate and update missing keys
-            for key, default_value in default_config.items():
-                if key not in config:
-                    logging.warning(f"Missing key '{key}' in config. Adding default value: {default_value}")
-                    config[key] = default_value
+                # --- Validate and update existing config ---
+                config_updated = False
+                # Ensure nested password_policy dict exists
+                if "password_policy" not in config:
+                    config["password_policy"] = {}
+                    config_updated = True
 
-            return config
+                # Check top-level keys
+                for key, default_value in default_config.items():
+                    if key not in config:
+                        logging.warning(f"Missing key '{key}' in config. Adding default value.")
+                        config[key] = default_value
+                        config_updated = True
+                    # Check password policy keys
+                    elif key == "password_policy":
+                        for p_key, p_default_value in default_config["password_policy"].items():
+                            if p_key not in config["password_policy"]:
+                                logging.warning(f"Missing password policy key '{p_key}'. Adding default.")
+                                config["password_policy"][p_key] = p_default_value
+                                config_updated = True
+
+                if config_updated:
+                    logging.info("Updating config file with missing default keys.")
+                    save_config(config)  # Save the updated config
+
+            else:
+                logging.warning("Configuration file not found. Creating default configuration file.")
+                config = default_config
+                save_config(config)  # Save the default config immediately
 
         except json.JSONDecodeError:
-            logging.error("Invalid JSON in configuration file. Returning default configuration.")
-            return default_config
+            logging.error("Invalid JSON in configuration file. Creating default configuration file.")
+            config = default_config
+            save_config(config)  # Save the default config immediately
+        except Exception as e:
+            logging.error(f"Error loading or creating config: {str(e)}. Using in-memory default.")
+            config = default_config  # Fallback to in-memory default if save fails
+
+        # Mark as not default if it was loaded or created
+        if config and config.get("is_default"):
+            config["is_default"] = False
+
+        return config
 
 def save_config(config):
     try:
