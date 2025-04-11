@@ -822,6 +822,24 @@ def manage_users():
 
     return render_template('users.html', users=config.get('users', []))
 
+@app.route('/logs', methods=['GET'])
+@login_required
+def logs():
+    # Ensure the user has admin rights
+    if current_user.role != 'admin':
+        flash("Access denied: Admin privileges required.", "error")
+        return redirect(url_for('admin'))
+
+    log_file_path = os.path.join(app_data_dir, "app.log")
+    try:
+        with open(log_file_path, "r") as f:
+            log_content = f.readlines()
+        return render_template("logs.html", logs=log_content)
+    except Exception as e:
+        logging.error(f"Failed to read log file: {str(e)}")
+        flash("Failed to load logs.", "error")
+        return redirect(url_for('admin'))
+
 def cleanup(signum=None, frame=None):
     logging.info("Initiating cleanup")
     stop_event.set()
