@@ -707,6 +707,25 @@ def trigger_popup():
     flash("Popup triggered successfully.", "success")
     return redirect(url_for("admin"))
 
+@app.route('/trigger_predefined_popup', methods=['POST'])
+@login_required
+def trigger_predefined_popup():
+    if current_user.role != 'admin':
+        flash("Access denied: Admin privileges required.", "error")
+        return redirect(url_for('admin'))
+
+    predefined_message = request.form.get("predefined_message")
+    if not predefined_message:
+        flash("No predefined message selected.", "error")
+        return redirect(url_for('admin'))
+
+    play_sound = request.form.get("play_sound", "true").lower() == "true"
+
+    # Add the popup to the queue
+    popup_queue.put({"message": predefined_message, "play_sound": play_sound})
+    flash("Predefined popup triggered successfully.", "success")
+    return redirect(url_for('admin'))
+
 @app.route('/upload_sound', methods=['POST'])
 @login_required
 def upload_sound():
