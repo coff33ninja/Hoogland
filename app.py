@@ -790,6 +790,38 @@ def restore_config():
 
     return redirect(url_for('admin'))
 
+@app.route('/manage_users', methods=['GET', 'POST'])
+@login_required
+def manage_users():
+    # Ensure the user has admin rights
+    if current_user.role != 'admin':
+        flash("Access denied: Admin privileges required.", "error")
+        return redirect(url_for('admin'))
+
+    config = load_config()
+
+    if request.method == 'POST':
+        action = request.form.get('action')
+        username = request.form.get('username')
+
+        if action == 'delete_user':
+            # Delete the user from the config
+            config['users'] = [user for user in config['users'] if user['username'] != username]
+            save_config(config)
+            flash(f"User '{username}' deleted successfully.", 'success')
+
+        elif action == 'update_role':
+            # Update the user's role
+            new_role = request.form.get('role')
+            for user in config['users']:
+                if user['username'] == username:
+                    user['role'] = new_role
+                    break
+            save_config(config)
+            flash(f"User '{username}' role updated to '{new_role}'.", 'success')
+
+    return render_template('users.html', users=config.get('users', []))
+
 def cleanup(signum=None, frame=None):
     logging.info("Initiating cleanup")
     stop_event.set()
