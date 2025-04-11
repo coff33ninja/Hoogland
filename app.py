@@ -840,6 +840,21 @@ def logs():
         flash("Failed to load logs.", "error")
         return redirect(url_for('admin'))
 
+@app.route('/get_notifications', methods=['GET'])
+@login_required
+def get_notifications():
+    # Ensure the user has admin rights
+    if current_user.role != 'admin':
+        flash("Access denied: Admin privileges required.", "error")
+        return redirect(url_for('admin'))
+
+    try:
+        return render_template("notifications.html", notifications=notifications)
+    except Exception as e:
+        logging.error(f"Failed to load notifications: {str(e)}")
+        flash("Failed to load notifications.", "error")
+        return redirect(url_for('admin'))
+
 def cleanup(signum=None, frame=None):
     logging.info("Initiating cleanup")
     stop_event.set()
