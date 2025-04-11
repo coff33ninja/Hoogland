@@ -218,7 +218,9 @@ def load_config():
                 "require_number": True,
                 "require_symbol": True,
                 "symbols": "!@#$%^&*()-_=+[]{}|;:'\",.<>?/`~"  # Define allowed symbols
-            }
+            },
+            # Update the default configuration to include enable_math_popup
+            "enable_math_popup": False,
         }
 
         config = None
@@ -900,6 +902,25 @@ def logout():
     logout_user()
     flash("You have been logged out.", "success")
     return redirect(url_for('login'))
+
+@app.route('/trigger_math_popup', methods=['POST'])
+@login_required
+def trigger_math_popup():
+    if current_user.role != 'admin':
+        flash("Access denied: Admin privileges required.", "error")
+        return redirect(url_for('admin'))
+
+    # Generate a random math problem
+    num1 = random.randint(1, 100)
+    num2 = random.randint(1, 100)
+    operation = random.choice(['+', '-'])
+    problem = f"{num1} {operation} {num2}"
+    solution = eval(problem)
+
+    # Add the popup to the queue with the math problem
+    popup_queue.put({"message": f"Solve this: {problem}", "play_sound": False, "solution": solution})
+    flash("Math popup triggered successfully.", "success")
+    return redirect(url_for('admin'))
 
 def cleanup(signum=None, frame=None):
     logging.info("Initiating cleanup")

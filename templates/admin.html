@@ -88,6 +88,10 @@
                     <label for="expected_hash">Expected Hash:</label>
                     <input type="text" id="expected_hash" name="expected_hash" value="{{ config.expected_hash }}" required>
                 </div>
+                <div class="form-group" style="display: flex; align-items: center;">
+                    <input type="checkbox" id="enable_math_popup" name="enable_math_popup" {% if config.enable_math_popup %}checked{% endif %} style="width: auto; margin-right: 10px;">
+                    <label for="enable_math_popup" style="margin-bottom: 0;">Enable Math Popups in Schedule</label>
+                </div>
                 <button type="submit">Save Configuration</button>
             </form>
         </div>
@@ -127,16 +131,18 @@
 
         <div class="section">
             <h2>Trigger Manual Popup</h2>
-            <form method="post" action="{{ url_for('trigger_popup') }}">
-                <div class="form-group">
-                    <label for="message">Popup Message:</label>
-                    <input type="text" id="message" name="message" placeholder="Enter popup message" required>
-                </div>
-                <div class="form-group" style="display: flex; align-items: center;">
-                    <input type="checkbox" id="play_sound" name="play_sound" value="true" checked style="width: auto; margin-right: 10px;">
-                    <label for="play_sound" style="margin-bottom: 0;">Play Sound</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Trigger Popup</button>
+            <form method="POST" action="/trigger_popup">
+                <label for="message">Select a predefined message:</label>
+                <select name="message" id="message">
+                    <option value="Wake up">Wake up</option>
+                    <option value="No sleeping on the job">No sleeping on the job</option>
+                    <option value="Anything else in particular">Anything else in particular</option>
+                </select>
+                <br>
+                <label for="play_sound">Play sound:</label>
+                <input type="checkbox" name="play_sound" id="play_sound" checked>
+                <br>
+                <button type="submit">Trigger Popup</button>
             </form>
         </div>
 
