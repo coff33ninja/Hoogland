@@ -707,6 +707,55 @@ def trigger_popup():
     flash("Popup triggered successfully.", "success")
     return redirect(url_for("admin"))
 
+@app.route('/upload_sound', methods=['POST'])
+@login_required
+def upload_sound():
+    # Ensure the user has admin rights
+    if current_user.role != 'admin':
+        flash("Access denied: Admin privileges required.", "error")
+        return redirect(url_for('admin'))
+
+    # Check if a file is included in the request
+    if 'sound_file' not in request.files:
+        flash('No file part in the request.', 'error')
+        return redirect(url_for('admin'))
+
+    file = request.files['sound_file']
+    if file.filename == '':
+        flash('No file selected.', 'error')
+        return redirect(url_for('admin'))
+
+    # Validate the file type (only allow MP3 files)
+    if not file.filename.endswith('.mp3'):
+        flash('Only MP3 files are allowed.', 'error')
+        return redirect(url_for('admin'))
+
+    # Save the file to the designated sounds directory
+    sounds_dir = os.path.join(app_data_dir, "sounds")
+    os.makedirs(sounds_dir, exist_ok=True)  # Ensure the directory exists
+    save_path = os.path.join(sounds_dir, secure_filename(file.filename))
+
+    try:
+        file.save(save_path)
+
+        # Update the configuration to include the new sound
+        config = load_config()
+        if 'custom_sounds' not in config:
+            config['custom_sounds'] = []
+
+        # Avoid duplicate entries
+        if not any(s['filename'] == file.filename for s in config['custom_sounds']):
+            config['custom_sounds'].append({'filename': file.filename, 'active': True})
+            save_config(config)
+            flash(f'Sound "{file.filename}" uploaded successfully.', 'success')
+        else:
+            flash(f'Sound "{file.filename}" already exists.', 'warning')
+    except Exception as e:
+        logging.error(f"Failed to upload sound: {str(e)}")
+        flash('Failed to upload sound.', 'error')
+
+    return redirect(url_for('admin'))
+
 def cleanup(signum=None, frame=None):
     logging.info("Initiating cleanup")
     stop_event.set()
