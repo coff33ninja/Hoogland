@@ -19,7 +19,7 @@ from pygame import mixer
 from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout, QApplication, QSystemTrayIcon, QMenu
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 from PyQt6.QtGui import QIcon, QPixmap, QColor
-from flask import Flask, render_template, request, redirect, url_for, send_file
+from flask import Flask, render_template, request, redirect, url_for, send_file, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.utils import secure_filename
 import smtplib
@@ -328,6 +328,24 @@ def calculate_executable_hash():
             return None
     return None
 
+def validate_password(password, policy):
+    """Validates a password against the configured policy."""
+    errors = []
+    if len(password) < policy.get("min_length", 8):
+        errors.append(f"Password must be at least {policy.get('min_length', 8)} characters long.")
+    if policy.get("require_uppercase", True) and not re.search(r"[A-Z]", password):
+        errors.append("Password must contain at least one uppercase letter.")
+    if policy.get("require_lowercase", True) and not re.search(r"[a-z]", password):
+        errors.append("Password must contain at least one lowercase letter.")
+    if policy.get("require_number", True) and not re.search(r"\d", password):
+        errors.append("Password must contain at least one number.")
+    if policy.get("require_symbol", True):
+        allowed_symbols = policy.get("symbols", "!@#$%^&*()-_=+[]{}|;:'\",.<>?/`~")
+        pattern = f"[{re.escape(allowed_symbols)}]"
+        if not re.search(pattern, password):
+            errors.append(f"Password must contain at least one symbol ({allowed_symbols}).")
+    return errors
+
 class UpdateCheckerThread(QThread):
     update_available = pyqtSignal(str)
 
@@ -516,8 +534,7 @@ def setup():
     logging.info("Accessed /setup route")
     config = load_config()
     if config and config.get("users"):
-        # If users already exist, redirect to login
-        return redirect(url_for("login"))
+        return redirect(url_for("login"))  # Redirect to login if users exist
 
     if request.method == "POST":
         username = request.form["username"]
@@ -528,11 +545,20 @@ def setup():
         smtp_server = request.form["smtp_server"]
         smtp_port = int(request.form["smtp_port"])
 
-        # Validate username and password
+        # Load password policy from config
+        policy = config.get("password_policy", {})
+
+        # Validate password
+        password_errors = validate_password(password, policy)
+        if password_errors:
+            for error in password_errors:
+                flash(error, 'error')
+            return render_template("setup.html"), 400
+
+        # Validate username
         if len(username) < 8:
-            return "Username must be at least 8 characters.", 400
-        if len(password) < 8 or not any(c.isalpha() for c in password) or not any(c.isdigit() for c in password) or not any(c in "!@#$%^&*()-_=+[]{}|;:'\",.<>?/`~" for c in password):
-            return "Password must be at least 8 characters with letters, numbers, and symbols.", 400
+            flash("Username must be at least 8 characters.", 'error')
+            return render_template("setup.html"), 400
 
         # Hash the password and create the admin user
         hashed_password = ph.hash(password)
@@ -547,15 +573,10 @@ def setup():
             "password": cipher.encrypt(smtp_password.encode()).decode(),
             "smtp_server": smtp_server,
             "smtp_port": smtp_port,
-            "start_time": "18:00",
-            "end_time": "23:59",
-            "sound_after_minutes": 3,
-            "report_if_longer_than_minutes": 5,
-            "email_if_not_pressed_after_minutes": 10,
+            "password_policy": policy,  # Include the password policy
             "is_default": False
         }
 
-        # Save the configuration
         save_config(new_config)
 
         # Send credentials email
@@ -570,9 +591,8 @@ def setup():
             logging.error(f"Failed to send credentials email: {str(e)}")
             return f"Failed to send email: {str(e)}", 500
 
-        # Automatically log in the admin
-        user = User(username, "admin")
-        login_user(user)
+        flash('Admin account created successfully!', 'success')
+        login_user(User(username, "admin"))
         return redirect(url_for("admin"))
 
     return render_template("setup.html")
@@ -600,9 +620,11 @@ def login():
 @app.route("/admin", methods=["GET", "POST"])
 @login_required
 def admin():
-    config = load_config()
     if current_user.role != "admin":
-        return "Access denied", 403
+        flash("Access denied: Admin privileges required.", "error")
+        return redirect(url_for("user_dashboard"))
+
+    config = load_config()
 
     if request.method == "POST":
         action = request.form["action"]
@@ -612,15 +634,27 @@ def admin():
             email = request.form["email"]
             role = request.form["role"]
 
-            # Validate username and password
-            if len(username) < 8 or len(password) < 8 or not any(c.isalpha() for c in password) or not any(c.isdigit() for c in password):
-                return "Invalid username or password", 400
+            # Load password policy
+            policy = config.get("password_policy", {})
+
+            # Validate password
+            password_errors = validate_password(password, policy)
+            if password_errors:
+                for error in password_errors:
+                    flash(error, 'error')
+                return render_template("admin.html", users=config.get("users", [])), 400
+
+            # Validate username
+            if len(username) < 8:
+                flash("Username must be at least 8 characters.", 'error')
+                return render_template("admin.html", users=config.get("users", [])), 400
 
             # Check if username already exists
-            if any(u["username"] == username for u in config["users"]):
-                return "Username already exists", 400
+            if any(u["username"] == username for u in config.get("users", [])):
+                flash("Username already exists.", 'error')
+                return render_template("admin.html", users=config.get("users", [])), 400
 
-            # Hash the password and add the user
+            # Add the user
             hashed_password = ph.hash(password)
             config["users"].append({
                 "username": username,
@@ -629,6 +663,7 @@ def admin():
                 "email": email
             })
             save_config(config)
+            flash(f"User '{username}' added successfully.", 'success')
 
             # Send credentials email
             try:
@@ -640,16 +675,11 @@ def admin():
                 })
             except Exception as e:
                 logging.error(f"Failed to send credentials email: {str(e)}")
-                return f"Failed to send email: {str(e)}", 500
+                flash(f"Failed to send email: {str(e)}", 'error')
 
-        elif action == "delete_user":
-            username = request.form["username"]
-            if username == current_user.id:
-                return "Cannot delete your own account", 400
-            config["users"] = [u for u in config["users"] if u["username"] != username]
-            save_config(config)
+            return redirect(url_for("admin"))
 
-    return render_template("admin.html", users=config["users"])
+    return render_template("admin.html", users=config.get("users", []))
 
 def cleanup(signum=None, frame=None):
     logging.info("Initiating cleanup")
