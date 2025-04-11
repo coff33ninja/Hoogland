@@ -855,6 +855,26 @@ def get_notifications():
         flash("Failed to load notifications.", "error")
         return redirect(url_for('admin'))
 
+@app.route('/download_backup', methods=['GET'])
+@login_required
+def download_backup():
+    # Ensure the user has admin rights
+    if current_user.role != 'admin':
+        flash("Access denied: Admin privileges required.", "error")
+        return redirect(url_for('admin'))
+
+    backup_file_path = os.path.join(app_data_dir, "backup.json")
+    try:
+        if not os.path.exists(backup_file_path):
+            flash("No backup file found.", "error")
+            return redirect(url_for('admin'))
+
+        return send_file(backup_file_path, as_attachment=True)
+    except Exception as e:
+        logging.error(f"Failed to download backup: {str(e)}")
+        flash("Failed to download backup.", "error")
+        return redirect(url_for('admin'))
+
 def cleanup(signum=None, frame=None):
     logging.info("Initiating cleanup")
     stop_event.set()
