@@ -875,6 +875,13 @@ def download_backup():
         flash("Failed to download backup.", "error")
         return redirect(url_for('admin'))
 
+@app.route('/logout', methods=['GET'])
+@login_required
+def logout():
+    logout_user()
+    flash("You have been logged out.", "success")
+    return redirect(url_for('login'))
+
 def cleanup(signum=None, frame=None):
     logging.info("Initiating cleanup")
     stop_event.set()
