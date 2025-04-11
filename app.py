@@ -16,7 +16,7 @@ import subprocess
 import re  # Add this import at the top of app.py
 from queue import Queue
 from pygame import mixer
-from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout, QApplication, QSystemTrayIcon, QMenu
+from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout, QApplication, QSystemTrayIcon, QMenu, QLineEdit, QMessageBox
 from PyQt6.QtCore import QThread, pyqtSignal, QTimer, Qt
 from PyQt6.QtGui import QIcon, QPixmap, QColor
 from flask import Flask, render_template, request, redirect, url_for, send_file, flash
@@ -89,12 +89,12 @@ mixer.init()
 ph = PasswordHasher()
 
 class AlertDialog(QDialog):
-    def __init__(self, config, message="Security Alert", play_sound=True):
+    def __init__(self, config, message="Security Alert", play_sound=True, solution=None):
         super().__init__()
-        logging.info("AlertDialog initialized")
         self.config = config
         self.message = message
         self.play_sound = play_sound
+        self.solution = solution
         self.start_time = time.time()
         self.pressed = False
         self.sound_thread = None
@@ -102,9 +102,8 @@ class AlertDialog(QDialog):
         self.init_ui()
 
     def init_ui(self):
-        logging.info("Setting up AlertDialog UI")
         self.setWindowTitle("Security Alert")
-        self.setGeometry(300, 300, 300, 100)
+        self.setGeometry(300, 300, 300, 200)  # Adjusted height to accommodate input panel
         self.setWindowFlags(self.windowFlags() | Qt.WindowType.WindowStaysOnTopHint)
 
         layout = QVBoxLayout()
@@ -112,7 +111,12 @@ class AlertDialog(QDialog):
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(label)
 
-        button = QPushButton("I accept", self)
+        if self.solution is not None:
+            self.answer_input = QLineEdit(self)
+            self.answer_input.setPlaceholderText("Enter your answer")
+            layout.addWidget(self.answer_input)
+
+        button = QPushButton("Submit", self)
         button.clicked.connect(self.on_button_press)
         layout.addWidget(button)
 
@@ -120,7 +124,30 @@ class AlertDialog(QDialog):
 
         if self.play_sound:
             self.start_sound()
-        QTimer.singleShot(int(self.config["email_if_not_pressed_after_minutes"] * 60 * 1000), self.send_email_not_pressed)
+
+    def on_button_press(self):
+        if self.solution is not None:
+            try:
+                user_answer = int(self.answer_input.text())
+                if user_answer == self.solution:
+                    QMessageBox.information(self, "Correct!", "Great job! You solved it correctly.")
+                    self.accept()
+                else:
+                    QMessageBox.warning(self, "Incorrect", "That's not correct. Try another one.")
+                    self.generate_new_problem()
+            except ValueError:
+                QMessageBox.warning(self, "Invalid Input", "Please enter a valid number.")
+        else:
+            self.pressed = True
+            self.accept()
+
+    def generate_new_problem(self):
+        num1 = random.randint(1, 100)
+        num2 = random.randint(1, 100)
+        operation = random.choice(['+', '-'])
+        self.solution = eval(f"{num1} {operation} {num2}")
+        self.message = f"Solve this: {num1} {operation} {num2}"
+        self.init_ui()
 
     def start_sound(self):
         def play_sound_loop():
@@ -160,18 +187,6 @@ class AlertDialog(QDialog):
             elapsed = (time.time() - self.start_time) / 60
             message = f"The alert was not acknowledged after {elapsed:.2f} minutes."
             send_email(self.config, "Alert Not Acknowledged", message)
-
-    def on_button_press(self):
-        self.pressed = True
-        self.stop_sound()
-        elapsed = time.time() - self.start_time
-        if elapsed > self.config["report_if_longer_than_minutes"] * 60:
-            message = f"The alert was acknowledged after {elapsed / 60:.2f} minutes."
-            send_email(self.config, "Alert Acknowledged Late", message)
-        else:
-            message = f"Alert acknowledged in {elapsed / 60:.2f} minutes."
-            send_email(self.config, "Alert Acknowledged", message)
-        self.accept()
 
     def closeEvent(self, event):
         if not self.pressed:
@@ -694,19 +709,32 @@ def admin():
 
     return render_template("admin.html", config=config, users=config.get("users", []))
 
-@app.route("/trigger_popup", methods=["POST"])
+@app.route('/trigger_popup', methods=['POST'])
 @login_required
 def trigger_popup():
-    if current_user.role != "admin":
+    if current_user.role != 'admin':
         flash("Access denied: Admin privileges required.", "error")
         return redirect(url_for("user_dashboard"))
 
     message = request.form.get("message", "Manual Popup Triggered")
     play_sound = request.form.get("play_sound", "true").lower() == "true"
 
-    # Add the popup to the queue
-    popup_queue.put({"message": message, "play_sound": play_sound})
-    flash("Popup triggered successfully.", "success")
+    if message == "Solve a math problem":
+        # Generate a random math problem
+        num1 = random.randint(1, 100)
+        num2 = random.randint(1, 100)
+        operation = random.choice(['+', '-'])
+        problem = f"{num1} {operation} {num2}"
+        solution = eval(problem)
+
+        # Add the math popup to the queue
+        popup_queue.put({"message": f"Solve this: {problem}", "play_sound": play_sound, "solution": solution})
+        flash("Math popup triggered successfully.", "success")
+    else:
+        # Add the regular popup to the queue
+        popup_queue.put({"message": message, "play_sound": play_sound})
+        flash("Popup triggered successfully.", "success")
+
     return redirect(url_for("admin"))
 
 @app.route('/trigger_predefined_popup', methods=['POST'])
@@ -921,6 +949,36 @@ def trigger_math_popup():
     popup_queue.put({"message": f"Solve this: {problem}", "play_sound": False, "solution": solution})
     flash("Math popup triggered successfully.", "success")
     return redirect(url_for('admin'))
+
+@app.route('/validate_math_answer', methods=['POST'])
+@login_required
+def validate_math_answer():
+    if current_user.role != 'admin':
+        flash("Access denied: Admin privileges required.", "error")
+        return redirect(url_for("admin"))
+
+    user_answer = request.form.get("user_answer")
+    correct_solution = request.form.get("correct_solution")
+
+    try:
+        user_answer = int(user_answer)
+        correct_solution = int(correct_solution)
+
+        if user_answer == correct_solution:
+            flash("Correct! Great job!", "success")
+        else:
+            flash("Incorrect. Try another one.", "error")
+            # Generate a new math problem
+            num1 = random.randint(1, 100)
+            num2 = random.randint(1, 100)
+            operation = random.choice(['+', '-'])
+            problem = f"{num1} {operation} {num2}"
+            solution = eval(problem)
+            popup_queue.put({"message": f"Solve this: {problem}", "play_sound": False, "solution": solution})
+    except ValueError:
+        flash("Invalid input. Please enter a valid number.", "error")
+
+    return redirect(url_for("admin"))
 
 def cleanup(signum=None, frame=None):
     logging.info("Initiating cleanup")
