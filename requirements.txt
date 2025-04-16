@@ -7,3 +7,5 @@ waitress
 requests
 cryptography
 argon2-cffi
+mutagen
+flask-limiter

@@ -18,66 +18,12 @@
         "documentation": {}
     },
     {
-        "label": "json",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "json",
-        "description": "json",
-        "detail": "json",
-        "documentation": {}
-    },
-    {
-        "label": "os",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "os",
-        "description": "os",
-        "detail": "os",
-        "documentation": {}
-    },
-    {
-        "label": "uuid",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "uuid",
-        "description": "uuid",
-        "detail": "uuid",
-        "documentation": {}
-    },
-    {
         "label": "random",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "random",
         "description": "random",
         "detail": "random",
-        "documentation": {}
-    },
-    {
-        "label": "datetime",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "datetime",
-        "description": "datetime",
-        "detail": "datetime",
-        "documentation": {}
-    },
-    {
-        "label": "sys",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "sys",
-        "description": "sys",
-        "detail": "sys",
-        "documentation": {}
-    },
-    {
-        "label": "hashlib",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "hashlib",
-        "description": "hashlib",
-        "detail": "hashlib",
         "documentation": {}
     },
     {
@@ -90,38 +36,11 @@
         "documentation": {}
     },
     {
-        "label": "signal",
-        "kind": 6,
+        "label": "mixer",
+        "importPath": "pygame",
+        "description": "pygame",
         "isExtraImport": true,
-        "importPath": "signal",
-        "description": "signal",
-        "detail": "signal",
-        "documentation": {}
-    },
-    {
-        "label": "queue",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "queue",
-        "description": "queue",
-        "detail": "queue",
-        "documentation": {}
-    },
-    {
-        "label": "Queue",
-        "importPath": "queue",
-        "description": "queue",
-        "isExtraImport": true,
-        "detail": "queue",
-        "documentation": {}
-    },
-    {
-        "label": "subprocess",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "subprocess",
-        "description": "subprocess",
-        "detail": "subprocess",
+        "detail": "pygame",
         "documentation": {}
     },
     {
@@ -130,6 +49,62 @@
         "description": "pygame",
         "isExtraImport": true,
         "detail": "pygame",
+        "documentation": {}
+    },
+    {
+        "label": "mixer",
+        "importPath": "pygame",
+        "description": "pygame",
+        "isExtraImport": true,
+        "detail": "pygame",
+        "documentation": {}
+    },
+    {
+        "label": "QDialog",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QLabel",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QPushButton",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QVBoxLayout",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QLineEdit",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QMessageBox",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
         "documentation": {}
     },
     {
@@ -189,6 +164,54 @@
         "documentation": {}
     },
     {
+        "label": "QLineEdit",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QMessageBox",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QApplication",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QSystemTrayIcon",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "QMenu",
+        "importPath": "PyQt6.QtWidgets",
+        "description": "PyQt6.QtWidgets",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtWidgets",
+        "documentation": {}
+    },
+    {
+        "label": "Qt",
+        "importPath": "PyQt6.QtCore",
+        "description": "PyQt6.QtCore",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtCore",
+        "documentation": {}
+    },
+    {
         "label": "QThread",
         "importPath": "PyQt6.QtCore",
         "description": "PyQt6.QtCore",
@@ -221,6 +244,312 @@
         "documentation": {}
     },
     {
+        "label": "Qt",
+        "importPath": "PyQt6.QtCore",
+        "description": "PyQt6.QtCore",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtCore",
+        "documentation": {}
+    },
+    {
+        "label": "QThread",
+        "importPath": "PyQt6.QtCore",
+        "description": "PyQt6.QtCore",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtCore",
+        "documentation": {}
+    },
+    {
+        "label": "pyqtSignal",
+        "importPath": "PyQt6.QtCore",
+        "description": "PyQt6.QtCore",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtCore",
+        "documentation": {}
+    },
+    {
+        "label": "load_config",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "load_config",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "save_config",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "load_config",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "save_config",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "cipher",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "load_config",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "save_config",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "cipher",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "app_data_dir",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "config_path",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "load_config",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "load_config",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "cipher",
+        "importPath": "config",
+        "description": "config",
+        "isExtraImport": true,
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "resource_path",
+        "importPath": "utils",
+        "description": "utils",
+        "isExtraImport": true,
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "send_email",
+        "importPath": "utils",
+        "description": "utils",
+        "isExtraImport": true,
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "resource_path",
+        "importPath": "utils",
+        "description": "utils",
+        "isExtraImport": true,
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "cleanup",
+        "importPath": "utils",
+        "description": "utils",
+        "isExtraImport": true,
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "send_credentials_email",
+        "importPath": "utils",
+        "description": "utils",
+        "isExtraImport": true,
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "send_email",
+        "importPath": "utils",
+        "description": "utils",
+        "isExtraImport": true,
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "resource_path",
+        "importPath": "utils",
+        "description": "utils",
+        "isExtraImport": true,
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "calculate_executable_hash",
+        "importPath": "utils",
+        "description": "utils",
+        "isExtraImport": true,
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "send_email",
+        "importPath": "utils",
+        "description": "utils",
+        "isExtraImport": true,
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "uuid",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "uuid",
+        "description": "uuid",
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "datetime",
+        "description": "datetime",
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "hashlib",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "hashlib",
+        "description": "hashlib",
+        "detail": "hashlib",
+        "documentation": {}
+    },
+    {
+        "label": "signal",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "signal",
+        "description": "signal",
+        "detail": "signal",
+        "documentation": {}
+    },
+    {
+        "label": "queue",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "queue",
+        "description": "queue",
+        "detail": "queue",
+        "documentation": {}
+    },
+    {
+        "label": "Queue",
+        "importPath": "queue",
+        "description": "queue",
+        "isExtraImport": true,
+        "detail": "queue",
+        "documentation": {}
+    },
+    {
+        "label": "subprocess",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "subprocess",
+        "description": "subprocess",
+        "detail": "subprocess",
+        "documentation": {}
+    },
+    {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
         "label": "QIcon",
         "importPath": "PyQt6.QtGui",
         "description": "PyQt6.QtGui",
@@ -230,6 +559,30 @@
     },
     {
         "label": "QPixmap",
+        "importPath": "PyQt6.QtGui",
+        "description": "PyQt6.QtGui",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtGui",
+        "documentation": {}
+    },
+    {
+        "label": "QColor",
+        "importPath": "PyQt6.QtGui",
+        "description": "PyQt6.QtGui",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtGui",
+        "documentation": {}
+    },
+    {
+        "label": "QPixmap",
+        "importPath": "PyQt6.QtGui",
+        "description": "PyQt6.QtGui",
+        "isExtraImport": true,
+        "detail": "PyQt6.QtGui",
+        "documentation": {}
+    },
+    {
+        "label": "QIcon",
         "importPath": "PyQt6.QtGui",
         "description": "PyQt6.QtGui",
         "isExtraImport": true,
@@ -293,6 +646,78 @@
         "documentation": {}
     },
     {
+        "label": "flash",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "render_template",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "redirect",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "url_for",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "send_file",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "flash",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
         "label": "LoginManager",
         "importPath": "flask_login",
         "description": "flask_login",
@@ -341,6 +766,86 @@
         "documentation": {}
     },
     {
+        "label": "LoginManager",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
+        "label": "UserMixin",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
+        "label": "login_user",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
+        "label": "logout_user",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
+        "label": "current_user",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
+        "label": "login_required",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
+        "label": "logout_user",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
+        "label": "current_user",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
+        "label": "login_user",
+        "importPath": "flask_login",
+        "description": "flask_login",
+        "isExtraImport": true,
+        "detail": "flask_login",
+        "documentation": {}
+    },
+    {
+        "label": "secure_filename",
+        "importPath": "werkzeug.utils",
+        "description": "werkzeug.utils",
+        "isExtraImport": true,
+        "detail": "werkzeug.utils",
+        "documentation": {}
+    },
+    {
         "label": "secure_filename",
         "importPath": "werkzeug.utils",
         "description": "werkzeug.utils",
@@ -366,11 +871,35 @@
         "documentation": {}
     },
     {
+        "label": "MIMEText",
+        "importPath": "email.mime.text",
+        "description": "email.mime.text",
+        "isExtraImport": true,
+        "detail": "email.mime.text",
+        "documentation": {}
+    },
+    {
         "label": "serve",
         "importPath": "waitress",
         "description": "waitress",
         "isExtraImport": true,
         "detail": "waitress",
+        "documentation": {}
+    },
+    {
+        "label": "serve",
+        "importPath": "waitress",
+        "description": "waitress",
+        "isExtraImport": true,
+        "detail": "waitress",
+        "documentation": {}
+    },
+    {
+        "label": "Fernet",
+        "importPath": "cryptography.fernet",
+        "description": "cryptography.fernet",
+        "isExtraImport": true,
+        "detail": "cryptography.fernet",
         "documentation": {}
     },
     {
@@ -408,156 +937,521 @@
         "documentation": {}
     },
     {
+        "label": "PasswordHasher",
+        "importPath": "argon2",
+        "description": "argon2",
+        "isExtraImport": true,
+        "detail": "argon2",
+        "documentation": {}
+    },
+    {
+        "label": "init_login_manager",
+        "importPath": "auth",
+        "description": "auth",
+        "isExtraImport": true,
+        "detail": "auth",
+        "documentation": {}
+    },
+    {
         "label": "User",
-        "kind": 6,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "class User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\n@login_manager.user_loader\ndef load_user(username):\n    config = load_config()\n    for user in config.get(\"users\", []):\n        if user[\"username\"] == username:\n            return User(username, user[\"role\"])",
-        "detail": "app",
+        "importPath": "auth",
+        "description": "auth",
+        "isExtraImport": true,
+        "detail": "auth",
+        "documentation": {}
+    },
+    {
+        "label": "validate_password",
+        "importPath": "auth",
+        "description": "auth",
+        "isExtraImport": true,
+        "detail": "auth",
+        "documentation": {}
+    },
+    {
+        "label": "ph",
+        "importPath": "auth",
+        "description": "auth",
+        "isExtraImport": true,
+        "detail": "auth",
+        "documentation": {}
+    },
+    {
+        "label": "MainLogicThread",
+        "importPath": "threads",
+        "description": "threads",
+        "isExtraImport": true,
+        "detail": "threads",
+        "documentation": {}
+    },
+    {
+        "label": "SoundThread",
+        "importPath": "threads",
+        "description": "threads",
+        "isExtraImport": true,
+        "detail": "threads",
+        "documentation": {}
+    },
+    {
+        "label": "UpdateCheckerThread",
+        "importPath": "threads",
+        "description": "threads",
+        "isExtraImport": true,
+        "detail": "threads",
+        "documentation": {}
+    },
+    {
+        "label": "ManualPopupThread",
+        "importPath": "threads",
+        "description": "threads",
+        "isExtraImport": true,
+        "detail": "threads",
+        "documentation": {}
+    },
+    {
+        "label": "show_popup",
+        "importPath": "alerts",
+        "description": "alerts",
+        "isExtraImport": true,
+        "detail": "alerts",
+        "documentation": {}
+    },
+    {
+        "label": "AlertDialog",
+        "importPath": "alerts",
+        "description": "alerts",
+        "isExtraImport": true,
+        "detail": "alerts",
+        "documentation": {}
+    },
+    {
+        "label": "register_routes",
+        "importPath": "routes",
+        "description": "routes",
+        "isExtraImport": true,
+        "detail": "routes",
+        "documentation": {}
+    },
+    {
+        "label": "MP3",
+        "importPath": "mutagen.mp3",
+        "description": "mutagen.mp3",
+        "isExtraImport": true,
+        "detail": "mutagen.mp3",
         "documentation": {}
     },
     {
         "label": "AlertDialog",
         "kind": 6,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "class AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound\n        self.start_time = time.time()\n        self.pressed = False\n        self.sound_thread = None",
-        "detail": "app",
+        "importPath": "alerts",
+        "description": "alerts",
+        "peekOfCode": "class AlertDialog(QDialog):\n    def __init__(\n        self, config, message=\"Security Alert\", play_sound=True, solution=None\n    ):\n        super().__init__()\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound\n        self.solution = solution\n        self.start_time = time.time()",
+        "detail": "alerts",
+        "documentation": {}
+    },
+    {
+        "label": "show_popup",
+        "kind": 2,
+        "importPath": "alerts",
+        "description": "alerts",
+        "peekOfCode": "def show_popup(config, message, play_sound):\n    dialog = AlertDialog(config, message, play_sound)\n    logging.info(f\"Showing popup: {message} with sound={play_sound}\")\n    dialog.exec()\n    logging.info(f\"Popup {message} completed\")",
+        "detail": "alerts",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "kind": 6,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "class User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\n@login_manager.user_loader\ndef load_user(username):\n    config = load_config()\n    for user in config.get(\"users\", []):\n        if user[\"username\"] == username:\n            return User(username, user[\"role\"])",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "AlertDialog",
+        "kind": 6,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "class AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True, solution=None):\n        super().__init__()\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound\n        self.solution = solution\n        self.start_time = time.time()\n        self.pressed = False\n        self.sound_thread = None",
+        "detail": "app-unsplit",
         "documentation": {}
     },
     {
         "label": "UpdateCheckerThread",
         "kind": 6,
-        "importPath": "app",
-        "description": "app",
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
         "peekOfCode": "class UpdateCheckerThread(QThread):\n    update_available = pyqtSignal(str)\n    def __init__(self, config):\n        super().__init__()\n        self.config = config\n        self.current_version = \"1.0.0\"\n        self.app_dir = os.path.dirname(sys.executable) if getattr(sys, \"frozen\", False) else os.path.dirname(__file__)\n    def run(self):\n        logging.info(\"UpdateCheckerThread started\")\n        while not stop_event.is_set():",
-        "detail": "app",
+        "detail": "app-unsplit",
         "documentation": {}
     },
     {
         "label": "ManualPopupThread",
         "kind": 6,
-        "importPath": "app",
-        "description": "app",
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
         "peekOfCode": "class ManualPopupThread(QThread):\n    trigger_popup = pyqtSignal(str, bool)\n    def __init__(self):\n        super().__init__()\n        logging.info(\"ManualPopupThread initialized successfully\")\n    def run(self):\n        logging.info(\"ManualPopupThread started\")\n        while not stop_event.is_set():\n            try:\n                popup_data = popup_queue.get(timeout=1.0)",
-        "detail": "app",
+        "detail": "app-unsplit",
         "documentation": {}
     },
     {
         "label": "MainLogicThread",
         "kind": 6,
-        "importPath": "app",
-        "description": "app",
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
         "peekOfCode": "class MainLogicThread(QThread):\n    trigger_popup = pyqtSignal(str, bool)\n    def __init__(self):\n        super().__init__()\n        try:\n            self.config = load_config()\n            logging.info(\"MainLogicThread initialized successfully\")\n        except Exception as e:\n            logging.error(f\"Failed to initialize MainLogicThread: {str(e)}\")\n            raise",
-        "detail": "app",
+        "detail": "app-unsplit",
         "documentation": {}
     },
     {
         "label": "SoundThread",
         "kind": 6,
-        "importPath": "app",
-        "description": "app",
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
         "peekOfCode": "class SoundThread(QThread):\n    def __init__(self, config):\n        super().__init__()\n        self.config = config\n    def run(self):\n        logging.info(\"SoundThread started\")\n        while not stop_event.is_set():\n            now = datetime.datetime.now()\n            start_time = datetime.datetime.strptime(self.config[\"start_time\"], \"%H:%M\").time()\n            end_time = datetime.datetime.strptime(self.config[\"end_time\"], \"%H:%M\").time()",
-        "detail": "app",
+        "detail": "app-unsplit",
         "documentation": {}
     },
     {
         "label": "resource_path",
         "kind": 2,
-        "importPath": "app",
-        "description": "app",
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
         "peekOfCode": "def resource_path(relative_path):\n    if hasattr(sys, '_MEIPASS'):\n        return os.path.join(sys._MEIPASS, relative_path)\n    return os.path.join(os.path.abspath(\".\"), relative_path)\n# Set app data directory for logs and config\nlog_file = os.path.join(app_data_dir, \"app.log\")\nconfig_path = os.path.join(app_data_dir, \"config.json\")\nlogging.basicConfig(\n    filename=log_file,\n    level=logging.INFO,",
-        "detail": "app",
+        "detail": "app-unsplit",
         "documentation": {}
     },
     {
         "label": "load_user",
         "kind": 2,
-        "importPath": "app",
-        "description": "app",
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
         "peekOfCode": "def load_user(username):\n    config = load_config()\n    for user in config.get(\"users\", []):\n        if user[\"username\"] == username:\n            return User(username, user[\"role\"])\n    return None\nnotifications = []\npopup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None",
-        "detail": "app",
+        "detail": "app-unsplit",
         "documentation": {}
     },
     {
         "label": "load_config",
         "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def load_config():\n    config_lock = threading.Lock()\n    with config_lock:\n        # Default configuration template\n        default_config = {\n            \"users\": [],\n            \"sender_email\": \"\",\n            \"password\": \"\",\n            \"smtp_server\": \"smtp.gmail.com\",\n            \"smtp_port\": 587,",
-        "detail": "app",
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "def load_config():\n    config_lock = threading.Lock()\n    with config_lock:\n        # Default configuration template including password rules\n        default_config = {\n            \"users\": [],\n            \"sender_email\": \"\",\n            \"password\": \"\",  # Encrypted SMTP password\n            \"smtp_server\": \"smtp.gmail.com\",\n            \"smtp_port\": 587,",
+        "detail": "app-unsplit",
         "documentation": {}
     },
     {
         "label": "save_config",
         "kind": 2,
-        "importPath": "app",
-        "description": "app",
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
         "peekOfCode": "def save_config(config):\n    try:\n        # Validate the configuration before saving\n        if not isinstance(config, dict):\n            raise ValueError(\"Configuration must be a dictionary.\")\n        with open(config_path, \"w\") as f:\n            json.dump(config, f, indent=4)\n        logging.info(\"Configuration file saved successfully.\")\n    except Exception as e:\n        logging.error(f\"Failed to save configuration: {str(e)}\")",
-        "detail": "app",
+        "detail": "app-unsplit",
         "documentation": {}
     },
     {
         "label": "send_email",
         "kind": 2,
-        "importPath": "app",
-        "description": "app",
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
         "peekOfCode": "def send_email(config, subject, message):\n    try:\n        msg = MIMEText(message)\n        msg[\"Subject\"] = subject\n        msg[\"From\"] = config[\"sender_email\"]\n        msg[\"To\"] = config[\"recipient_email\"]\n        with smtplib.SMTP(config[\"smtp_server\"], config[\"smtp_port\"]) as server:\n            server.starttls()\n            server.login(config[\"sender_email\"], cipher.decrypt(config[\"password\"].encode()).decode())\n            server.sendmail(config[\"sender_email\"], config[\"recipient_email\"], msg.as_string())",
-        "detail": "app",
+        "detail": "app-unsplit",
         "documentation": {}
     },
     {
         "label": "send_credentials_email",
         "kind": 2,
-        "importPath": "app",
-        "description": "app",
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
         "peekOfCode": "def send_credentials_email(to_email, username, password, role, smtp_config):\n    msg = MIMEText(f\"\"\"\nYour Hoogland account has been created. Please keep this information secure:\nUsername: {username}\nPassword: {password}\nRole: {role}\nAccess the web GUI at http://localhost:5000 to manage settings.\n    \"\"\")\n    msg[\"Subject\"] = \"Your Hoogland Credentials\"\n    msg[\"From\"] = smtp_config[\"sender_email\"]",
-        "detail": "app",
+        "detail": "app-unsplit",
         "documentation": {}
     },
     {
         "label": "calculate_executable_hash",
         "kind": 2,
-        "importPath": "app",
-        "description": "app",
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
         "peekOfCode": "def calculate_executable_hash():\n    if getattr(sys, \"frozen\", False):\n        exe_path = sys.executable\n        try:\n            with open(exe_path, \"rb\") as f:\n                return hashlib.sha256(f.read()).hexdigest()\n        except Exception as e:\n            logging.error(f\"Hash calculation failed: {str(e)}\")\n            send_email(load_config(), \"Hash Error\", f\"Failed to calculate hash: {str(e)}\")\n            return None",
-        "detail": "app",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "validate_password",
+        "kind": 2,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "def validate_password(password, policy):\n    \"\"\"Validates a password against the configured policy.\"\"\"\n    errors = []\n    if len(password) < policy.get(\"min_length\", 8):\n        errors.append(f\"Password must be at least {policy.get('min_length', 8)} characters long.\")\n    if policy.get(\"require_uppercase\", True) and not re.search(r\"[A-Z]\", password):\n        errors.append(\"Password must contain at least one uppercase letter.\")\n    if policy.get(\"require_lowercase\", True) and not re.search(r\"[a-z]\", password):\n        errors.append(\"Password must contain at least one lowercase letter.\")\n    if policy.get(\"require_number\", True) and not re.search(r\"\\d\", password):",
+        "detail": "app-unsplit",
         "documentation": {}
     },
     {
         "label": "setup",
         "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def setup():\n    logging.info(\"Accessed /setup route\")\n    config = load_config()\n    if config and config.get(\"users\"):\n        # If users already exist, redirect to login\n        return redirect(url_for(\"login\"))\n    if request.method == \"POST\":\n        username = request.form[\"username\"]\n        password = request.form[\"password\"]\n        email = request.form[\"email\"]",
-        "detail": "app",
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "def setup():\n    logging.info(\"Accessed /setup route\")\n    config = load_config()\n    if config and config.get(\"users\"):\n        return redirect(url_for(\"login\"))  # Redirect to login if users exist\n    if request.method == \"POST\":\n        username = request.form[\"username\"]\n        password = request.form[\"password\"]\n        email = request.form[\"email\"]\n        smtp_email = request.form[\"smtp_email\"]",
+        "detail": "app-unsplit",
         "documentation": {}
     },
     {
         "label": "login",
         "kind": 2,
-        "importPath": "app",
-        "description": "app",
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
         "peekOfCode": "def login():\n    config = load_config()\n    if not config or not config.get(\"users\"):\n        # Redirect to setup wizard if no users exist\n        return redirect(url_for(\"setup\"))\n    if request.method == \"POST\":\n        username = request.form[\"username\"]\n        password = request.form[\"password\"]\n        # Check credentials\n        for user in config[\"users\"]:",
-        "detail": "app",
+        "detail": "app-unsplit",
         "documentation": {}
     },
     {
         "label": "admin",
         "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def admin():\n    config = load_config()\n    if current_user.role != \"admin\":\n        return \"Access denied\", 403\n    if request.method == \"POST\":\n        action = request.form[\"action\"]\n        if action == \"add_user\":\n            username = request.form[\"username\"]\n            password = request.form[\"password\"]\n            email = request.form[\"email\"]",
-        "detail": "app",
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "def admin():\n    if current_user.role != \"admin\":\n        flash(\"Access denied: Admin privileges required.\", \"error\")\n        return redirect(url_for(\"user_dashboard\"))\n    config = load_config()\n    # Ensure password_policy exists in the config\n    if \"password_policy\" not in config:\n        config[\"password_policy\"] = {\n            \"min_length\": 8,\n            \"require_uppercase\": True,",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "trigger_popup",
+        "kind": 2,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "def trigger_popup():\n    if current_user.role != 'admin':\n        flash(\"Access denied: Admin privileges required.\", \"error\")\n        return redirect(url_for(\"user_dashboard\"))\n    message = request.form.get(\"message\", \"Manual Popup Triggered\")\n    play_sound = request.form.get(\"play_sound\", \"true\").lower() == \"true\"\n    if message == \"Solve a math problem\":\n        # Generate a random math problem\n        num1 = random.randint(1, 100)\n        num2 = random.randint(1, 100)",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "trigger_predefined_popup",
+        "kind": 2,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "def trigger_predefined_popup():\n    if current_user.role != 'admin':\n        flash(\"Access denied: Admin privileges required.\", \"error\")\n        return redirect(url_for('admin'))\n    predefined_message = request.form.get(\"predefined_message\")\n    if not predefined_message:\n        flash(\"No predefined message selected.\", \"error\")\n        return redirect(url_for('admin'))\n    play_sound = request.form.get(\"play_sound\", \"true\").lower() == \"true\"\n    # Add the popup to the queue",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "upload_sound",
+        "kind": 2,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "def upload_sound():\n    # Ensure the user has admin rights\n    if current_user.role != 'admin':\n        flash(\"Access denied: Admin privileges required.\", \"error\")\n        return redirect(url_for('admin'))\n    # Check if a file is included in the request\n    if 'sound_file' not in request.files:\n        flash('No file part in the request.', 'error')\n        return redirect(url_for('admin'))\n    file = request.files['sound_file']",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "restore_config",
+        "kind": 2,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "def restore_config():\n    # Ensure the user has admin rights\n    if current_user.role != 'admin':\n        flash(\"Access denied: Admin privileges required.\", \"error\")\n        return redirect(url_for('admin'))\n    # Check if a file is included in the request\n    if 'config_file' not in request.files:\n        flash('No file part in the request.', 'error')\n        return redirect(url_for('admin'))\n    file = request.files['config_file']",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "manage_users",
+        "kind": 2,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "def manage_users():\n    # Ensure the user has admin rights\n    if current_user.role != 'admin':\n        flash(\"Access denied: Admin privileges required.\", \"error\")\n        return redirect(url_for('admin'))\n    config = load_config()\n    if request.method == 'POST':\n        action = request.form.get('action')\n        username = request.form.get('username')\n        if action == 'delete_user':",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "logs",
+        "kind": 2,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "def logs():\n    # Ensure the user has admin rights\n    if current_user.role != 'admin':\n        flash(\"Access denied: Admin privileges required.\", \"error\")\n        return redirect(url_for('admin'))\n    log_file_path = os.path.join(app_data_dir, \"app.log\")\n    try:\n        with open(log_file_path, \"r\") as f:\n            log_content = f.readlines()\n        return render_template(\"logs.html\", logs=log_content)",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "get_notifications",
+        "kind": 2,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "def get_notifications():\n    # Ensure the user has admin rights\n    if current_user.role != 'admin':\n        flash(\"Access denied: Admin privileges required.\", \"error\")\n        return redirect(url_for('admin'))\n    try:\n        return render_template(\"notifications.html\", notifications=notifications)\n    except Exception as e:\n        logging.error(f\"Failed to load notifications: {str(e)}\")\n        flash(\"Failed to load notifications.\", \"error\")",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "download_backup",
+        "kind": 2,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "def download_backup():\n    # Ensure the user has admin rights\n    if current_user.role != 'admin':\n        flash(\"Access denied: Admin privileges required.\", \"error\")\n        return redirect(url_for('admin'))\n    backup_file_path = os.path.join(app_data_dir, \"backup.json\")\n    try:\n        if not os.path.exists(backup_file_path):\n            flash(\"No backup file found.\", \"error\")\n            return redirect(url_for('admin'))",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "logout",
+        "kind": 2,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "def logout():\n    logout_user()\n    flash(\"You have been logged out.\", \"success\")\n    return redirect(url_for('login'))\n@app.route('/trigger_math_popup', methods=['POST'])\n@login_required\ndef trigger_math_popup():\n    if current_user.role != 'admin':\n        flash(\"Access denied: Admin privileges required.\", \"error\")\n        return redirect(url_for('admin'))",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "trigger_math_popup",
+        "kind": 2,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "def trigger_math_popup():\n    if current_user.role != 'admin':\n        flash(\"Access denied: Admin privileges required.\", \"error\")\n        return redirect(url_for('admin'))\n    # Generate a random math problem\n    num1 = random.randint(1, 100)\n    num2 = random.randint(1, 100)\n    operation = random.choice(['+', '-'])\n    problem = f\"{num1} {operation} {num2}\"\n    solution = eval(problem)",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "validate_math_answer",
+        "kind": 2,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "def validate_math_answer():\n    if current_user.role != 'admin':\n        flash(\"Access denied: Admin privileges required.\", \"error\")\n        return redirect(url_for(\"admin\"))\n    user_answer = request.form.get(\"user_answer\")\n    correct_solution = request.form.get(\"correct_solution\")\n    try:\n        user_answer = int(user_answer)\n        correct_solution = int(correct_solution)\n        if user_answer == correct_solution:",
+        "detail": "app-unsplit",
         "documentation": {}
     },
     {
         "label": "cleanup",
         "kind": 2,
-        "importPath": "app",
-        "description": "app",
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
         "peekOfCode": "def cleanup(signum=None, frame=None):\n    logging.info(\"Initiating cleanup\")\n    stop_event.set()\n    config = load_config()\n    mixer.music.stop()\n    send_email(config, \"Program Stopped\", \"Program stopped due to user request or exception.\")\n    if qt_app:\n        qt_app.quit()\n    logging.info(\"Cleanup completed\")\n    sys.exit(0)",
-        "detail": "app",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "run_waitress",
+        "kind": 2,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "def run_waitress():\n    logging.info(\"Starting Waitress server on 0.0.0.0:5000\")\n    serve(app, host=\"0.0.0.0\", port=5000, threads=2)\nif __name__ == \"__main__\":\n    # Check if configuration exists\n    config = load_config()\n    if config is None:\n        # Launch the web UI for setup\n        logging.info(\"Launching setup web UI...\")\n        webbrowser.open(\"http://localhost:5000/setup\")",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "key_path",
+        "kind": 5,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "key_path = os.path.join(os.getenv(\"APPDATA\", os.path.expanduser(\"~/.hoogland\")), \"Hoogland\", \"key.bin\")\napp_data_dir = os.path.dirname(key_path)\nos.makedirs(app_data_dir, exist_ok=True)\nif not os.path.exists(key_path):\n    key = Fernet.generate_key()\n    with open(key_path, \"wb\") as f:\n        f.write(key)\nelse:\n    with open(key_path, \"rb\") as f:\n        key = f.read()",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "app_data_dir",
+        "kind": 5,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "app_data_dir = os.path.dirname(key_path)\nos.makedirs(app_data_dir, exist_ok=True)\nif not os.path.exists(key_path):\n    key = Fernet.generate_key()\n    with open(key_path, \"wb\") as f:\n        f.write(key)\nelse:\n    with open(key_path, \"rb\") as f:\n        key = f.read()\ncipher = Fernet(key)",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "cipher",
+        "kind": 5,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "cipher = Fernet(key)\ndef resource_path(relative_path):\n    if hasattr(sys, '_MEIPASS'):\n        return os.path.join(sys._MEIPASS, relative_path)\n    return os.path.join(os.path.abspath(\".\"), relative_path)\n# Set app data directory for logs and config\nlog_file = os.path.join(app_data_dir, \"app.log\")\nconfig_path = os.path.join(app_data_dir, \"config.json\")\nlogging.basicConfig(\n    filename=log_file,",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "log_file",
+        "kind": 5,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "log_file = os.path.join(app_data_dir, \"app.log\")\nconfig_path = os.path.join(app_data_dir, \"config.json\")\nlogging.basicConfig(\n    filename=log_file,\n    level=logging.INFO,\n    format=\"%(asctime)s - %(levelname)s - %(message)s\",\n)\nlogging.info(f\"Logging initialized to {log_file}\")\napp = Flask(__name__, template_folder=resource_path(\"templates\"))\napp.secret_key = os.urandom(24).hex()",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "config_path",
+        "kind": 5,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "config_path = os.path.join(app_data_dir, \"config.json\")\nlogging.basicConfig(\n    filename=log_file,\n    level=logging.INFO,\n    format=\"%(asctime)s - %(levelname)s - %(message)s\",\n)\nlogging.info(f\"Logging initialized to {log_file}\")\napp = Flask(__name__, template_folder=resource_path(\"templates\"))\napp.secret_key = os.urandom(24).hex()\nlogin_manager = LoginManager()",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "app = Flask(__name__, template_folder=resource_path(\"templates\"))\napp.secret_key = os.urandom(24).hex()\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"\nclass User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\n@login_manager.user_loader",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "app.secret_key",
+        "kind": 5,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "app.secret_key = os.urandom(24).hex()\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"\nclass User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\n@login_manager.user_loader\ndef load_user(username):",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "login_manager",
+        "kind": 5,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "login_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"\nclass User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\n@login_manager.user_loader\ndef load_user(username):\n    config = load_config()",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "login_manager.login_view",
+        "kind": 5,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "login_manager.login_view = \"login\"\nclass User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\n@login_manager.user_loader\ndef load_user(username):\n    config = load_config()\n    for user in config.get(\"users\", []):\n        if user[\"username\"] == username:",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "notifications",
+        "kind": 5,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "notifications = []\npopup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None\nmixer.init()\nph = PasswordHasher()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True, solution=None):\n        super().__init__()\n        self.config = config",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "popup_queue",
+        "kind": 5,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "popup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None\nmixer.init()\nph = PasswordHasher()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True, solution=None):\n        super().__init__()\n        self.config = config\n        self.message = message",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "stop_event",
+        "kind": 5,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "stop_event = threading.Event()\nqt_app = None\nmixer.init()\nph = PasswordHasher()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True, solution=None):\n        super().__init__()\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "qt_app",
+        "kind": 5,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "qt_app = None\nmixer.init()\nph = PasswordHasher()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True, solution=None):\n        super().__init__()\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound\n        self.solution = solution",
+        "detail": "app-unsplit",
+        "documentation": {}
+    },
+    {
+        "label": "ph",
+        "kind": 5,
+        "importPath": "app-unsplit",
+        "description": "app-unsplit",
+        "peekOfCode": "ph = PasswordHasher()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True, solution=None):\n        super().__init__()\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound\n        self.solution = solution\n        self.start_time = time.time()\n        self.pressed = False",
+        "detail": "app-unsplit",
         "documentation": {}
     },
     {
@@ -565,16 +1459,7 @@
         "kind": 2,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "def run_waitress():\n    logging.info(\"Starting Waitress server on 0.0.0.0:5000\")\n    serve(app, host=\"0.0.0.0\", port=5000, threads=2)\nif __name__ == \"__main__\":\n    # Check if configuration exists\n    config = load_config()\n    if config is None:\n        # Launch the web UI for setup\n        logging.info(\"Launching setup web UI...\")\n        webbrowser.open(\"http://localhost:5000/setup\")",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "key_path",
-        "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "key_path = os.path.join(os.getenv(\"APPDATA\", os.path.expanduser(\"~/.hoogland\")), \"Hoogland\", \"key.bin\")\napp_data_dir = os.path.dirname(key_path)\nos.makedirs(app_data_dir, exist_ok=True)\nif not os.path.exists(key_path):\n    key = Fernet.generate_key()\n    with open(key_path, \"wb\") as f:\n        f.write(key)\nelse:\n    with open(key_path, \"rb\") as f:\n        key = f.read()",
+        "peekOfCode": "def run_waitress():\n    logging.info(\"Starting Waitress server on 0.0.0.0:5000\")\n    serve(app, host=\"0.0.0.0\", port=5000, threads=2)\nif __name__ == \"__main__\":\n    # Load configuration\n    config = load_config()\n    if not config.get(\"users\"):\n        import webbrowser\n        webbrowser.open(\"http://localhost:5000/setup\")\n    # Initialize Qt application",
         "detail": "app",
         "documentation": {}
     },
@@ -583,16 +1468,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "app_data_dir = os.path.dirname(key_path)\nos.makedirs(app_data_dir, exist_ok=True)\nif not os.path.exists(key_path):\n    key = Fernet.generate_key()\n    with open(key_path, \"wb\") as f:\n        f.write(key)\nelse:\n    with open(key_path, \"rb\") as f:\n        key = f.read()\ncipher = Fernet(key)",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "cipher",
-        "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "cipher = Fernet(key)\ndef resource_path(relative_path):\n    if hasattr(sys, '_MEIPASS'):\n        return os.path.join(sys._MEIPASS, relative_path)\n    return os.path.join(os.path.abspath(\".\"), relative_path)\n# Set app data directory for logs and config\nlog_file = os.path.join(app_data_dir, \"app.log\")\nconfig_path = os.path.join(app_data_dir, \"config.json\")\nlogging.basicConfig(\n    filename=log_file,",
+        "peekOfCode": "app_data_dir = os.path.join(os.getenv(\"APPDATA\", os.path.expanduser(\"~/.hoogland\")), \"Hoogland\")\nlog_file = os.path.join(app_data_dir, \"app.log\")\nlogging.basicConfig(filename=log_file, level=logging.INFO, format=\"%(asctime)s - %(levelname)s - %(message)s\")\nlogging.info(\"Application started\")\n# Initialize Flask app\napp = Flask(__name__, template_folder=resource_path(\"templates\"))\napp.secret_key = os.urandom(24).hex()\n# Initialize Flask-Login\ninit_login_manager(app)\n# Register routes",
         "detail": "app",
         "documentation": {}
     },
@@ -601,16 +1477,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "log_file = os.path.join(app_data_dir, \"app.log\")\nconfig_path = os.path.join(app_data_dir, \"config.json\")\nlogging.basicConfig(\n    filename=log_file,\n    level=logging.INFO,\n    format=\"%(asctime)s - %(levelname)s - %(message)s\",\n)\nlogging.info(f\"Logging initialized to {log_file}\")\napp = Flask(__name__, template_folder=resource_path(\"templates\"))\napp.secret_key = os.urandom(24).hex()",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "config_path",
-        "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "config_path = os.path.join(app_data_dir, \"config.json\")\nlogging.basicConfig(\n    filename=log_file,\n    level=logging.INFO,\n    format=\"%(asctime)s - %(levelname)s - %(message)s\",\n)\nlogging.info(f\"Logging initialized to {log_file}\")\napp = Flask(__name__, template_folder=resource_path(\"templates\"))\napp.secret_key = os.urandom(24).hex()\nlogin_manager = LoginManager()",
+        "peekOfCode": "log_file = os.path.join(app_data_dir, \"app.log\")\nlogging.basicConfig(filename=log_file, level=logging.INFO, format=\"%(asctime)s - %(levelname)s - %(message)s\")\nlogging.info(\"Application started\")\n# Initialize Flask app\napp = Flask(__name__, template_folder=resource_path(\"templates\"))\napp.secret_key = os.urandom(24).hex()\n# Initialize Flask-Login\ninit_login_manager(app)\n# Register routes\nregister_routes(app)",
         "detail": "app",
         "documentation": {}
     },
@@ -619,7 +1486,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "app = Flask(__name__, template_folder=resource_path(\"templates\"))\napp.secret_key = os.urandom(24).hex()\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"\nclass User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\n@login_manager.user_loader",
+        "peekOfCode": "app = Flask(__name__, template_folder=resource_path(\"templates\"))\napp.secret_key = os.urandom(24).hex()\n# Initialize Flask-Login\ninit_login_manager(app)\n# Register routes\nregister_routes(app)\n# Initialize pygame mixer\nmixer.init()\n# Global variables\nqt_app = None",
         "detail": "app",
         "documentation": {}
     },
@@ -628,52 +1495,7 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "app.secret_key = os.urandom(24).hex()\nlogin_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"\nclass User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\n@login_manager.user_loader\ndef load_user(username):",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "login_manager",
-        "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "login_manager = LoginManager()\nlogin_manager.init_app(app)\nlogin_manager.login_view = \"login\"\nclass User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\n@login_manager.user_loader\ndef load_user(username):\n    config = load_config()",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "login_manager.login_view",
-        "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "login_manager.login_view = \"login\"\nclass User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\n@login_manager.user_loader\ndef load_user(username):\n    config = load_config()\n    for user in config.get(\"users\", []):\n        if user[\"username\"] == username:",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "notifications",
-        "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "notifications = []\npopup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None\nmixer.init()\nph = PasswordHasher()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "popup_queue",
-        "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "popup_queue = Queue()\nstop_event = threading.Event()\nqt_app = None\nmixer.init()\nph = PasswordHasher()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "stop_event",
-        "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "stop_event = threading.Event()\nqt_app = None\nmixer.init()\nph = PasswordHasher()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message",
+        "peekOfCode": "app.secret_key = os.urandom(24).hex()\n# Initialize Flask-Login\ninit_login_manager(app)\n# Register routes\nregister_routes(app)\n# Initialize pygame mixer\nmixer.init()\n# Global variables\nqt_app = None\nstop_event = threading.Event()",
         "detail": "app",
         "documentation": {}
     },
@@ -682,17 +1504,197 @@
         "kind": 5,
         "importPath": "app",
         "description": "app",
-        "peekOfCode": "qt_app = None\nmixer.init()\nph = PasswordHasher()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound",
+        "peekOfCode": "qt_app = None\nstop_event = threading.Event()\ndef run_waitress():\n    logging.info(\"Starting Waitress server on 0.0.0.0:5000\")\n    serve(app, host=\"0.0.0.0\", port=5000, threads=2)\nif __name__ == \"__main__\":\n    # Load configuration\n    config = load_config()\n    if not config.get(\"users\"):\n        import webbrowser",
         "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "stop_event",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "stop_event = threading.Event()\ndef run_waitress():\n    logging.info(\"Starting Waitress server on 0.0.0.0:5000\")\n    serve(app, host=\"0.0.0.0\", port=5000, threads=2)\nif __name__ == \"__main__\":\n    # Load configuration\n    config = load_config()\n    if not config.get(\"users\"):\n        import webbrowser\n        webbrowser.open(\"http://localhost:5000/setup\")",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "User",
+        "kind": 6,
+        "importPath": "auth",
+        "description": "auth",
+        "peekOfCode": "class User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\ndef init_login_manager(app):\n    login_manager = LoginManager()\n    login_manager.init_app(app)\n    login_manager.login_view = \"login\"\n    @login_manager.user_loader\n    def load_user(username):",
+        "detail": "auth",
+        "documentation": {}
+    },
+    {
+        "label": "init_login_manager",
+        "kind": 2,
+        "importPath": "auth",
+        "description": "auth",
+        "peekOfCode": "def init_login_manager(app):\n    login_manager = LoginManager()\n    login_manager.init_app(app)\n    login_manager.login_view = \"login\"\n    @login_manager.user_loader\n    def load_user(username):\n        config = load_config()\n        for user in config.get(\"users\", []):\n            if user[\"username\"] == username:\n                return User(username, user[\"role\"])",
+        "detail": "auth",
+        "documentation": {}
+    },
+    {
+        "label": "validate_password",
+        "kind": 2,
+        "importPath": "auth",
+        "description": "auth",
+        "peekOfCode": "def validate_password(password, policy):\n    errors = []\n    if len(password) < policy.get(\"min_length\", 8):\n        errors.append(\n            f\"Password must be at least {policy.get('min_length', 8)} characters long.\"\n        )\n    if policy.get(\"require_uppercase\", True) and not re.search(r\"[A-Z]\", password):\n        errors.append(\"Password must contain at least one uppercase letter.\")\n    if policy.get(\"require_lowercase\", True) and not re.search(r\"[a-z]\", password):\n        errors.append(\"Password must contain at least one lowercase letter.\")",
+        "detail": "auth",
         "documentation": {}
     },
     {
         "label": "ph",
         "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "ph = PasswordHasher()\nclass AlertDialog(QDialog):\n    def __init__(self, config, message=\"Security Alert\", play_sound=True):\n        super().__init__()\n        logging.info(\"AlertDialog initialized\")\n        self.config = config\n        self.message = message\n        self.play_sound = play_sound\n        self.start_time = time.time()\n        self.pressed = False",
-        "detail": "app",
+        "importPath": "auth",
+        "description": "auth",
+        "peekOfCode": "ph = PasswordHasher()\nclass User(UserMixin):\n    def __init__(self, username, role):\n        self.id = username\n        self.role = role\ndef init_login_manager(app):\n    login_manager = LoginManager()\n    login_manager.init_app(app)\n    login_manager.login_view = \"login\"\n    @login_manager.user_loader",
+        "detail": "auth",
+        "documentation": {}
+    },
+    {
+        "label": "load_config",
+        "kind": 2,
+        "importPath": "config",
+        "description": "config",
+        "peekOfCode": "def load_config():\n    config_lock = threading.Lock()\n    with config_lock:\n        default_config = {\n            \"users\": [],\n            \"sender_email\": \"\",\n            \"password\": \"\",\n            \"smtp_server\": \"smtp.gmail.com\",\n            \"smtp_port\": 587,\n            \"recipient_email\": \"\",",
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "save_config",
+        "kind": 2,
+        "importPath": "config",
+        "description": "config",
+        "peekOfCode": "def save_config(config):\n    try:\n        if not isinstance(config, dict):\n            raise ValueError(\"Configuration must be a dictionary.\")\n        with open(config_path, \"w\") as f:\n            json.dump(config, f, indent=4)\n        logging.info(\"Configuration file saved successfully.\")\n    except Exception as e:\n        logging.error(f\"Failed to save configuration: {str(e)}\")",
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "app_data_dir",
+        "kind": 5,
+        "importPath": "config",
+        "description": "config",
+        "peekOfCode": "app_data_dir = os.path.join(os.getenv(\"APPDATA\", os.path.expanduser(\"~/.hoogland\")), \"Hoogland\")\nkey_path = os.path.join(app_data_dir, \"key.bin\")\nconfig_path = os.path.join(app_data_dir, \"config.json\")\n# Generate or load encryption key\nos.makedirs(app_data_dir, exist_ok=True)\nif not os.path.exists(key_path):\n    key = Fernet.generate_key()\n    with open(key_path, \"wb\") as f:\n        f.write(key)\nelse:",
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "key_path",
+        "kind": 5,
+        "importPath": "config",
+        "description": "config",
+        "peekOfCode": "key_path = os.path.join(app_data_dir, \"key.bin\")\nconfig_path = os.path.join(app_data_dir, \"config.json\")\n# Generate or load encryption key\nos.makedirs(app_data_dir, exist_ok=True)\nif not os.path.exists(key_path):\n    key = Fernet.generate_key()\n    with open(key_path, \"wb\") as f:\n        f.write(key)\nelse:\n    with open(key_path, \"rb\") as f:",
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "config_path",
+        "kind": 5,
+        "importPath": "config",
+        "description": "config",
+        "peekOfCode": "config_path = os.path.join(app_data_dir, \"config.json\")\n# Generate or load encryption key\nos.makedirs(app_data_dir, exist_ok=True)\nif not os.path.exists(key_path):\n    key = Fernet.generate_key()\n    with open(key_path, \"wb\") as f:\n        f.write(key)\nelse:\n    with open(key_path, \"rb\") as f:\n        key = f.read()",
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "cipher",
+        "kind": 5,
+        "importPath": "config",
+        "description": "config",
+        "peekOfCode": "cipher = Fernet(key)\ndef load_config():\n    config_lock = threading.Lock()\n    with config_lock:\n        default_config = {\n            \"users\": [],\n            \"sender_email\": \"\",\n            \"password\": \"\",\n            \"smtp_server\": \"smtp.gmail.com\",\n            \"smtp_port\": 587,",
+        "detail": "config",
+        "documentation": {}
+    },
+    {
+        "label": "register_routes",
+        "kind": 2,
+        "importPath": "routes",
+        "description": "routes",
+        "peekOfCode": "def register_routes(app: Flask):\n    \"\"\"\n    Register all Flask routes for the Hoogland application.\n    Args:\n        app (Flask): The Flask application instance.\n    \"\"\"\n    # Initialize queue for manual popup triggers\n    popup_queue = queue.Queue()\n    @app.route(\"/\", methods=[\"GET\"])\n    def index():",
+        "detail": "routes",
+        "documentation": {}
+    },
+    {
+        "label": "MainLogicThread",
+        "kind": 6,
+        "importPath": "threads",
+        "description": "threads",
+        "peekOfCode": "class MainLogicThread(QThread):\n    trigger_popup = pyqtSignal(str, bool)\n    def __init__(self, stop_event):\n        super().__init__()\n        self.config = load_config()\n        self.stop_event = stop_event\n        logging.info(\"MainLogicThread initialized successfully\")\n    def run(self):\n        logging.info(\"MainLogicThread started\")\n        current_hash = calculate_executable_hash()",
+        "detail": "threads",
+        "documentation": {}
+    },
+    {
+        "label": "SoundThread",
+        "kind": 6,
+        "importPath": "threads",
+        "description": "threads",
+        "peekOfCode": "class SoundThread(QThread):\n    def __init__(self, config, stop_event):\n        super().__init__()\n        self.config = config\n        self.stop_event = stop_event\n    def run(self):\n        logging.info(\"SoundThread started\")\n        while not self.stop_event.is_set():\n            now = datetime.datetime.now()\n            start_time = datetime.datetime.strptime(",
+        "detail": "threads",
+        "documentation": {}
+    },
+    {
+        "label": "UpdateCheckerThread",
+        "kind": 6,
+        "importPath": "threads",
+        "description": "threads",
+        "peekOfCode": "class UpdateCheckerThread(QThread):\n    update_available = pyqtSignal(str)\n    def __init__(self, config, stop_event):\n        super().__init__()\n        self.config = config\n        self.stop_event = stop_event\n        self.current_version = \"1.0.0\"\n        self.app_dir = (\n            os.path.dirname(sys.executable)\n            if getattr(sys, \"frozen\", False)",
+        "detail": "threads",
+        "documentation": {}
+    },
+    {
+        "label": "ManualPopupThread",
+        "kind": 6,
+        "importPath": "threads",
+        "description": "threads",
+        "peekOfCode": "class ManualPopupThread(QThread):\n    trigger_popup = pyqtSignal(str, bool)\n    def __init__(self, stop_event):\n        super().__init__()\n        self.stop_event = stop_event\n        logging.info(\"ManualPopupThread initialized successfully\")\n    def run(self):\n        logging.info(\"ManualPopupThread started\")\n        while not self.stop_event.is_set():\n            try:",
+        "detail": "threads",
+        "documentation": {}
+    },
+    {
+        "label": "resource_path",
+        "kind": 2,
+        "importPath": "utils",
+        "description": "utils",
+        "peekOfCode": "def resource_path(relative_path):\n    if hasattr(sys, \"_MEIPASS\"):\n        return os.path.join(sys._MEIPASS, relative_path)\n    return os.path.join(os.path.abspath(\".\"), relative_path)\ndef send_email(config, subject, message):\n    try:\n        msg = MIMEText(message)\n        msg[\"Subject\"] = subject\n        msg[\"From\"] = config[\"sender_email\"]\n        msg[\"To\"] = config[\"recipient_email\"]",
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "send_email",
+        "kind": 2,
+        "importPath": "utils",
+        "description": "utils",
+        "peekOfCode": "def send_email(config, subject, message):\n    try:\n        msg = MIMEText(message)\n        msg[\"Subject\"] = subject\n        msg[\"From\"] = config[\"sender_email\"]\n        msg[\"To\"] = config[\"recipient_email\"]\n        with smtplib.SMTP(config[\"smtp_server\"], config[\"smtp_port\"]) as server:\n            server.starttls()\n            server.login(\n                config[\"sender_email\"],",
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "send_credentials_email",
+        "kind": 2,
+        "importPath": "utils",
+        "description": "utils",
+        "peekOfCode": "def send_credentials_email(to_email, username, password, role, smtp_config):\n    msg = MIMEText(\n        f\"\"\"\nYour Hoogland account has been created. Please keep this information secure:\nUsername: {username}\nPassword: {password}\nRole: {role}\nAccess the web GUI at http://localhost:5000 to manage settings.\n    \"\"\"\n    )",
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "calculate_executable_hash",
+        "kind": 2,
+        "importPath": "utils",
+        "description": "utils",
+        "peekOfCode": "def calculate_executable_hash():\n    if getattr(sys, \"frozen\", False):\n        exe_path = sys.executable\n        try:\n            with open(exe_path, \"rb\") as f:\n                return hashlib.sha256(f.read()).hexdigest()\n        except Exception as e:\n            logging.error(f\"Hash calculation failed: {str(e)}\")\n            send_email(\n                load_config(), \"Hash Error\", f\"Failed to calculate hash: {str(e)}\"",
+        "detail": "utils",
+        "documentation": {}
+    },
+    {
+        "label": "cleanup",
+        "kind": 2,
+        "importPath": "utils",
+        "description": "utils",
+        "peekOfCode": "def cleanup(qt_app=None, stop_event=None):\n    logging.info(\"Initiating cleanup\")\n    if stop_event:\n        stop_event.set()\n    config = load_config()\n    from pygame import mixer\n    mixer.music.stop()\n    send_email(\n        config, \"Program Stopped\", \"Program stopped due to user request or exception.\"\n    )",
+        "detail": "utils",
         "documentation": {}
     }
 ]
