@@ -35,7 +35,7 @@ Ideal for security personnel, system administrators, or anyone needing to stay a
 ## Building
 - **Bundle with PyInstaller**:
    ```bash
-   pyinstaller --onedir --windowed --add-data "alert_sound.mp3;." --add-data "templates;templates" app.py
+   pyinstaller --onedir --windowed --add-data "alert_sound.mp3;." --add-data "templates;templates" --add-data "static;static" app.py
    ```
 - **Compile Installer**:
    - Open `setup.iss` in Inno Setup Compiler and build to generate `HooglandInstaller.exe`.
